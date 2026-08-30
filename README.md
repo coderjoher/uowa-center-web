@@ -36,7 +36,10 @@ npm run lint
 
 Eight routes per locale, all prerendered:
 
-`/` · `/about` · `/services` · `/courses` · `/gallery` · `/news` · `/faq` · `/contact`
+`/` · `/about` · `/services` · `/courses` · `/gallery` · `/news` · `/news/[slug]` · `/faq` · `/contact`
+
+Articles live in `news.items` in each locale file — add one and its page is
+generated.
 
 ## Editing copy
 

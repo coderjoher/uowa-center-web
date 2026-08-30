@@ -128,6 +128,7 @@ The site is eight routes per locale, all statically generated (16 pages).
 | `/[lang]/courses` | `pages.courses` | courses list, cta |
 | `/[lang]/gallery` | `pages.gallery` | `GalleryGrid`, cta |
 | `/[lang]/news` | `pages.news` | news list (archive link suppressed), newsletter |
+| `/[lang]/news/[slug]` | `news.items[]` | `NewsArticle` — three-level breadcrumb, meta row, lead, photo, body, back link, the other items |
 | `/[lang]/faq` | `pages.faq` | accordion, cta |
 | `/[lang]/contact` | `pages.contact` | `ContactPanel` — detail cards plus a message form |
 
@@ -136,7 +137,13 @@ rule) and carries its own `generateMetadata` built from the locale's
 `pages.<key>.metaTitle` / `metaDescription`, plus a canonical alternate.
 
 `generateStaticParams` lives once in `app/[lang]/layout.tsx` and covers every
-nested route.
+nested route; the article route adds its own, returning the locale/slug cross
+product from `news.items`. An unknown slug hits `notFound()` and 404s.
+
+Each `NewsPost` carries a `slug` for the route, an `excerpt` used as both the
+article lead and the page's meta description, and `body` as one string per
+paragraph. `href` stays alongside them so the listing cards keep reading their
+destination from content like every other link.
 
 ### Linking
 

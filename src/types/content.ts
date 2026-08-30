@@ -93,10 +93,18 @@ export interface FaqItem {
 }
 
 export interface NewsPost {
+  /** Route segment under `/[lang]/news/`. */
+  slug: string;
   date: string;
+  /** The division that issued the item. */
   author: string;
   title: string;
   image: string;
+  imageAlt: string;
+  /** Lead paragraph on the article, and the page's meta description. */
+  excerpt: string;
+  /** Article body, one entry per paragraph. */
+  body: string[];
   href: string;
 }
 
@@ -215,6 +223,10 @@ export interface SiteContent {
     courses: PageMeta;
     gallery: PageMeta & { photos: GalleryPhoto[] };
     news: PageMeta;
+    newsDetail: {
+      back: string;
+      related: string;
+    };
     faq: PageMeta;
     contact: PageMeta & {
       cards: ContactCard[];
