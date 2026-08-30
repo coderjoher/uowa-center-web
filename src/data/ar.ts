@@ -12,39 +12,44 @@ export const AR: SiteContent = {
 
   nav: {
     links: [
-      { label: "حول القسم", href: `${P}#overview` },
-      { label: "الخدمات", href: `${P}#services`, hasDropdown: true },
-      { label: "الهيكلية", href: `${P}#structure` },
-      { label: "الفريق", href: `${P}#team` },
-      { label: "الدورات", href: `${P}#courses` },
-      { label: "الأخبار", href: `${P}#news` },
+      { label: "حول القسم", href: `${P}/about` },
+      { label: "الخدمات", href: `${P}/services`, hasDropdown: true },
+      { label: "الدورات", href: `${P}/courses` },
+      { label: "معرض الصور", href: `${P}/gallery` },
+      { label: "الأخبار", href: `${P}/news` },
     ],
     contact: "تواصل معنا",
     menu: [
-      { label: "الصفحة الرئيسية", href: `${P}`, current: true },
-      { label: "نبذة عن المركز", href: `${P}#about` },
-      { label: "كلمة مدير القسم", href: `${P}#director` },
-      { label: "حول القسم", href: `${P}#overview` },
+      { label: "الصفحة الرئيسية", href: `${P}` },
       {
-        label: "الخدمات",
-        href: `${P}#services`,
+        label: "حول القسم",
+        href: `${P}/about`,
         children: [
-          { label: "الشبكات والإنترنت", href: `${P}#services` },
-          { label: "الأنظمة وقواعد البيانات", href: `${P}#services` },
-          { label: "الموقع والنشر الرقمي", href: `${P}#services` },
-          { label: "الصيانة والدعم الفني", href: `${P}#services` },
-          { label: "الأمن السيبراني", href: `${P}#services` },
-          { label: "التدريب وبناء القدرات", href: `${P}#services` },
+          { label: "نبذة عن المركز", href: `${P}/about#about` },
+          { label: "كلمة مدير القسم", href: `${P}/about#director` },
+          { label: "الرؤية والرسالة والأهداف", href: `${P}/about#overview` },
+          { label: "هيكلية القسم", href: `${P}/about#structure` },
+          { label: "فريق المركز", href: `${P}/about#team` },
+          { label: "محطات المركز", href: `${P}/about#milestones` },
         ],
       },
-      { label: "هيكلية القسم", href: `${P}#structure` },
-      { label: "فريق المركز", href: `${P}#team` },
-      { label: "الدورات والورش", href: `${P}#courses` },
-      { label: "معرض الصور", href: `${P}#gallery` },
-      { label: "محطات المركز", href: `${P}#milestones` },
-      { label: "الأسئلة الشائعة", href: `${P}#faq` },
-      { label: "الأخبار", href: `${P}#news` },
-      { label: "تواصل معنا", href: `${P}#contact` },
+      {
+        label: "الخدمات",
+        href: `${P}/services`,
+        children: [
+          { label: "الشبكات والإنترنت", href: `${P}/services#service-1` },
+          { label: "الأنظمة وقواعد البيانات", href: `${P}/services#service-2` },
+          { label: "الموقع والنشر الرقمي", href: `${P}/services#service-3` },
+          { label: "الصيانة والدعم الفني", href: `${P}/services#service-4` },
+          { label: "الأمن السيبراني", href: `${P}/services#service-5` },
+          { label: "التدريب وبناء القدرات", href: `${P}/services#service-6` },
+        ],
+      },
+      { label: "الدورات والورش", href: `${P}/courses` },
+      { label: "معرض الصور", href: `${P}/gallery` },
+      { label: "الأخبار", href: `${P}/news` },
+      { label: "الأسئلة الشائعة", href: `${P}/faq` },
+      { label: "تواصل معنا", href: `${P}/contact` },
     ],
     openMenu: "فتح القائمة",
     closeMenu: "إغلاق القائمة",
@@ -54,6 +59,7 @@ export const AR: SiteContent = {
     heading: "البنية الرقمية التي تسند مسيرة الجامعة",
     body: "يوفّر مركز الحاسبة الإلكترونية الشبكات والأنظمة والدعم الفني التي تعتمد عليها كليات الجامعة وأقسامها يوميًا.",
     cta: "تعرّف على خدماتنا",
+    ctaHref: `${P}/services`,
     imageAlt: "الحرم الجامعي في جامعة وارث الأنبياء",
   },
 
@@ -62,6 +68,7 @@ export const AR: SiteContent = {
     heading: ["نُدير أنظمة الجامعة", "وشبكاتها على مدار العام"],
     body: "تأسس مركز الحاسبة الإلكترونية ليكون الجهة المسؤولة عن البنية التحتية لتقنية المعلومات في الجامعة: من إدارة الشبكة ومركز البيانات، إلى تطوير الأنظمة الأكاديمية والإدارية ودعم مستخدميها.",
     link: "المزيد عن المركز",
+    linkHref: `${P}/about`,
     buildingAlt: "بناية العلوم في جامعة وارث الأنبياء",
     walkwayAlt: "طلبة الجامعة في الحرم الجامعي",
   },
@@ -241,21 +248,21 @@ export const AR: SiteContent = {
         date: "14 - 15 أيلول 2026",
         venue: "قاعة التدريب - مركز الحاسبة",
         image: "/images/event-lecture.jpg",
-        href: `${P}#contact`,
+        href: `${P}/contact`,
       },
       {
         title: "دورة إدارة الشبكات",
         date: "6 تشرين الأول 2026",
         venue: "مختبر الحاسوب - كلية الهندسة",
         image: "/images/event-workshop.jpg",
-        href: `${P}#contact`,
+        href: `${P}/contact`,
       },
       {
         title: "دورة نظام الامتحانات الإلكترونية",
         date: "18 تشرين الثاني 2026",
         venue: "قاعة المؤتمرات - رئاسة الجامعة",
         image: "/images/event-exam.jpg",
-        href: `${P}#contact`,
+        href: `${P}/contact`,
       },
     ],
   },
@@ -264,7 +271,8 @@ export const AR: SiteContent = {
     label: "معرض الصور",
     heading: ["من أنشطة", "المركز والجامعة"],
     body: "لقطات من الدورات والورش التدريبية والفعاليات الرقمية التي ينظّمها المركز داخل الحرم الجامعي.",
-    cta: "تعرّف على الجامعة",
+    cta: "كل الصور",
+    ctaHref: `${P}/gallery`,
     items: [
       { title: "التدريب والورش", image: "/images/gallery-training.jpg" },
       { title: "الحياة الجامعية", image: "/images/gallery-campus.jpg" },
@@ -340,33 +348,35 @@ export const AR: SiteContent = {
     heading: "هل تحتاج دعمًا تقنيًا من المركز؟",
     body: "فريق المركز جاهز لاستقبال طلباتكم ومتابعة حلّها في أسرع وقت ممكن.",
     button: "تواصل معنا",
+    href: `${P}/contact`,
   },
 
   news: {
     label: "الأخبار",
     heading: ["آخر أخبار المركز"],
     link: "كل الأخبار",
+    linkHref: `${P}/news`,
     items: [
       {
         date: "12 آب 2026",
         author: "وحدة الشبكات",
         title: "المركز يكمل توسعة الشبكة اللاسلكية في الحرم الجامعي",
         image: "/images/news-1.jpg",
-        href: `${P}#news`,
+        href: `${P}/news`,
       },
       {
         date: "28 تموز 2026",
         author: "وحدة الأنظمة",
         title: "إطلاق النسخة المحدّثة من بوابة الخدمات الرقمية",
         image: "/images/news-2.jpg",
-        href: `${P}#news`,
+        href: `${P}/news`,
       },
       {
         date: "9 تموز 2026",
         author: "وحدة التدريب",
         title: "اختتام دورة أمن المعلومات لمنتسبي الكليات",
         image: "/images/news-3.jpg",
-        href: `${P}#news`,
+        href: `${P}/news`,
       },
     ],
   },
@@ -386,23 +396,22 @@ export const AR: SiteContent = {
         title: "روابط",
         links: [
           { label: "الصفحة الرئيسية", href: `${P}` },
-          { label: "كلمة مدير القسم", href: `${P}#director` },
-          { label: "حول القسم", href: `${P}#overview` },
-          { label: "هيكلية القسم", href: `${P}#structure` },
-          { label: "فريق المركز", href: `${P}#team` },
-          { label: "الدورات والورش", href: `${P}#courses` },
-          { label: "الأسئلة الشائعة", href: `${P}#faq` },
+          { label: "حول القسم", href: `${P}/about` },
+          { label: "الدورات والورش", href: `${P}/courses` },
+          { label: "معرض الصور", href: `${P}/gallery` },
+          { label: "الأخبار", href: `${P}/news` },
+          { label: "الأسئلة الشائعة", href: `${P}/faq` },
         ],
       },
       {
         title: "الخدمات",
         links: [
-          { label: "الشبكات والإنترنت", href: `${P}#services` },
-          { label: "الأنظمة وقواعد البيانات", href: `${P}#services` },
-          { label: "الموقع والنشر الرقمي", href: `${P}#services` },
-          { label: "الصيانة والدعم الفني", href: `${P}#services` },
-          { label: "الأمن السيبراني", href: `${P}#services` },
-          { label: "التدريب وبناء القدرات", href: `${P}#services` },
+          { label: "الشبكات والإنترنت", href: `${P}/services` },
+          { label: "الأنظمة وقواعد البيانات", href: `${P}/services` },
+          { label: "الموقع والنشر الرقمي", href: `${P}/services` },
+          { label: "الصيانة والدعم الفني", href: `${P}/services` },
+          { label: "الأمن السيبراني", href: `${P}/services` },
+          { label: "التدريب وبناء القدرات", href: `${P}/services` },
         ],
       },
     ],
@@ -430,6 +439,123 @@ export const AR: SiteContent = {
     ],
     copyright:
       "جميع الحقوق محفوظة © مركز الحاسبة الإلكترونية - جامعة وارث الأنبياء 2026.",
+  },
+
+  common: {
+    home: "الرئيسية",
+    breadcrumb: "مسار التنقل",
+  },
+
+  pages: {
+    about: {
+      label: "حول القسم",
+      title: "حول قسم الحاسبة الإلكترونية",
+      intro:
+        "الجهة المسؤولة عن البنية التحتية لتقنية المعلومات في جامعة وارث الأنبياء: الشبكة ومركز البيانات والأنظمة الأكاديمية والإدارية، والكوادر التي تشغّلها.",
+      metaTitle: "حول القسم | قسم الحاسبة الإلكترونية",
+      metaDescription:
+        "نبذة عن قسم الحاسبة الإلكترونية في جامعة وارث الأنبياء: الرؤية والرسالة والأهداف، وهيكلية القسم وشعبه، وفريق العمل ومحطات المسيرة.",
+    },
+    services: {
+      label: "الخدمات",
+      title: "خدمات القسم",
+      intro:
+        "ست شعب متخصصة تغطي الشبكة والأنظمة والنشر الرقمي والصيانة وأمن المعلومات والتدريب، لخدمة منتسبي الجامعة وطلبتها.",
+      metaTitle: "الخدمات | قسم الحاسبة الإلكترونية",
+      metaDescription:
+        "خدمات قسم الحاسبة الإلكترونية في جامعة وارث الأنبياء: الشبكات والإنترنت، الأنظمة وقواعد البيانات، الموقع والنشر الرقمي، الصيانة والدعم الفني، الأمن السيبراني، والتدريب.",
+    },
+    courses: {
+      label: "الدورات والورش",
+      title: "الدورات والورش التدريبية",
+      intro:
+        "ينظّم القسم دورات وورشًا في الشبكات وقواعد البيانات وأمن المعلومات، لمنتسبي الجامعة وطلبتها على مدار العام الدراسي.",
+      metaTitle: "الدورات والورش | قسم الحاسبة الإلكترونية",
+      metaDescription:
+        "الدورات والورش التدريبية التي ينظّمها قسم الحاسبة الإلكترونية في جامعة وارث الأنبياء، ومواعيدها وأماكن انعقادها.",
+    },
+    gallery: {
+      label: "معرض الصور",
+      title: "معرض الصور",
+      intro:
+        "لقطات من الحرم الجامعي والقاعات والمختبرات، ومن الدورات والفعاليات التي ينظّمها القسم.",
+      metaTitle: "معرض الصور | قسم الحاسبة الإلكترونية",
+      metaDescription:
+        "معرض صور قسم الحاسبة الإلكترونية في جامعة وارث الأنبياء: الحرم الجامعي والقاعات والمختبرات والدورات التدريبية.",
+      photos: [
+        { image: "/images/hero-campus.jpg", caption: "الحرم الجامعي" },
+        { image: "/images/about-building.jpg", caption: "بناية العلوم" },
+        { image: "/images/service-network.jpg", caption: "قاعة الحاسوب" },
+        { image: "/images/event-lecture.jpg", caption: "محاضرة في قاعة الدرس" },
+        { image: "/images/gallery-training.jpg", caption: "من الدورات التدريبية" },
+        { image: "/images/event-exam.jpg", caption: "قاعة الامتحانات الإلكترونية" },
+        { image: "/images/about-walkway.jpg", caption: "ممرات الحرم الجامعي" },
+        { image: "/images/event-workshop.jpg", caption: "ورشة تدريبية" },
+        { image: "/images/gallery-campus.jpg", caption: "الحياة الجامعية" },
+        { image: "/images/news-1.jpg", caption: "مؤتمر علمي في الجامعة" },
+        { image: "/images/milestone-1.jpg", caption: "طلبة الجامعة" },
+        { image: "/images/banner-campus-life.jpg", caption: "مدخل الحياة الجامعية" },
+      ],
+    },
+    news: {
+      label: "الأخبار",
+      title: "أخبار القسم",
+      intro:
+        "آخر ما يصدر عن شعب القسم من تحديثات وإعلانات تخص خدمات الجامعة الرقمية.",
+      metaTitle: "الأخبار | قسم الحاسبة الإلكترونية",
+      metaDescription:
+        "أخبار قسم الحاسبة الإلكترونية في جامعة وارث الأنبياء وتحديثات خدماته الرقمية.",
+    },
+    faq: {
+      label: "الأسئلة الشائعة",
+      title: "الأسئلة الشائعة",
+      intro:
+        "إجابات عن أكثر ما يُسأل حول حسابات البريد الجامعي والشبكة والدعم الفني والدورات.",
+      metaTitle: "الأسئلة الشائعة | قسم الحاسبة الإلكترونية",
+      metaDescription:
+        "إجابات قسم الحاسبة الإلكترونية في جامعة وارث الأنبياء عن الأسئلة الشائعة حول الحسابات والشبكة والدعم الفني.",
+    },
+    contact: {
+      label: "تواصل معنا",
+      title: "تواصل معنا",
+      intro:
+        "لأي استفسار أو طلب دعم فني، يمكنكم مراسلتنا أو زيارة مقر القسم داخل الحرم الجامعي خلال أوقات الدوام الرسمي.",
+      metaTitle: "تواصل معنا | قسم الحاسبة الإلكترونية",
+      metaDescription:
+        "بيانات التواصل مع قسم الحاسبة الإلكترونية في جامعة وارث الأنبياء: العنوان والهاتف والبريد الإلكتروني وأوقات الدوام.",
+      cards: [
+        {
+          title: "العنوان",
+          lines: [
+            "العراق - كربلاء المقدسة",
+            "طريق بغداد - كربلاء (مقابل عمود 119)",
+          ],
+        },
+        {
+          title: "الهاتف",
+          lines: ["07734896226", "الرقم المختصر: 5751"],
+          href: "tel:+9647734896226",
+        },
+        {
+          title: "البريد الإلكتروني",
+          lines: ["info@uowa.edu.iq"],
+          href: "mailto:info@uowa.edu.iq",
+        },
+        {
+          title: "أوقات الدوام",
+          lines: ["الأحد - الخميس", "8:00 صباحًا - 2:00 ظهرًا"],
+        },
+      ],
+      form: {
+        legend: "أرسل لنا رسالة",
+        name: "الاسم",
+        email: "بريدك الإلكتروني",
+        subject: "الموضوع",
+        message: "نص الرسالة",
+        submit: "إرسال الرسالة",
+        note: "يفتح الزر برنامج البريد لديك برسالة جاهزة موجّهة إلى info@uowa.edu.iq.",
+      },
+    },
   },
 
   meta: {

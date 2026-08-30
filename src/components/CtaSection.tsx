@@ -29,8 +29,7 @@ export default function CtaSection({
           </div>
 
           <SolidButton
-            href="mailto:info@uowa.edu.iq"
-            external
+            href={content.href}
             variant="white"
             className="relative z-10"
           >

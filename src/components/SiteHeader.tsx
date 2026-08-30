@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Logo from "@/components/ui/Logo";
 import { ChevronDownIcon, MenuBulletIcon } from "@/components/icons";
@@ -30,6 +31,10 @@ export default function SiteHeader({
   const [open, setOpen] = useState(false);
   const { nav, brand } = content;
   const other = SWITCH_TO[lang];
+  const pathname = usePathname();
+
+  /** Marks the live page. Menu hrefs may carry a hash; the route is what counts. */
+  const isCurrent = (href: string) => pathname === href.split("#")[0];
 
   return (
     <div className="fixed inset-x-0 top-0 z-30">
@@ -76,8 +81,9 @@ export default function SiteHeader({
                   <Link
                     href={item.href}
                     onClick={() => setOpen(false)}
+                    aria-current={isCurrent(item.href) ? "page" : undefined}
                     className={`font-[family-name:var(--font-sans)] text-[15px] leading-[23px] transition-opacity duration-200 hover:opacity-80 ${
-                      item.current ? "text-pale" : "text-white"
+                      isCurrent(item.href) ? "text-pale" : "text-white"
                     }`}
                   >
                     {item.label}
@@ -123,7 +129,10 @@ export default function SiteHeader({
               <Link
                 key={link.label}
                 href={link.href}
-                className="inline-flex items-center gap-1.5 font-[family-name:var(--font-sans)] text-[16px] leading-[26px] text-navy transition-opacity duration-200 hover:opacity-70"
+                aria-current={isCurrent(link.href) ? "page" : undefined}
+                className={`inline-flex items-center gap-1.5 border-b font-[family-name:var(--font-sans)] text-[16px] leading-[26px] text-navy transition-opacity duration-200 hover:opacity-70 ${
+                  isCurrent(link.href) ? "border-navy" : "border-transparent"
+                }`}
               >
                 {link.label}
                 {link.hasDropdown ? (

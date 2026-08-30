@@ -58,9 +58,7 @@ export default function GallerySection({
 
         <div className="flex flex-col items-start gap-8">
           <p className="t-body">{content.body}</p>
-          <SolidButton href="https://uowa.edu.iq/" external>
-            {content.cta}
-          </SolidButton>
+<SolidButton href={content.ctaHref}>{content.cta}</SolidButton>
         </div>
       </div>
 

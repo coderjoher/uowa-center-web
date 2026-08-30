@@ -22,7 +22,7 @@ npm run lint
 
 | Path | What lives there |
 | --- | --- |
-| `src/app/[lang]/` | The root layout (sets `<html lang dir>` and the per-locale font stack) and the single page |
+| `src/app/[lang]/` | The root layout (sets `<html lang dir>` and the per-locale font stack) and the eight routes |
 | `src/proxy.ts` | Redirects locale-less URLs to a locale |
 | `src/i18n/config.ts` | The locale list, default, direction and switcher labels |
 | `src/data/ar.ts`, `src/data/en.ts` | All copy, one `SiteContent` object per locale |
@@ -31,6 +31,12 @@ npm run lint
 | `src/app/globals.css` | Design tokens, the type ramp, and the Arabic overrides |
 | `public/images/` | Photography from the university's own site |
 | `docs/` | Localisation notes plus the original layout-extraction record |
+
+## Routes
+
+Eight routes per locale, all prerendered:
+
+`/` · `/about` · `/services` · `/courses` · `/gallery` · `/news` · `/faq` · `/contact`
 
 ## Editing copy
 

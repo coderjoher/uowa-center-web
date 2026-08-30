@@ -12,39 +12,44 @@ export const EN: SiteContent = {
 
   nav: {
     links: [
-      { label: "About", href: `${P}#overview` },
-      { label: "Services", href: `${P}#services`, hasDropdown: true },
-      { label: "Structure", href: `${P}#structure` },
-      { label: "Team", href: `${P}#team` },
-      { label: "Training", href: `${P}#courses` },
-      { label: "News", href: `${P}#news` },
+      { label: "About", href: `${P}/about` },
+      { label: "Services", href: `${P}/services`, hasDropdown: true },
+      { label: "Training", href: `${P}/courses` },
+      { label: "Gallery", href: `${P}/gallery` },
+      { label: "News", href: `${P}/news` },
     ],
     contact: "Contact Us",
     menu: [
-      { label: "Homepage", href: `${P}`, current: true },
-      { label: "The Center in Brief", href: `${P}#about` },
-      { label: "Director's Word", href: `${P}#director` },
-      { label: "Vision, Mission & Objectives", href: `${P}#overview` },
+      { label: "Homepage", href: `${P}` },
       {
-        label: "Services",
-        href: `${P}#services`,
+        label: "About",
+        href: `${P}/about`,
         children: [
-          { label: "Network & Internet", href: `${P}#services` },
-          { label: "Systems & Databases", href: `${P}#services` },
-          { label: "Web & Digital Publishing", href: `${P}#services` },
-          { label: "Maintenance & Support", href: `${P}#services` },
-          { label: "Cybersecurity", href: `${P}#services` },
-          { label: "Training & Capacity Building", href: `${P}#services` },
+          { label: "The Center in Brief", href: `${P}/about#about` },
+          { label: "Director's Word", href: `${P}/about#director` },
+          { label: "Vision, Mission & Objectives", href: `${P}/about#overview` },
+          { label: "Department Structure", href: `${P}/about#structure` },
+          { label: "Our Team", href: `${P}/about#team` },
+          { label: "Milestones", href: `${P}/about#milestones` },
         ],
       },
-      { label: "Department Structure", href: `${P}#structure` },
-      { label: "Our Team", href: `${P}#team` },
-      { label: "Courses & Workshops", href: `${P}#courses` },
-      { label: "Gallery", href: `${P}#gallery` },
-      { label: "Milestones", href: `${P}#milestones` },
-      { label: "FAQ", href: `${P}#faq` },
-      { label: "News", href: `${P}#news` },
-      { label: "Contact", href: `${P}#contact` },
+      {
+        label: "Services",
+        href: `${P}/services`,
+        children: [
+          { label: "Network & Internet", href: `${P}/services#service-1` },
+          { label: "Systems & Databases", href: `${P}/services#service-2` },
+          { label: "Web & Digital Publishing", href: `${P}/services#service-3` },
+          { label: "Maintenance & Support", href: `${P}/services#service-4` },
+          { label: "Cybersecurity", href: `${P}/services#service-5` },
+          { label: "Training & Capacity Building", href: `${P}/services#service-6` },
+        ],
+      },
+      { label: "Courses & Workshops", href: `${P}/courses` },
+      { label: "Gallery", href: `${P}/gallery` },
+      { label: "News", href: `${P}/news` },
+      { label: "FAQ", href: `${P}/faq` },
+      { label: "Contact", href: `${P}/contact` },
     ],
     openMenu: "Open menu",
     closeMenu: "Close menu",
@@ -54,6 +59,7 @@ export const EN: SiteContent = {
     heading: "The Digital Backbone of Our University",
     body: "The Electronic Computer Center runs the networks, systems and technical support that every college and department relies on each day.",
     cta: "Our Services",
+    ctaHref: `${P}/services`,
     imageAlt: "The campus of the University of Warith Al-Anbiyaa",
   },
 
@@ -62,6 +68,7 @@ export const EN: SiteContent = {
     heading: ["We keep the university's", "systems and network running"],
     body: "The Electronic Computer Center was established to own the university's IT infrastructure — from the campus network and data center to the academic and administrative systems and the people who use them.",
     link: "Learn More",
+    linkHref: `${P}/about`,
     buildingAlt: "The science building at the University of Warith Al-Anbiyaa",
     walkwayAlt: "Students on the university campus",
   },
@@ -241,21 +248,21 @@ export const EN: SiteContent = {
         date: "14 - 15 September 2026",
         venue: "Training Hall - Computer Center",
         image: "/images/event-lecture.jpg",
-        href: `${P}#contact`,
+        href: `${P}/contact`,
       },
       {
         title: "Network Administration Course",
         date: "6 October 2026",
         venue: "Computer Lab - College of Engineering",
         image: "/images/event-workshop.jpg",
-        href: `${P}#contact`,
+        href: `${P}/contact`,
       },
       {
         title: "Electronic Examination System Course",
         date: "18 November 2026",
         venue: "Conference Hall - University Presidency",
         image: "/images/event-exam.jpg",
-        href: `${P}#contact`,
+        href: `${P}/contact`,
       },
     ],
   },
@@ -264,7 +271,8 @@ export const EN: SiteContent = {
     label: "Gallery",
     heading: ["Life at the center", "and on campus"],
     body: "Snapshots from the courses, workshops and digital initiatives the center runs across the university campus.",
-    cta: "About the University",
+    cta: "All Photos",
+    ctaHref: `${P}/gallery`,
     items: [
       { title: "Training & Workshops", image: "/images/gallery-training.jpg" },
       { title: "Campus Life", image: "/images/gallery-campus.jpg" },
@@ -340,33 +348,35 @@ export const EN: SiteContent = {
     heading: "Need technical support from the center?",
     body: "Our team is ready to receive your request and follow it through to resolution.",
     button: "Contact Us",
+    href: `${P}/contact`,
   },
 
   news: {
     label: "News",
     heading: ["Our latest news"],
     link: "See all articles",
+    linkHref: `${P}/news`,
     items: [
       {
         date: "12 August 2026",
         author: "Network Unit",
         title: "Center completes the campus wireless network expansion",
         image: "/images/news-1.jpg",
-        href: `${P}#news`,
+        href: `${P}/news`,
       },
       {
         date: "28 July 2026",
         author: "Systems Unit",
         title: "Updated release of the digital services portal goes live",
         image: "/images/news-2.jpg",
-        href: `${P}#news`,
+        href: `${P}/news`,
       },
       {
         date: "9 July 2026",
         author: "Training Unit",
         title: "Information security course concludes for college staff",
         image: "/images/news-3.jpg",
-        href: `${P}#news`,
+        href: `${P}/news`,
       },
     ],
   },
@@ -386,23 +396,22 @@ export const EN: SiteContent = {
         title: "Links",
         links: [
           { label: "Homepage", href: `${P}` },
-          { label: "Director's Word", href: `${P}#director` },
-          { label: "Vision & Mission", href: `${P}#overview` },
-          { label: "Structure", href: `${P}#structure` },
-          { label: "Our Team", href: `${P}#team` },
-          { label: "Courses & Workshops", href: `${P}#courses` },
-          { label: "FAQ", href: `${P}#faq` },
+          { label: "About", href: `${P}/about` },
+          { label: "Courses & Workshops", href: `${P}/courses` },
+          { label: "Gallery", href: `${P}/gallery` },
+          { label: "News", href: `${P}/news` },
+          { label: "FAQ", href: `${P}/faq` },
         ],
       },
       {
         title: "Services",
         links: [
-          { label: "Network & Internet", href: `${P}#services` },
-          { label: "Systems & Databases", href: `${P}#services` },
-          { label: "Web & Digital Publishing", href: `${P}#services` },
-          { label: "Maintenance & Support", href: `${P}#services` },
-          { label: "Cybersecurity", href: `${P}#services` },
-          { label: "Training & Capacity Building", href: `${P}#services` },
+          { label: "Network & Internet", href: `${P}/services` },
+          { label: "Systems & Databases", href: `${P}/services` },
+          { label: "Web & Digital Publishing", href: `${P}/services` },
+          { label: "Maintenance & Support", href: `${P}/services` },
+          { label: "Cybersecurity", href: `${P}/services` },
+          { label: "Training & Capacity Building", href: `${P}/services` },
         ],
       },
     ],
@@ -427,6 +436,123 @@ export const EN: SiteContent = {
     ],
     copyright:
       "Copyright © Electronic Computer Center - University of Warith Al-Anbiyaa 2026. All rights reserved.",
+  },
+
+  common: {
+    home: "Home",
+    breadcrumb: "Breadcrumb",
+  },
+
+  pages: {
+    about: {
+      label: "About",
+      title: "About the Electronic Computer Department",
+      intro:
+        "The department that owns the University of Warith Al-Anbiyaa's IT infrastructure: the network and data center, the academic and administrative systems, and the people who run them.",
+      metaTitle: "About | Electronic Computer Department",
+      metaDescription:
+        "About the Electronic Computer Department at the University of Warith Al-Anbiyaa: vision, mission and objectives, the department structure and its divisions, the team and its milestones.",
+    },
+    services: {
+      label: "Services",
+      title: "Our Services",
+      intro:
+        "Six specialised divisions covering the network, systems, digital publishing, maintenance, information security and training, for university staff and students.",
+      metaTitle: "Services | Electronic Computer Department",
+      metaDescription:
+        "Services of the Electronic Computer Department at the University of Warith Al-Anbiyaa: network and internet, systems and databases, web and digital publishing, maintenance and support, cybersecurity and training.",
+    },
+    courses: {
+      label: "Courses & Workshops",
+      title: "Courses and Workshops",
+      intro:
+        "The department runs courses and workshops in networking, databases and information security for university staff and students throughout the academic year.",
+      metaTitle: "Courses & Workshops | Electronic Computer Department",
+      metaDescription:
+        "Training courses and workshops run by the Electronic Computer Department at the University of Warith Al-Anbiyaa, with dates and venues.",
+    },
+    gallery: {
+      label: "Gallery",
+      title: "Photo Gallery",
+      intro:
+        "Views of the campus, the halls and the labs, and of the courses and events the department runs.",
+      metaTitle: "Gallery | Electronic Computer Department",
+      metaDescription:
+        "Photo gallery of the Electronic Computer Department at the University of Warith Al-Anbiyaa: campus, halls, labs and training courses.",
+      photos: [
+        { image: "/images/hero-campus.jpg", caption: "The university campus" },
+        { image: "/images/about-building.jpg", caption: "The science building" },
+        { image: "/images/service-network.jpg", caption: "The computer lab" },
+        { image: "/images/event-lecture.jpg", caption: "A lecture in the hall" },
+        { image: "/images/gallery-training.jpg", caption: "From the training courses" },
+        { image: "/images/event-exam.jpg", caption: "The electronic examination hall" },
+        { image: "/images/about-walkway.jpg", caption: "Campus walkways" },
+        { image: "/images/event-workshop.jpg", caption: "A training workshop" },
+        { image: "/images/gallery-campus.jpg", caption: "Campus life" },
+        { image: "/images/news-1.jpg", caption: "A scientific conference" },
+        { image: "/images/milestone-1.jpg", caption: "University students" },
+        { image: "/images/banner-campus-life.jpg", caption: "The campus-life entrance" },
+      ],
+    },
+    news: {
+      label: "News",
+      title: "Department News",
+      intro:
+        "The latest updates and announcements from the department's divisions about the university's digital services.",
+      metaTitle: "News | Electronic Computer Department",
+      metaDescription:
+        "News from the Electronic Computer Department at the University of Warith Al-Anbiyaa and updates to its digital services.",
+    },
+    faq: {
+      label: "FAQ",
+      title: "Frequently Asked Questions",
+      intro:
+        "Answers to the questions we get most often about university accounts, the network, technical support and training.",
+      metaTitle: "FAQ | Electronic Computer Department",
+      metaDescription:
+        "Answers from the Electronic Computer Department at the University of Warith Al-Anbiyaa on accounts, the campus network and technical support.",
+    },
+    contact: {
+      label: "Contact",
+      title: "Contact Us",
+      intro:
+        "For any enquiry or support request, write to us or visit the department on campus during official working hours.",
+      metaTitle: "Contact | Electronic Computer Department",
+      metaDescription:
+        "Contact details for the Electronic Computer Department at the University of Warith Al-Anbiyaa: address, phone, email and working hours.",
+      cards: [
+        {
+          title: "Address",
+          lines: [
+            "Iraq - Holy Karbala",
+            "Baghdad-Karbala road (opposite pole 119)",
+          ],
+        },
+        {
+          title: "Phone",
+          lines: ["07734896226", "Short number: 5751"],
+          href: "tel:+9647734896226",
+        },
+        {
+          title: "Email",
+          lines: ["info@uowa.edu.iq"],
+          href: "mailto:info@uowa.edu.iq",
+        },
+        {
+          title: "Working hours",
+          lines: ["Sunday - Thursday", "8:00 AM - 2:00 PM"],
+        },
+      ],
+      form: {
+        legend: "Send us a message",
+        name: "Your name",
+        email: "Your email",
+        subject: "Subject",
+        message: "Message",
+        submit: "Send message",
+        note: "This opens your mail app with a message ready to send to info@uowa.edu.iq.",
+      },
+    },
   },
 
   meta: {

@@ -16,7 +16,7 @@ export default function Hero({ content }: { content: SiteContent["hero"] }) {
 
         <div className="flex w-full flex-col items-start gap-7 xl:max-w-[467px]">
           <p className="t-body-lg">{content.body}</p>
-          <SolidButton href="#services">{content.cta}</SolidButton>
+          <SolidButton href={content.ctaHref}>{content.cta}</SolidButton>
         </div>
       </div>
 

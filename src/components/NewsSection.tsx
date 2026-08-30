@@ -11,8 +11,11 @@ import type { SiteContent } from "@/types/content";
  */
 export default function NewsSection({
   content,
+  showArchiveLink = true,
 }: {
   content: SiteContent["news"];
+  /** Off on `/news`, where the link would point at the page you are on. */
+  showArchiveLink?: boolean;
 }) {
   return (
     <section
@@ -30,9 +33,11 @@ export default function NewsSection({
             ))}
           </h2>
         </div>
-        <div className="pb-2.5">
-          <UnderlineLink href="#news">{content.link}</UnderlineLink>
-        </div>
+        {showArchiveLink ? (
+          <div className="pb-2.5">
+            <UnderlineLink href={content.linkHref}>{content.link}</UnderlineLink>
+          </div>
+        ) : null}
       </div>
 
       <div className="flex w-full flex-col items-center gap-[30px] xl:flex-row xl:gap-10">

@@ -7,8 +7,6 @@ export interface NavLink {
 export interface MobileMenuItem {
   label: string;
   href: string;
-  /** Rendered in #e4f0f9 rather than white — marks the live page. */
-  current?: boolean;
   children?: { label: string; href: string }[];
 }
 
@@ -102,6 +100,28 @@ export interface NewsPost {
   href: string;
 }
 
+/** Shared shape for every secondary page's header and <head> tags. */
+export interface PageMeta {
+  /** Breadcrumb + nav label. */
+  label: string;
+  title: string;
+  intro: string;
+  metaTitle: string;
+  metaDescription: string;
+}
+
+export interface ContactCard {
+  title: string;
+  lines: string[];
+  /** Makes the first line a link (tel: or mailto:). */
+  href?: string;
+}
+
+export interface GalleryPhoto {
+  image: string;
+  caption: string;
+}
+
 export interface SiteContent {
   brand: {
     /** Bold half of the wordmark. */
@@ -122,11 +142,13 @@ export interface SiteContent {
     heading: string;
     body: string;
     cta: string;
+    ctaHref: string;
     imageAlt: string;
   };
   about: SectionHead & {
     body: string;
     link: string;
+    linkHref: string;
     buildingAlt: string;
     walkwayAlt: string;
   };
@@ -152,15 +174,20 @@ export interface SiteContent {
   };
   banner: { imageAlt: string };
   events: SectionHead & { items: TrainingEvent[]; link: string };
-  gallery: SectionHead & { body: string; cta: string; items: GalleryCard[] };
+  gallery: SectionHead & {
+    body: string;
+    cta: string;
+    ctaHref: string;
+    items: GalleryCard[];
+  };
   milestones: SectionHead & {
     items: Milestone[];
     prev: string;
     next: string;
   };
   faq: SectionHead & { items: FaqItem[] };
-  cta: { heading: string; body: string; button: string };
-  news: SectionHead & { items: NewsPost[]; link: string };
+  cta: { heading: string; body: string; button: string; href: string };
+  news: SectionHead & { items: NewsPost[]; link: string; linkHref: string };
   newsletter: {
     heading: string[];
     label: string;
@@ -177,6 +204,30 @@ export interface SiteContent {
     email: string;
     socials: { label: string; title: string; href: string }[];
     copyright: string;
+  };
+  common: {
+    home: string;
+    breadcrumb: string;
+  };
+  pages: {
+    about: PageMeta;
+    services: PageMeta;
+    courses: PageMeta;
+    gallery: PageMeta & { photos: GalleryPhoto[] };
+    news: PageMeta;
+    faq: PageMeta;
+    contact: PageMeta & {
+      cards: ContactCard[];
+      form: {
+        legend: string;
+        name: string;
+        email: string;
+        subject: string;
+        message: string;
+        submit: string;
+        note: string;
+      };
+    };
   };
   meta: { title: string; description: string };
 }

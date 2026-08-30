@@ -116,30 +116,44 @@ the same serialisable props.
 Section headings that break across two lines store the lines as an array
 (`heading: string[]`) rather than embedding `<br />` in the copy.
 
-### Page structure
+### Routes
 
-The page is a single scrolling document; nav and footer links are in-page
-anchors.
+The site is eight routes per locale, all statically generated (16 pages).
 
-| Section | id | Content key |
+| Route | Content key | Composed of |
 | --- | --- | --- |
-| Hero | — | `hero` |
-| The center in brief | `#about` | `about` |
-| Three value cards | — | `features` |
-| Director's word | `#director` | `director` |
-| Vision, mission, objectives | `#overview` | `overview` |
-| Services | `#services` | `services` |
-| Department structure | `#structure` | `structure` |
-| Team | `#team` | `team` |
-| Campus banner | — | `banner` |
-| Courses & workshops | `#courses` | `events` |
-| Gallery | `#gallery` | `gallery` |
-| Milestones carousel | `#milestones` | `milestones` |
-| FAQ | `#faq` | `faq` |
-| Contact CTA | `#contact` | `cta` |
-| News | `#news` | `news` |
-| Newsletter | — | `newsletter` |
-| Footer | — | `footer` |
+| `/[lang]` | — | the full overview: hero, brief, features, director, vision, services slider, structure, team, banner, courses, gallery, milestones, faq, cta, news, newsletter |
+| `/[lang]/about` | `pages.about` | brief, director's word, vision/mission/objectives, structure, team, milestones, cta |
+| `/[lang]/services` | `pages.services` | `ServicesList` (all six, each with an anchor id `#service-1`…`#service-6`), cta |
+| `/[lang]/courses` | `pages.courses` | courses list, cta |
+| `/[lang]/gallery` | `pages.gallery` | `GalleryGrid`, cta |
+| `/[lang]/news` | `pages.news` | news list (archive link suppressed), newsletter |
+| `/[lang]/faq` | `pages.faq` | accordion, cta |
+| `/[lang]/contact` | `pages.contact` | `ContactPanel` — detail cards plus a message form |
+
+Every secondary page opens with `PageHero` (breadcrumb, `h1`, intro, closing
+rule) and carries its own `generateMetadata` built from the locale's
+`pages.<key>.metaTitle` / `metaDescription`, plus a canonical alternate.
+
+`generateStaticParams` lives once in `app/[lang]/layout.tsx` and covers every
+nested route.
+
+### Linking
+
+No component hard-codes a destination. Section CTAs read their target from
+content (`hero.ctaHref`, `about.linkHref`, `gallery.ctaHref`, `cta.href`,
+`news.linkHref`), so the whole link graph is editable from `src/data`.
+
+`SiteHeader` derives the live page from `usePathname()` rather than a flag in
+the data — a menu href may carry a hash, so only the route part is compared.
+The active desktop link takes a navy underline; the active mobile entry renders
+in `#e4f0f9`. Both set `aria-current="page"`.
+
+### The contact form
+
+There is no backend, so instead of a form that silently swallows input, submit
+builds a `mailto:` from the fields and hands it to the visitor's mail client,
+which actually delivers it. The note under the button says as much.
 
 ## Team roster
 

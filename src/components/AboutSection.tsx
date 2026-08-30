@@ -62,7 +62,7 @@ export default function AboutSection({
       {/* Right column */}
       <div className="mt-[30px] flex w-full flex-col items-start gap-9 xl:mt-0 xl:max-w-[367px] xl:pb-13">
         <p className="t-body-lg">{content.body}</p>
-        <UnderlineLink href="#services">{content.link}</UnderlineLink>
+        <UnderlineLink href={content.linkHref}>{content.link}</UnderlineLink>
       </div>
 
       {/* Dash-grid ornament, bottom of the inline-end edge */}
