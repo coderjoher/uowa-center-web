@@ -95,7 +95,7 @@ export const EN: SiteContent = {
     ],
     name: "Eng. Abbas Nouri",
     role: "Director, Electronic Computer Department",
-    image: "/images/director-message.jpg",
+    image: "/images/director.jpg",
     imageAlt: "Eng. Abbas Nouri, Director of the Electronic Computer Department",
   },
 

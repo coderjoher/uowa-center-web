@@ -95,7 +95,7 @@ export const AR: SiteContent = {
     ],
     name: "المهندس عباس نوري",
     role: "مدير قسم الحاسبة الإلكترونية",
-    image: "/images/director-message.jpg",
+    image: "/images/director.jpg",
     imageAlt: "المهندس عباس نوري، مدير قسم الحاسبة الإلكترونية",
   },
 

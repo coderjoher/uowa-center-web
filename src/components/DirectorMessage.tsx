@@ -3,9 +3,13 @@ import SectionLabel from "@/components/ui/SectionLabel";
 import type { SiteContent } from "@/types/content";
 
 /**
- * The director's word. Photo on the leading side (480x560 on desktop) with the
- * navy signature card overlapping its trailing edge, echoing the About
+ * The director's word. Portrait on the leading side (480x560 on desktop) with
+ * the navy signature card overlapping its trailing edge, echoing the About
  * composition; the message itself runs down the trailing column.
+ *
+ * The source photo is a 684x774 portrait, so the desktop box crops almost
+ * nothing; the mobile box is 380 tall rather than 280 so the subject still
+ * reads once the frame goes landscape.
  */
 export default function DirectorMessage({
   content,
@@ -19,7 +23,7 @@ export default function DirectorMessage({
     >
       {/* Photo + signature */}
       <div className="relative w-full shrink-0 xl:w-[480px]">
-        <div className="relative h-[280px] w-full xl:h-[560px]">
+        <div className="relative h-[380px] w-full xl:h-[560px]">
           <Image
             src={content.image}
             alt={content.imageAlt}
