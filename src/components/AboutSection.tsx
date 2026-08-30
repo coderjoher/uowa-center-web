@@ -1,0 +1,72 @@
+import Image from "next/image";
+import UnderlineLink from "@/components/ui/UnderlineLink";
+import SectionLabel from "@/components/ui/SectionLabel";
+import { AboutDashGrid } from "@/components/DashGrid";
+import type { SiteContent } from "@/types/content";
+
+/**
+ * Desktop: 936px tall. The composition block (828x656) holds three absolutely
+ * positioned children — the building photo (406x508), the campus photo
+ * (315x340) and the navy caption card (613x274). Every offset is expressed as
+ * an inline-start value so the whole composition mirrors under RTL.
+ */
+export default function AboutSection({
+  content,
+}: {
+  content: SiteContent["about"];
+}) {
+  return (
+    <section
+      id="about"
+      className="relative mx-auto w-full max-w-[1520px] scroll-mt-24 px-5 py-20 xl:flex xl:items-end xl:justify-between xl:px-25 xl:py-[140px]"
+    >
+      {/* Left composition */}
+      <div className="relative w-full max-w-[828px] xl:h-[656px]">
+        {/* Navy caption card */}
+        <div className="relative z-20 flex flex-col items-start gap-2 bg-navy p-[30px] xl:absolute xl:start-0 xl:top-0 xl:h-[274px] xl:w-[613px] xl:items-end xl:gap-4 xl:px-20 xl:py-14">
+          <SectionLabel className="text-white xl:text-end">
+            {content.label}
+          </SectionLabel>
+          <h2 className="t-h2 text-white xl:text-end">
+            {content.heading.map((line) => (
+              <span key={line} className="block">
+                {line}
+              </span>
+            ))}
+          </h2>
+        </div>
+
+        {/* Building photo */}
+        <div className="relative mt-5 h-[200px] w-full xl:absolute xl:start-[420px] xl:top-24 xl:mt-0 xl:h-[508px] xl:w-[406px]">
+          <Image
+            src="/images/about-building.jpg"
+            alt={content.buildingAlt}
+            fill
+            sizes="(max-width: 1199px) 100vw, 406px"
+            className="object-cover"
+          />
+        </div>
+
+        {/* Overlapping campus photo */}
+        <div className="relative mt-5 h-[200px] w-full xl:absolute xl:start-[85px] xl:top-[316px] xl:mt-0 xl:h-[340px] xl:w-[315px]">
+          <Image
+            src="/images/about-walkway.jpg"
+            alt={content.walkwayAlt}
+            fill
+            sizes="(max-width: 1199px) 100vw, 315px"
+            className="object-cover"
+          />
+        </div>
+      </div>
+
+      {/* Right column */}
+      <div className="mt-[30px] flex w-full flex-col items-start gap-9 xl:mt-0 xl:max-w-[367px] xl:pb-13">
+        <p className="t-body-lg">{content.body}</p>
+        <UnderlineLink href="#services">{content.link}</UnderlineLink>
+      </div>
+
+      {/* Dash-grid ornament, bottom of the inline-end edge */}
+      <AboutDashGrid className="pointer-events-none absolute end-[24px] top-[140px] -z-0 hidden xl:block" />
+    </section>
+  );
+}

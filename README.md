@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# مركز الحاسبة الإلكترونية — جامعة وارث الأنبياء
 
-## Getting Started
+Marketing site for the Electronic Computer Center at the University of Warith
+Al-Anbiyaa (Karbala, Iraq). Bilingual: **Arabic (RTL, default)** and
+**English (LTR)**.
 
-First, run the development server:
+## Getting started
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open <http://localhost:3000> — the proxy redirects to `/ar` or `/en`
+depending on the browser's `Accept-Language`, falling back to `/ar`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build   # production build (both locales are statically generated)
+npm run lint
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Layout of the code
 
-## Learn More
+| Path | What lives there |
+| --- | --- |
+| `src/app/[lang]/` | The root layout (sets `<html lang dir>` and the per-locale font stack) and the single page |
+| `src/proxy.ts` | Redirects locale-less URLs to a locale |
+| `src/i18n/config.ts` | The locale list, default, direction and switcher labels |
+| `src/data/ar.ts`, `src/data/en.ts` | All copy, one `SiteContent` object per locale |
+| `src/types/content.ts` | The `SiteContent` shape both dictionaries satisfy |
+| `src/components/` | Section components; each takes its slice of `SiteContent` as a prop |
+| `src/app/globals.css` | Design tokens, the type ramp, and the Arabic overrides |
+| `public/images/` | Photography from the university's own site |
+| `docs/` | Localisation notes plus the original layout-extraction record |
 
-To learn more about Next.js, take a look at the following resources:
+## Editing copy
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+All text lives in `src/data/ar.ts` and `src/data/en.ts`. Both files export a
+`SiteContent`, so TypeScript fails the build if a locale is missing a field.
+No component contains a hard-coded user-facing string.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See [docs/LOCALIZATION.md](docs/LOCALIZATION.md) for how RTL, the fonts and the
+locale routing fit together.
