@@ -115,7 +115,10 @@ export default function SiteHeader({
           ) : null}
 
           {/* Desktop links */}
-          <div className="hidden items-center gap-10 xl:flex">
+          {/* Six links plus the switcher and CTA just touch the logo at
+              1200px on the 40px design gap, so it tightens to 28 until there
+              is room for the original spacing again. */}
+          <div className="hidden items-center gap-7 xl:flex 2xl:gap-10">
             {nav.links.map((link) => (
               <Link
                 key={link.label}

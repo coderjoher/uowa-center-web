@@ -7,6 +7,7 @@ import DirectorMessage from "@/components/DirectorMessage";
 import OverviewSection from "@/components/OverviewSection";
 import ServicesSection from "@/components/ServicesSection";
 import StructureSection from "@/components/StructureSection";
+import TeamSection from "@/components/TeamSection";
 import CampusBanner from "@/components/CampusBanner";
 import EventsSection from "@/components/EventsSection";
 import GallerySection from "@/components/GallerySection";
@@ -36,6 +37,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         <OverviewSection content={c.overview} />
         <ServicesSection content={c.services} />
         <StructureSection content={c.structure} />
+        <TeamSection content={c.team} />
         <CampusBanner content={c.banner} />
         <EventsSection content={c.events} />
         <GallerySection content={c.gallery} />

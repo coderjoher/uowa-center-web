@@ -45,6 +45,17 @@ export interface OverviewPillar {
   body: string;
 }
 
+/**
+ * A person on the team. `name` and `image` are optional because the roster is
+ * filled in over time — a member without them renders as the role plus a
+ * monogram tile rather than disappearing.
+ */
+export interface TeamMember {
+  name?: string;
+  role: string;
+  image?: string;
+}
+
 export interface Division {
   title: string;
   scope: string;
@@ -127,6 +138,12 @@ export interface SiteContent {
     objectives: string[];
   };
   services: SectionHead & { items: Service[] };
+  team: SectionHead & {
+    intro: string;
+    /** Shown in place of a name that has not been supplied yet. */
+    pendingName: string;
+    members: TeamMember[];
+  };
   structure: SectionHead & {
     intro: string;
     rootTitle: string;

@@ -178,3 +178,23 @@ export function FeatureIcon({
   const Icon = FEATURE_ICONS[name];
   return <Icon {...props} />;
 }
+
+/**
+ * Stand-in for a team member whose portrait has not been supplied yet. Drawn in
+ * the same hairline stroke as the feature icons.
+ */
+export function AvatarIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 64 64" width={64} height={64} fill="none" {...props}>
+      <g
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.4}
+      >
+        <circle cx="32" cy="24" r="9" />
+        <path d="M14 52c0-9.4 8.1-17 18-17s18 7.6 18 17" />
+      </g>
+    </svg>
+  );
+}

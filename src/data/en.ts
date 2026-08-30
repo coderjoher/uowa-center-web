@@ -15,6 +15,7 @@ export const EN: SiteContent = {
       { label: "About", href: `${P}#overview` },
       { label: "Services", href: `${P}#services`, hasDropdown: true },
       { label: "Structure", href: `${P}#structure` },
+      { label: "Team", href: `${P}#team` },
       { label: "Training", href: `${P}#courses` },
       { label: "News", href: `${P}#news` },
     ],
@@ -37,6 +38,7 @@ export const EN: SiteContent = {
         ],
       },
       { label: "Department Structure", href: `${P}#structure` },
+      { label: "Our Team", href: `${P}#team` },
       { label: "Courses & Workshops", href: `${P}#courses` },
       { label: "Gallery", href: `${P}#gallery` },
       { label: "Milestones", href: `${P}#milestones` },
@@ -120,6 +122,27 @@ export const EN: SiteContent = {
       "Protect data and systems in line with the university's approved information-security policies.",
       "Provide technical support and hardware maintenance to colleges and departments within defined response times.",
       "Train staff and students through courses and workshops in networking, databases and information security.",
+    ],
+  },
+
+  team: {
+    label: "Our team",
+    heading: ["The people behind", "the department's services"],
+    intro:
+      "The department is staffed by engineers, developers and specialists spread across its six divisions, running the university's digital services and supporting the people who use them.",
+    pendingName: "To be announced",
+    members: [
+      {
+        name: "Eng. Abbas Nouri",
+        role: "Head of Department",
+        image: "/images/director.jpg",
+      },
+      { role: "Lead, Network & Communications" },
+      { role: "Lead, Systems & Databases" },
+      { role: "Lead, Web & Digital Publishing" },
+      { role: "Lead, Maintenance & Technical Support" },
+      { role: "Lead, Information Security" },
+      { role: "Lead, Training & Development" },
     ],
   },
 
@@ -366,6 +389,7 @@ export const EN: SiteContent = {
           { label: "Director's Word", href: `${P}#director` },
           { label: "Vision & Mission", href: `${P}#overview` },
           { label: "Structure", href: `${P}#structure` },
+          { label: "Our Team", href: `${P}#team` },
           { label: "Courses & Workshops", href: `${P}#courses` },
           { label: "FAQ", href: `${P}#faq` },
         ],

@@ -96,6 +96,11 @@ rendering desktop typography inside the mobile layout, so `--breakpoint-xl` is
 redefined to `1200px` in a plain `@theme` block. Every `xl:` utility in the
 codebase means "1200px and up".
 
+The desktop nav row is the tightest thing at that width. With six links plus the
+language switch and the contact button, the design's 40px gap leaves the row
+touching the logo at exactly 1200px, so the gap tightens to 28px and returns to
+40px at `2xl` (1536px), where there is room again.
+
 ## Content
 
 `src/types/content.ts` defines one `SiteContent` interface; `src/data/ar.ts` and
@@ -125,6 +130,7 @@ anchors.
 | Vision, mission, objectives | `#overview` | `overview` |
 | Services | `#services` | `services` |
 | Department structure | `#structure` | `structure` |
+| Team | `#team` | `team` |
 | Campus banner | — | `banner` |
 | Courses & workshops | `#courses` | `events` |
 | Gallery | `#gallery` | `gallery` |
@@ -134,6 +140,18 @@ anchors.
 | News | `#news` | `news` |
 | Newsletter | — | `newsletter` |
 | Footer | — | `footer` |
+
+## Team roster
+
+`TeamSection` renders `team.members`, where `name` and `image` are both
+optional. A member without them falls back to `team.pendingName` in muted grey
+over a `#eef4f8` tile carrying the `AvatarIcon` glyph, so a roster that is only
+partly filled in still reads as deliberate. Filling one in is just adding the
+two fields.
+
+It is also the one grid that goes **two-up below 1200px** instead of stacking to
+a single column like every other section: the cards are small and uniform, and
+seven of them in one column would run the section past three phone screens.
 
 ## Services slider
 
