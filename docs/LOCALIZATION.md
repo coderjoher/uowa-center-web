@@ -125,7 +125,7 @@ The site is eight routes per locale, all statically generated (16 pages).
 | `/[lang]` | — | the full overview: hero, brief, features, director, vision, services slider, structure, team, banner, courses, gallery, milestones, faq, cta, news, newsletter |
 | `/[lang]/about` | `pages.about` | brief, director's word, vision/mission/objectives, structure, team, milestones, cta |
 | `/[lang]/services` | `pages.services` | `ServicesList` (all six, each with an anchor id `#service-1`…`#service-6`), cta |
-| `/[lang]/courses` | `pages.courses` | courses list, cta |
+| `/[lang]/courses` | `pages.courses` | `CoursesList`, cta |
 | `/[lang]/gallery` | `pages.gallery` | `GalleryGrid`, cta |
 | `/[lang]/news` | `pages.news` | news list (archive link suppressed), newsletter |
 | `/[lang]/news/[slug]` | `news.items[]` | `NewsArticle` — three-level breadcrumb, meta row, lead, photo, body, back link, the other items |
@@ -173,6 +173,21 @@ two fields.
 It is also the one grid that goes **two-up below 1200px** instead of stacking to
 a single column like every other section: the cards are small and uniform, and
 seven of them in one column would run the section past three phone screens.
+
+## Home teasers vs page listings
+
+Three sections exist twice, because a home-page teaser and a full page want
+different things:
+
+| Home | Page | Why |
+| --- | --- | --- |
+| `ServicesSection` (slider) | `ServicesList` | the page shows all six at once instead of one at a time |
+| `EventsSection` | `CoursesList` | the teaser puts a heading column beside a narrow list; on `/courses` the hero already carries the heading, so that column sat empty and the thumbnails were teaser-sized |
+| `NewsSection` | same, `showArchiveLink={false}` | the archive link would point at the page you are on |
+
+The page variants drop the section heading entirely — `PageHero` supplies it —
+and pin their card CTAs with `mt-auto` so the row of links stays level when a
+title wraps.
 
 ## Services slider
 
