@@ -2,8 +2,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 406.9 638.1">
     <style type="text/css">
         .st0{enable-background:new;}
+        /* Navy on a light browser chrome, white on a dark one. Browsers
+           evaluate prefers-color-scheme inside an SVG favicon, so this is the
+           whole mechanism — do NOT copy it into public/svg/uowa-mark-navy.svg,
+           which the header logo loads through <img> onto an always-white bar. */
         .st5{fill:#15283d;}
         .st6{fill-rule:evenodd;clip-rule:evenodd;fill:#fdbe34;}
+        @media (prefers-color-scheme: dark) {
+            .st5{fill:#ffffff;}
+        }
     </style>
     <g id="Ellipse_3_1_" class="st0">
         <g id="Ellipse_3">

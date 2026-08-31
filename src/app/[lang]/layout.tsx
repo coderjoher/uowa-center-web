@@ -75,7 +75,7 @@ export async function generateMetadata({
     metadataBase: new URL("https://uowa.edu.iq"),
     title: meta.title,
     description: meta.description,
-    icons: { icon: "/seo/favicon.svg" },
+    icons: { icon: [{ url: "/seo/favicon.svg", type: "image/svg+xml" }] },
     alternates: {
       canonical: `/${lang}`,
       languages: Object.fromEntries(LOCALES.map((l) => [l, `/${l}`])),

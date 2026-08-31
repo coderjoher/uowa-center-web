@@ -254,6 +254,19 @@ white original recoloured for light backgrounds. The three feature icons in
 `src/components/icons.tsx` are drawn in-house to match the surrounding stroke
 style, since the source set had no IT-related glyphs.
 
+## Favicon
+
+`public/seo/favicon.svg` carries its own `@media (prefers-color-scheme: dark)`
+rule, so the mark is navy `#15283d` on a light browser chrome and white on a
+dark one; the gold accent is unchanged in both. Browsers evaluate that media
+query inside an SVG favicon, which is the whole mechanism — there is no second
+file and no `media` attribute on the `<link>` (Chrome ignores that one).
+
+It is a **separate file** from `public/svg/uowa-mark-navy.svg`, which the header
+logo loads through `next/image`. The same rule must not be copied there: CSS
+inside an SVG also applies when it is loaded via `<img>`, so the header mark
+would go white on the always-white navbar for anyone with a dark OS theme.
+
 ## Relationship to `docs/research/`
 
 `docs/research/` is the extraction record for the Framer layout this site's
