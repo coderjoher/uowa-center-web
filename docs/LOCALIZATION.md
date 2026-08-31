@@ -126,6 +126,7 @@ The site is eight routes per locale, all statically generated (16 pages).
 | `/[lang]/about` | `pages.about` | brief, director's word, vision/mission/objectives, structure, team, milestones, cta |
 | `/[lang]/services` | `pages.services` | `ServicesList` (all six, each with an anchor id `#service-1`…`#service-6`), cta |
 | `/[lang]/courses` | `pages.courses` | `CoursesList`, cta |
+| `/[lang]/courses/[slug]` | `events.items[]` | `CourseArticle` — breadcrumb, date/venue, lead, photo, write-up and outline beside a details panel with the registration CTA |
 | `/[lang]/gallery` | `pages.gallery` | `GalleryGrid`, cta |
 | `/[lang]/news` | `pages.news` | news list (archive link suppressed), newsletter |
 | `/[lang]/news/[slug]` | `news.items[]` | `NewsArticle` — three-level breadcrumb, meta row, lead, photo, body, back link, the other items |
@@ -174,6 +175,32 @@ It is also the one grid that goes **two-up below 1200px** instead of stacking to
 a single column like every other section: the cards are small and uniform, and
 seven of them in one column would run the section past three phone screens.
 
+## Hidden sections
+
+`src/config/sections.ts` holds a flag per section that is built and translated
+but not currently shown:
+
+```ts
+export const VISIBLE_SECTIONS = { director: false, team: false } as const;
+```
+
+Flipping one back to `true` restores it everywhere — the home and about pages
+render it again, and `pointsAtHiddenSection()` stops filtering its site-map
+entries out of the mobile menu. Nothing is deleted, so the copy, the photo and
+the components stay in the repo and in the type.
+
+## Gallery lightbox
+
+`GalleryGrid` is a client component. Each tile is a button that opens an
+overlay at its index, with prev/next, a counter, a caption and a close button.
+
+- The page behind is frozen with **both** `overflow: hidden` on the body and
+  `lenis.stop()` — Lenis drives the scroll and ignores the former on its own.
+- Arrow keys map by **physical** direction, not by "next": the Arabic grid
+  reads right-to-left, so `ArrowLeft` advances there and goes back in English.
+- Focus moves to the close button on open and returns to the tile that opened
+  it; `Escape` and a backdrop click both close.
+
 ## Home teasers vs page listings
 
 Three sections exist twice, because a home-page teaser and a full page want
@@ -188,6 +215,18 @@ different things:
 The page variants drop the section heading entirely — `PageHero` supplies it —
 and pin their card CTAs with `mt-auto` so the row of links stays level when a
 title wraps.
+
+## The milestones carousel height
+
+The carousel viewport used to be pinned at `h-[490px]`, carried over from a
+layout whose card summary was a single short line. Arabic wraps to two, which
+made every card 528px and let `overflow-hidden` clip 38px off the bottom of all
+four — the summary text ran under the edge.
+
+The height is no longer pinned: the track sizes to its content and
+`items-stretch` on the flex row keeps the cards level. Anything with a fixed
+pixel height inherited from the source layout is worth re-checking against
+Arabic copy for the same reason.
 
 ## Services slider
 

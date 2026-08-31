@@ -6,6 +6,7 @@ import { useState } from "react";
 import Logo from "@/components/ui/Logo";
 import { ChevronDownIcon, MenuBulletIcon } from "@/components/icons";
 import { SWITCH_TO, type Locale } from "@/i18n/config";
+import { pointsAtHiddenSection } from "@/config/sections";
 import type { SiteContent } from "@/types/content";
 
 /**
@@ -91,18 +92,20 @@ export default function SiteHeader({
 
                   {item.children ? (
                     <ul className="flex list-none flex-col gap-4 p-0 ps-2.5">
-                      {item.children.map((child) => (
-                        <li key={child.label}>
-                          <Link
-                            href={child.href}
-                            onClick={() => setOpen(false)}
-                            className="flex items-center gap-4 font-[family-name:var(--font-sans)] text-[15px] leading-[23px] text-surface transition-opacity duration-200 hover:opacity-80"
-                          >
-                            <MenuBulletIcon className="shrink-0 text-white" />
-                            {child.label}
-                          </Link>
-                        </li>
-                      ))}
+                      {item.children
+                        .filter((child) => !pointsAtHiddenSection(child.href))
+                        .map((child) => (
+                          <li key={child.label}>
+                            <Link
+                              href={child.href}
+                              onClick={() => setOpen(false)}
+                              className="flex items-center gap-4 font-[family-name:var(--font-sans)] text-[15px] leading-[23px] text-surface transition-opacity duration-200 hover:opacity-80"
+                            >
+                              <MenuBulletIcon className="shrink-0 text-white" />
+                              {child.label}
+                            </Link>
+                          </li>
+                        ))}
                     </ul>
                   ) : null}
                 </li>

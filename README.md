@@ -36,10 +36,13 @@ npm run lint
 
 Eight routes per locale, all prerendered:
 
-`/` · `/about` · `/services` · `/courses` · `/gallery` · `/news` · `/news/[slug]` · `/faq` · `/contact`
+`/` · `/about` · `/services` · `/courses` · `/courses/[slug]` · `/gallery` · `/news` · `/news/[slug]` · `/faq` · `/contact`
 
-Articles live in `news.items` in each locale file — add one and its page is
-generated.
+Articles live in `news.items` and courses in `events.items` in each locale file
+— add one and its page is generated.
+
+Two sections (the director's word and the team roster) are built and translated
+but currently hidden behind flags in `src/config/sections.ts`.
 
 ## Editing copy
 

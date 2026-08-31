@@ -67,10 +67,20 @@ export interface Service {
 }
 
 export interface TrainingEvent {
+  /** Route segment under `/[lang]/courses/`. */
+  slug: string;
   title: string;
   date: string;
   venue: string;
   image: string;
+  imageAlt: string;
+  /** Lead paragraph on the detail page, and its meta description. */
+  excerpt: string;
+  /** What the course covers, one entry per bullet. */
+  outline: string[];
+  /** Practical facts rendered as a definition list. */
+  details: { label: string; value: string }[];
+  body: string[];
   href: string;
 }
 
@@ -221,7 +231,17 @@ export interface SiteContent {
     about: PageMeta;
     services: PageMeta;
     courses: PageMeta;
-    gallery: PageMeta & { photos: GalleryPhoto[] };
+    courseDetail: {
+      back: string;
+      related: string;
+      outline: string;
+      details: string;
+      register: string;
+    };
+    gallery: PageMeta & {
+      photos: GalleryPhoto[];
+      lightbox: { open: string; close: string; prev: string; next: string };
+    };
     news: PageMeta;
     newsDetail: {
       back: string;

@@ -19,6 +19,7 @@ import NewsletterSection from "@/components/NewsletterSection";
 import SiteFooter from "@/components/SiteFooter";
 import { getContent } from "@/data";
 import { isLocale } from "@/i18n/config";
+import { isSectionVisible } from "@/config/sections";
 
 export default async function Home({ params }: PageProps<"/[lang]">) {
   const { lang } = await params;
@@ -33,11 +34,13 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         <Hero content={c.hero} />
         <AboutSection content={c.about} />
         <FeatureCards features={c.features} />
-        <DirectorMessage content={c.director} />
+        {isSectionVisible("director") ? (
+          <DirectorMessage content={c.director} />
+        ) : null}
         <OverviewSection content={c.overview} />
         <ServicesSection content={c.services} />
         <StructureSection content={c.structure} />
-        <TeamSection content={c.team} />
+        {isSectionVisible("team") ? <TeamSection content={c.team} /> : null}
         <CampusBanner content={c.banner} />
         <EventsSection content={c.events} />
         <GallerySection content={c.gallery} />

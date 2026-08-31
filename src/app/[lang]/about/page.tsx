@@ -12,6 +12,7 @@ import MilestonesSection from "@/components/MilestonesSection";
 import CtaSection from "@/components/CtaSection";
 import { getContent } from "@/data";
 import { isLocale } from "@/i18n/config";
+import { isSectionVisible } from "@/config/sections";
 
 export async function generateMetadata({
   params,
@@ -37,10 +38,12 @@ export default async function Page({ params }: PageProps<"/[lang]/about">) {
       <main className="overflow-x-hidden">
         <PageHero lang={lang} page={c.pages.about} common={c.common} />
         <AboutSection content={c.about} />
-        <DirectorMessage content={c.director} />
+        {isSectionVisible("director") ? (
+          <DirectorMessage content={c.director} />
+        ) : null}
         <OverviewSection content={c.overview} />
         <StructureSection content={c.structure} />
-        <TeamSection content={c.team} />
+        {isSectionVisible("team") ? <TeamSection content={c.team} /> : null}
         <MilestonesSection content={c.milestones} lang={lang} />
         <CtaSection content={c.cta} />
       </main>

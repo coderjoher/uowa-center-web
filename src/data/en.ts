@@ -241,28 +241,91 @@ export const EN: SiteContent = {
   events: {
     label: "Training",
     heading: ["Upcoming courses", "and workshops"],
-    link: "Contact Us",
+    link: "Course details",
     items: [
       {
+        slug: "information-security-workshop",
         title: "Information Security Workshop",
         date: "14 - 15 September 2026",
         venue: "Training Hall - Computer Center",
         image: "/images/event-lecture.jpg",
-        href: `${P}/contact`,
+        imageAlt: "A training lecture in the teaching hall",
+        excerpt:
+          "A two-day workshop introducing staff to the university's data-protection policy and to handling accounts and university mail safely.",
+        outline: [
+          "The university's approved data-protection policy",
+          "Password management and two-factor authentication",
+          "Recognising phishing messages and suspicious links",
+          "What to do when a security incident is suspected",
+        ],
+        details: [
+          { label: "Duration", value: "Two days - six training hours" },
+          { label: "Audience", value: "College and administrative unit staff" },
+          { label: "Language", value: "Arabic" },
+          { label: "Certificate", value: "Certificate of attendance" },
+        ],
+        body: [
+          "The workshop aims to raise security awareness among university staff, who are the first line of defence for student data and academic records.",
+          "It pairs the policy material with hands-on exercises against real phishing messages received by university mail, walking through the checks to make before opening any link or attachment.",
+          "Register through the administrative unit in your college or by writing to the department. Places are limited by the capacity of the training hall.",
+        ],
+        href: `${P}/courses/information-security-workshop`,
       },
       {
+        slug: "network-administration",
         title: "Network Administration Course",
         date: "6 October 2026",
         venue: "Computer Lab - College of Engineering",
         image: "/images/event-workshop.jpg",
-        href: `${P}/contact`,
+        imageAlt: "A training workshop in a university hall",
+        excerpt:
+          "A hands-on course in network fundamentals, device configuration and fault handling, for technical staff across the colleges.",
+        outline: [
+          "Network fundamentals and IP addressing",
+          "Configuring switches and wireless access points",
+          "Segmenting networks and isolating traffic",
+          "Diagnosing and tracking common faults",
+        ],
+        details: [
+          { label: "Duration", value: "Five days - fifteen hours" },
+          { label: "Audience", value: "Technical staff and device owners" },
+          { label: "Prerequisites", value: "Basic familiarity with operating systems" },
+          { label: "Certificate", value: "Certificate of completion" },
+        ],
+        body: [
+          "The course gives a practical grounding to whoever looks after the network inside their college, so common faults can be diagnosed and cleared without waiting on the department's team.",
+          "Exercises run on real hardware in the computer lab and cover configuring switches and access points and reading device logs.",
+          "Participants are expected to be comfortable with operating systems and desktop network settings before attending.",
+        ],
+        href: `${P}/courses/network-administration`,
       },
       {
+        slug: "electronic-examination-system",
         title: "Electronic Examination System Course",
         date: "18 November 2026",
         venue: "Conference Hall - University Presidency",
         image: "/images/event-exam.jpg",
-        href: `${P}/contact`,
+        imageAlt: "A supervised electronic examination hall",
+        excerpt:
+          "A course introducing teaching staff to building, running and reporting on electronic examinations on the university platform.",
+        outline: [
+          "Building and categorising the question bank",
+          "Setting up an exam, its timing and attempts",
+          "Invigilating and handling issues during the exam",
+          "Producing results and analytical reports",
+        ],
+        details: [
+          { label: "Duration", value: "One day - four hours" },
+          { label: "Audience", value: "Teaching staff" },
+          { label: "Prerequisites", value: "An active university account" },
+          { label: "Certificate", value: "Certificate of attendance" },
+        ],
+        body: [
+          "The course covers the full life of an electronic exam, from building the question bank through to producing and reading the results.",
+          "A complete mock exam runs during the session, with participants taking the instructor and student roles in turn so they see both interfaces.",
+          "It is held ahead of the monthly examination period and is recommended for anyone using the platform for the first time.",
+        ],
+        href: `${P}/courses/electronic-examination-system`,
       },
     ],
   },
@@ -492,6 +555,13 @@ export const EN: SiteContent = {
       metaDescription:
         "Services of the Electronic Computer Department at the University of Warith Al-Anbiyaa: network and internet, systems and databases, web and digital publishing, maintenance and support, cybersecurity and training.",
     },
+    courseDetail: {
+      back: "Back to courses",
+      related: "Other courses",
+      outline: "What the course covers",
+      details: "Course details",
+      register: "Ask about registration",
+    },
     courses: {
       label: "Courses & Workshops",
       title: "Courses and Workshops",
@@ -509,6 +579,12 @@ export const EN: SiteContent = {
       metaTitle: "Gallery | Electronic Computer Department",
       metaDescription:
         "Photo gallery of the Electronic Computer Department at the University of Warith Al-Anbiyaa: campus, halls, labs and training courses.",
+      lightbox: {
+        open: "Enlarge photo",
+        close: "Close",
+        prev: "Previous photo",
+        next: "Next photo",
+      },
       photos: [
         { image: "/images/hero-campus.jpg", caption: "The university campus" },
         { image: "/images/about-building.jpg", caption: "The science building" },

@@ -11,9 +11,14 @@ import type { SiteContent } from "@/types/content";
 const CARD_PITCH = 323;
 
 /**
- * Click-driven horizontal carousel. The track is a 735x490 overflow-hidden
+ * Click-driven horizontal carousel. The track is a 735-wide overflow-hidden
  * viewport; cards are 313 wide with a 10px gap. Prev/next are 40x40 navy
  * circles inset 20px from the track edges.
+ *
+ * The viewport height is deliberately NOT pinned. It used to be 490px, taken
+ * from a layout whose card summary was one line; Arabic wraps to two, which
+ * made every card 528px and clipped 38px off the bottom. The track now sizes to
+ * its content and `items-stretch` keeps the cards level.
  *
  * RTL note: per the CSSOM spec a right-to-left scroller reports `scrollLeft`
  * as 0 at the start and counts *down* toward the end, so every offset is
@@ -81,7 +86,7 @@ export default function MilestonesSection({
       id="milestones"
       className="relative flex scroll-mt-24 flex-col items-center py-20 xl:gap-[85px] xl:py-[140px]"
     >
-      <div className="relative mx-auto flex w-full max-w-[1520px] flex-col items-start justify-between gap-10 px-5 xl:h-[490px] xl:flex-row xl:px-25">
+      <div className="relative mx-auto flex w-full max-w-[1520px] flex-col items-start justify-between gap-10 px-5 xl:flex-row xl:px-25">
         <div
           aria-hidden
           className="ornament-flip pointer-events-none absolute start-0 top-[247px] z-10 hidden h-[241px] w-[241px] bg-[url('/svg/ornament-alumni.svg')] xl:block"
@@ -99,16 +104,16 @@ export default function MilestonesSection({
         </div>
 
         {/* Carousel */}
-        <div className="relative w-full overflow-hidden xl:h-[490px] xl:w-[735px]">
+        <div className="relative w-full overflow-hidden xl:w-[735px]">
           <ul
             ref={trackRef}
             onScroll={onScroll}
             data-lenis-prevent
-            className="flex list-none items-center gap-2.5 overflow-x-auto overflow-y-hidden p-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            className="flex list-none items-stretch gap-2.5 overflow-x-auto overflow-y-hidden p-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             {content.items.map((item) => (
               <li key={item.year} className="w-[313px] shrink-0">
-                <div className="flex flex-col items-start">
+                <div className="flex h-full flex-col items-start">
                   <div className="relative h-[336px] w-[313px]">
                     <Image
                       src={item.image}
@@ -118,7 +123,7 @@ export default function MilestonesSection({
                       className="object-cover"
                     />
                   </div>
-                  <div className="flex w-full flex-col items-start gap-3 bg-surface p-6">
+                  <div className="flex w-full flex-1 flex-col items-start gap-3 bg-surface p-6">
                     <SectionLabel className="text-navy">{item.year}</SectionLabel>
                     <div className="flex flex-col items-start gap-1">
                       <h4 className="t-h4">{item.title}</h4>

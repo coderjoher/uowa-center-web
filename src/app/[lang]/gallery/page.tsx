@@ -31,7 +31,7 @@ export default async function Page({ params }: PageProps<"/[lang]/gallery">) {
       <SiteHeader lang={lang} content={c} />
       <main className="overflow-x-hidden">
         <PageHero lang={lang} page={c.pages.gallery} common={c.common} />
-        <GalleryGrid photos={c.pages.gallery.photos} />
+        <GalleryGrid content={c.pages.gallery} lang={lang} />
         <CtaSection content={c.cta} />
       </main>
       <SiteFooter content={c} lang={lang} />
