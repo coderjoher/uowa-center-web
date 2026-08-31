@@ -39,7 +39,9 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         ) : null}
         <OverviewSection content={c.overview} />
         <ServicesSection content={c.services} />
-        <StructureSection content={c.structure} />
+        {isSectionVisible("structure") ? (
+          <StructureSection content={c.structure} />
+        ) : null}
         {isSectionVisible("team") ? <TeamSection content={c.team} /> : null}
         <CampusBanner content={c.banner} />
         <EventsSection content={c.events} />

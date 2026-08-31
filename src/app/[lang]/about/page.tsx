@@ -42,7 +42,9 @@ export default async function Page({ params }: PageProps<"/[lang]/about">) {
           <DirectorMessage content={c.director} />
         ) : null}
         <OverviewSection content={c.overview} />
-        <StructureSection content={c.structure} />
+        {isSectionVisible("structure") ? (
+          <StructureSection content={c.structure} />
+        ) : null}
         {isSectionVisible("team") ? <TeamSection content={c.team} /> : null}
         <MilestonesSection content={c.milestones} lang={lang} />
         <CtaSection content={c.cta} />

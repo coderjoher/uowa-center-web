@@ -5,6 +5,7 @@
  */
 export const VISIBLE_SECTIONS = {
   director: false,
+  structure: false,
   team: false,
 } as const;
 
