@@ -84,6 +84,7 @@ export interface TrainingEvent {
   href: string;
 }
 
+/** A home-page mosaic tile. `title` is alt text only — nothing renders it. */
 export interface GalleryCard {
   title: string;
   image: string;
@@ -193,7 +194,6 @@ export interface SiteContent {
   banner: { imageAlt: string };
   events: SectionHead & { items: TrainingEvent[]; link: string };
   gallery: SectionHead & {
-    body: string;
     cta: string;
     ctaHref: string;
     items: GalleryCard[];

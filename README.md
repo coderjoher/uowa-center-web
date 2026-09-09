@@ -41,8 +41,10 @@ Eight routes per locale, all prerendered:
 Articles live in `news.items` and courses in `events.items` in each locale file
 — add one and its page is generated.
 
-Two sections (the director's word and the team roster) are built and translated
-but currently hidden behind flags in `src/config/sections.ts`.
+Three sections (the director's word, the department structure and the team
+roster) are built and translated but currently hidden behind flags in
+`src/config/sections.ts`. Vision/mission and the milestones carousel render on
+`/about` only.
 
 ## Editing copy
 

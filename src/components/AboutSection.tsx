@@ -7,8 +7,14 @@ import type { SiteContent } from "@/types/content";
 /**
  * Desktop: 936px tall. The composition block (828x656) holds three absolutely
  * positioned children — the building photo (406x508), the campus photo
- * (315x340) and the navy caption card (613x274). Every offset is expressed as
+ * (315x340) and the navy caption card (613 wide, 274 minimum). Every offset is
  * an inline-start value so the whole composition mirrors under RTL.
+ *
+ * The card's text is start-aligned, not end-aligned: the source layout hugged
+ * the text against the photo edge, which under RTL became left-aligned Arabic.
+ * Its height is a minimum rather than fixed, and the heading steps down to
+ * 36px inside it — at 44px the Arabic ran to four lines and 64px past the
+ * bottom of the card.
  */
 export default function AboutSection({
   content,
@@ -23,11 +29,9 @@ export default function AboutSection({
       {/* Left composition */}
       <div className="relative w-full max-w-[828px] xl:h-[656px]">
         {/* Navy caption card */}
-        <div className="relative z-20 flex flex-col items-start gap-2 bg-navy p-[30px] xl:absolute xl:start-0 xl:top-0 xl:h-[274px] xl:w-[613px] xl:items-end xl:gap-4 xl:px-20 xl:py-14">
-          <SectionLabel className="text-white xl:text-end">
-            {content.label}
-          </SectionLabel>
-          <h2 className="t-h2 text-white xl:text-end">
+        <div className="relative z-20 flex flex-col items-start gap-2 bg-navy p-[30px] xl:absolute xl:start-0 xl:top-0 xl:min-h-[274px] xl:w-[613px] xl:justify-center xl:gap-3 xl:px-14 xl:py-12">
+          <SectionLabel className="text-white">{content.label}</SectionLabel>
+          <h2 className="t-h2 text-white xl:text-[36px] xl:leading-[54px]">
             {content.heading.map((line) => (
               <span key={line} className="block">
                 {line}

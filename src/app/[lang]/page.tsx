@@ -4,14 +4,12 @@ import Hero from "@/components/Hero";
 import AboutSection from "@/components/AboutSection";
 import FeatureCards from "@/components/FeatureCards";
 import DirectorMessage from "@/components/DirectorMessage";
-import OverviewSection from "@/components/OverviewSection";
 import ServicesSection from "@/components/ServicesSection";
 import StructureSection from "@/components/StructureSection";
 import TeamSection from "@/components/TeamSection";
 import CampusBanner from "@/components/CampusBanner";
 import EventsSection from "@/components/EventsSection";
 import GallerySection from "@/components/GallerySection";
-import MilestonesSection from "@/components/MilestonesSection";
 import FaqSection from "@/components/FaqSection";
 import CtaSection from "@/components/CtaSection";
 import NewsSection from "@/components/NewsSection";
@@ -37,7 +35,9 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         {isSectionVisible("director") ? (
           <DirectorMessage content={c.director} />
         ) : null}
-        <OverviewSection content={c.overview} />
+        {/* Vision/mission/objectives and the milestones carousel live on
+            /about (and the nav points there), so the home page no longer
+            repeats them. */}
         <ServicesSection content={c.services} />
         {isSectionVisible("structure") ? (
           <StructureSection content={c.structure} />
@@ -46,7 +46,6 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         <CampusBanner content={c.banner} />
         <EventsSection content={c.events} />
         <GallerySection content={c.gallery} />
-        <MilestonesSection content={c.milestones} lang={lang} />
         <FaqSection content={c.faq} />
         <CtaSection content={c.cta} />
         <NewsSection content={c.news} />

@@ -21,19 +21,19 @@ export default function Logo({
   return (
     <Link
       href={`/${lang}`}
-      className={`inline-flex items-center gap-2.5 transition-colors duration-300 ${
+      className={`inline-flex items-center gap-3 transition-colors duration-300 ${
         tone === "navy" ? "text-navy" : "text-white"
       } ${className}`}
     >
       <Image
         src={tone === "navy" ? "/svg/uowa-mark-navy.svg" : "/svg/uowa-mark-white.svg"}
         alt={brand.logoAlt}
-        width={23}
-        height={36}
+        width={31}
+        height={48}
         priority
-        className="h-9 w-auto shrink-0"
+        className="h-10 w-auto shrink-0 xl:h-12"
       />
-      <span className="font-[family-name:var(--font-heading)] text-[18px] leading-tight xl:text-[22px]">
+      <span className="font-[family-name:var(--font-heading)] text-[20px] leading-tight xl:text-[24px]">
         <span className="font-bold">{brand.name}</span>{" "}
         <span className="font-light">{brand.suffix}</span>
       </span>

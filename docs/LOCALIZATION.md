@@ -122,7 +122,7 @@ The site is eight routes per locale, all statically generated (16 pages).
 
 | Route | Content key | Composed of |
 | --- | --- | --- |
-| `/[lang]` | — | the full overview: hero, brief, features, director, vision, services slider, structure, team, banner, courses, gallery, milestones, faq, cta, news, newsletter |
+| `/[lang]` | — | hero, brief, features, services slider, banner, courses, gallery mosaic, faq, cta, news, newsletter — vision/mission and milestones were dropped from home because `/about` and the nav already carry them (the director, structure and team sections are behind flags) |
 | `/[lang]/about` | `pages.about` | brief, director's word, vision/mission/objectives, structure, team, milestones, cta |
 | `/[lang]/services` | `pages.services` | `ServicesList` (all six, each with an anchor id `#service-1`…`#service-6`), cta |
 | `/[lang]/courses` | `pages.courses` | `CoursesList`, cta |
@@ -200,6 +200,38 @@ overlay at its index, with prev/next, a counter, a caption and a close button.
   reads right-to-left, so `ArrowLeft` advances there and goes back in English.
 - Focus moves to the close button on open and returns to the tile that opened
   it; `Escape` and a backdrop click both close.
+
+## Review-round changes (Sept 2026)
+
+A design review of the home page produced a set of edits worth recording,
+because several reverse decisions the source layout made:
+
+- **Navbar** is solid white with a hairline under it. The source's 15% white
+  over the hero read as one block with the section beneath it.
+- **Logo** — the emblem is 48px beside 24px type (was 36px beside 22px), so
+  the mark no longer reads as an afterthought next to the wordmark.
+- **Hero** is two columns over a faint technical grid (`.tech-grid`: 1px
+  hairlines on a 48px pitch at 7% navy, radially masked): copy on the
+  inline-start side, a 560x440 photo card with a navy offset frame and the
+  dash-grid ornament on the inline-end side. It replaces the full-bleed strip
+  that used to sit under the section.
+- **About card** text is start-aligned. The source hugged it against the photo
+  edge with `text-end`, which under RTL is left-aligned Arabic. The card's
+  height is a minimum, not fixed, and the heading steps down to 36px inside it:
+  at 44px the Arabic ran to four lines and 64px past the card's bottom.
+- **Services** — the list is flush with the heading's edge; the marker lives
+  in a 36px gutter that hangs *outside* that edge and scales in rather than
+  growing, so selection never shifts a label. The source's 148px indent read
+  as a misalignment once mirrored. The description box is 340px wide with the
+  body ramp (was 428px with the large ramp, five lines deep), and the dot rail
+  sits 20px off the photo instead of at the far side of a 630px column.
+- **Courses teaser** rows are a ruled list — a hairline between neighbours,
+  the same 32px either side of it, first row flush — with the text block
+  centred against the thumbnail, so one- and two-line titles give the same
+  rhythm. The source stacked a 40px inner padding on a 40px gap.
+- **Gallery teaser** is a four-tile photo mosaic with nothing written on it and
+  a narrow column holding only the label, heading and link. The paragraph and
+  the per-photo titles were cut; `GalleryCard.title` survives as alt text only.
 
 ## Home teasers vs page listings
 

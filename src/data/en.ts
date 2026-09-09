@@ -333,12 +333,13 @@ export const EN: SiteContent = {
   gallery: {
     label: "Gallery",
     heading: ["Life at the center", "and on campus"],
-    body: "Snapshots from the courses, workshops and digital initiatives the center runs across the university campus.",
     cta: "All Photos",
     ctaHref: `${P}/gallery`,
     items: [
-      { title: "Training & Workshops", image: "/images/gallery-training.jpg" },
-      { title: "Campus Life", image: "/images/gallery-campus.jpg" },
+      { title: "The computer lab", image: "/images/service-network.jpg" },
+      { title: "From the training courses", image: "/images/gallery-training.jpg" },
+      { title: "Campus life", image: "/images/gallery-campus.jpg" },
+      { title: "A lecture in the hall", image: "/images/event-lecture.jpg" },
     ],
   },
 

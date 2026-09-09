@@ -187,6 +187,18 @@ html.lenis body {
     }
   }
 
+  /* Faint technical grid behind the hero: 1px hairlines on a 48px pitch at 7%
+     navy, masked so it fades out toward the edges and never competes with the
+     type. --------------------------------------------------------------- */
+  .tech-grid {
+    background-image:
+      linear-gradient(to right, color-mix(in srgb, var(--navy) 7%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--navy) 7%, transparent) 1px, transparent 1px);
+    background-size: 48px 48px;
+    background-position: center top;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 35%, transparent 100%);
+  }
+
   /* Scroll-in reveal (see src/components/ui/Reveal.tsx) --------------------- */
   .reveal {
     transform: var(--reveal-from);

@@ -5,46 +5,26 @@ import Reveal from "@/components/ui/Reveal";
 import type { SiteContent } from "@/types/content";
 
 /**
- * A `#eef4f8` band (1097x320) is pinned to the top of the section behind the
- * content. Two 388x550 cards (gap 20) enter from scale(.9) translateY(55).
- * A 96x96 pale "plus" ornament sits near the trailing edge.
+ * Home-page gallery teaser: a four-tile photo mosaic with nothing written on
+ * it — one tall tile spanning two rows, three landscape tiles beside it — and
+ * a narrow column holding only the label, the heading and the link to the
+ * full gallery. The paragraph and the per-photo titles were cut on purpose;
+ * the photos carry the section.
  */
 export default function GallerySection({
   content,
 }: {
   content: SiteContent["gallery"];
 }) {
+  const [tall, ...wide] = content.items;
+
   return (
     <section
       id="gallery"
-      className="relative mx-auto flex w-full max-w-[1520px] scroll-mt-24 flex-col px-5 pb-0 pt-10 xl:flex-row xl:items-start xl:justify-between xl:px-25 xl:pt-20"
+      className="relative mx-auto flex w-full max-w-[1520px] scroll-mt-24 flex-col gap-10 px-5 py-20 xl:flex-row xl:items-end xl:justify-between xl:px-25 xl:py-[140px]"
     >
-      {/* Tinted band */}
-      <div
-        aria-hidden
-        className="absolute start-[328px] top-0 -z-0 hidden h-80 w-[1097px] bg-surface xl:block"
-      />
-
-      <div className="relative z-10 order-2 flex w-full flex-col items-start gap-5 xl:order-1 xl:w-[796px] xl:flex-row">
-        {content.items.map((card) => (
-          <Reveal key={card.title} className="w-full xl:w-[388px]">
-            <div className="flex flex-col items-start gap-6">
-              <h4 className="t-h4">{card.title}</h4>
-              <div className="relative h-[300px] w-full xl:aspect-[388/494] xl:h-auto">
-                <Image
-                  src={card.image}
-                  alt={card.title}
-                  fill
-                  sizes="(max-width: 1199px) 100vw, 388px"
-                  className="object-cover"
-                />
-              </div>
-            </div>
-          </Reveal>
-        ))}
-      </div>
-
-      <div className="relative z-10 order-1 mb-10 flex w-full flex-col items-start gap-9 xl:order-2 xl:mb-0 xl:h-[560px] xl:max-w-[372px] xl:justify-between xl:gap-[218px]">
+      {/* Heading column */}
+      <div className="flex w-full flex-col items-start gap-8 xl:max-w-[372px] xl:pb-2">
         <div className="flex flex-col items-start gap-4">
           <SectionLabel className="text-navy">{content.label}</SectionLabel>
           <h2 className="t-h2">
@@ -55,23 +35,39 @@ export default function GallerySection({
             ))}
           </h2>
         </div>
+        <SolidButton href={content.ctaHref}>{content.cta}</SolidButton>
+      </div>
 
-        <div className="flex flex-col items-start gap-8">
-          <p className="t-body">{content.body}</p>
-<SolidButton href={content.ctaHref}>{content.cta}</SolidButton>
+      {/* Mosaic */}
+      <Reveal className="w-full xl:w-[796px]">
+        <div className="grid grid-cols-2 grid-rows-[200px_200px] gap-4 xl:grid-cols-3 xl:grid-rows-[260px_260px] xl:gap-5">
+          <div className="relative row-span-2 overflow-hidden">
+            <Image
+              src={tall.image}
+              alt={tall.title}
+              fill
+              sizes="(max-width: 1199px) 50vw, 260px"
+              className="object-cover"
+            />
+          </div>
+          {wide.map((tile, i) => (
+            <div
+              key={tile.image}
+              className={`relative overflow-hidden ${i === 2 ? "hidden xl:block" : ""} ${
+                i === 0 ? "xl:col-span-2" : ""
+              }`}
+            >
+              <Image
+                src={tile.image}
+                alt={tile.title}
+                fill
+                sizes="(max-width: 1199px) 50vw, 520px"
+                className="object-cover"
+              />
+            </div>
+          ))}
         </div>
-      </div>
-
-      {/* 96x96 pale "plus" ornament */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute start-[1301px] top-[358px] z-10 hidden h-24 w-24 xl:block"
-      >
-        <span className="absolute start-0 top-[47px] h-0.5 w-[42px] bg-pale" />
-        <span className="absolute start-[54px] top-[47px] h-0.5 w-[42px] bg-pale" />
-        <span className="absolute start-[47px] top-0 h-[42px] w-0.5 bg-pale" />
-        <span className="absolute start-[47px] top-[54px] h-[42px] w-0.5 bg-pale" />
-      </div>
+      </Reveal>
     </section>
   );
 }

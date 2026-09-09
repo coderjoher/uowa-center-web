@@ -6,10 +6,12 @@ import { CalendarIcon, PinIcon } from "@/components/icons";
 import type { SiteContent } from "@/types/content";
 
 /**
- * Heading column 372 wide; list column 735 wide with three row wrappers
- * (gap 40) each carrying 40px of top padding. Row: 190px thumbnail + a 490px
- * detail block whose text column is 342 wide and whose link is bottom-aligned.
- * Rows enter from translateY(45).
+ * Heading column 372 wide; list column 735 wide. The rows are a ruled list:
+ * a 1px navy hairline between neighbours and the same 32px of padding either
+ * side of it, with the first row flush to the top. The text block is centred
+ * against the 132px thumbnail, so a two-line title and a one-line title give
+ * rows of the same height and the rhythm stays even. Rows enter from
+ * translateY(45).
  */
 export default function EventsSection({
   content,
@@ -32,11 +34,11 @@ export default function EventsSection({
         </h2>
       </div>
 
-      <div className="mt-10 flex w-full flex-col items-start gap-10 xl:mt-0 xl:w-[735px]">
+      <div className="mt-10 flex w-full flex-col items-start divide-y divide-navy/20 xl:mt-0 xl:w-[735px]">
         {content.items.map((event) => (
-          <Reveal key={event.title} scaleFrom={1} yFrom={45} className="w-full">
-            <div className="flex flex-col items-start justify-between gap-5 pt-10 xl:flex-row xl:gap-6">
-              <div className="relative h-[200px] w-full shrink-0 xl:h-33 xl:w-[190px] xl:self-stretch">
+          <Reveal key={event.title} scaleFrom={1} yFrom={45} className="w-full py-8 first:pt-0 last:pb-0">
+            <div className="flex flex-col items-start gap-5 xl:flex-row xl:items-center xl:gap-6">
+              <div className="relative h-[200px] w-full shrink-0 xl:h-33 xl:w-[190px]">
                 <Image
                   src={event.image}
                   alt={event.title}
@@ -46,10 +48,10 @@ export default function EventsSection({
                 />
               </div>
 
-              <div className="flex w-full flex-col items-start justify-between gap-2.5 xl:w-[490px] xl:flex-row xl:items-end xl:gap-6">
+              <div className="flex w-full flex-col items-start justify-between gap-2.5 xl:w-[490px] xl:flex-row xl:items-center xl:gap-6">
                 <div className="flex flex-col items-start xl:w-[342px]">
                   <h4 className="t-h4">{event.title}</h4>
-                  <div className="mt-5 flex items-center gap-[9px] xl:mt-10">
+                  <div className="mt-3 flex items-center gap-[9px]">
                     <span className="flex w-5 shrink-0 justify-center">
                       <CalendarIcon className="text-navy" />
                     </span>

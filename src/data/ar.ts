@@ -333,12 +333,13 @@ export const AR: SiteContent = {
   gallery: {
     label: "معرض الصور",
     heading: ["من أنشطة", "المركز والجامعة"],
-    body: "لقطات من الدورات والورش التدريبية والفعاليات الرقمية التي ينظّمها المركز داخل الحرم الجامعي.",
     cta: "كل الصور",
     ctaHref: `${P}/gallery`,
     items: [
-      { title: "التدريب والورش", image: "/images/gallery-training.jpg" },
+      { title: "قاعة الحاسوب", image: "/images/service-network.jpg" },
+      { title: "من الدورات التدريبية", image: "/images/gallery-training.jpg" },
       { title: "الحياة الجامعية", image: "/images/gallery-campus.jpg" },
+      { title: "محاضرة في قاعة الدرس", image: "/images/event-lecture.jpg" },
     ],
   },
 

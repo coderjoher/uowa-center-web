@@ -10,7 +10,8 @@ import { pointsAtHiddenSection } from "@/config/sections";
 import type { SiteContent } from "@/types/content";
 
 /**
- * Fixed translucent navbar: `rgba(255,255,255,.15)` + `backdrop-filter: blur(12px)`.
+ * Fixed navbar. Solid white with a hairline under it, so it reads as its own
+ * bar rather than dissolving into the hero beneath it.
  *
  * Desktop (>=1200px): 80px tall, links gap 40px, then the language switch and
  * the underlined "Contact" button.
@@ -40,8 +41,8 @@ export default function SiteHeader({
   return (
     <div className="fixed inset-x-0 top-0 z-30">
       <nav
-        className={`w-full backdrop-blur-[12px] transition-colors duration-300 xl:h-20 ${
-          open ? "bg-navy pb-30" : "bg-white/15"
+        className={`w-full border-b transition-colors duration-300 xl:h-20 ${
+          open ? "border-navy bg-navy pb-30" : "border-border-soft bg-white"
         }`}
       >
         <div className="mx-auto flex w-full max-w-[1520px] flex-col gap-8 px-5 xl:flex-row xl:items-center xl:justify-between xl:gap-0 xl:px-25">

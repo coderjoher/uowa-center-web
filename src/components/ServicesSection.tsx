@@ -12,8 +12,15 @@ import type { SiteContent } from "@/types/content";
  * navy card's copy remounts on `key` and plays the `.panel-in` keyframe, so the
  * two halves stay in step without any timers.
  *
- * The list marker animates its own width, which slides the label with it; a
- * hover on an inactive item previews the same marker.
+ * The list labels sit flush with the heading's edge: the marker occupies a
+ * fixed 36px gutter that hangs outside that edge (negative inline-start
+ * margin), and it scales in from zero rather than growing its width, so a
+ * selection never shifts the label. The old 148px indent read as a
+ * misalignment once the layout mirrored.
+ *
+ * The photo column is sized to its content: the description box overlaps the
+ * photo's inline-start corner and the dot rail sits 20px off its inline-end
+ * edge, instead of being pushed to the far side of a 630px column.
  */
 export default function ServicesSection({
   content,
@@ -43,7 +50,7 @@ export default function ServicesSection({
               </h2>
             </div>
 
-            <ul className="flex w-full flex-col items-start gap-5 p-0 xl:ps-[148px]">
+            <ul className="flex w-full flex-col items-start gap-5 p-0 xl:-ms-9">
               {content.items.map((service, i) => {
                 const isActive = i === active;
                 return (
@@ -56,8 +63,8 @@ export default function ServicesSection({
                     >
                       <span
                         aria-hidden
-                        className={`h-0.5 shrink-0 bg-navy transition-all duration-300 ease-out ${
-                          isActive ? "w-6" : "w-0 group-hover:w-6"
+                        className={`h-0.5 w-6 shrink-0 origin-[inline-start] bg-navy transition-transform duration-300 ease-out ${
+                          isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
                         }`}
                       />
                       <h4
@@ -76,8 +83,8 @@ export default function ServicesSection({
           </div>
 
           {/* Photo + navy description card + dot rail */}
-          <div className="relative flex w-full items-start justify-between xl:h-[533px] xl:max-w-[630px] xl:pb-11">
-            <div className="relative h-[440px] w-full overflow-hidden xl:h-[489px] xl:w-[408px]">
+          <div className="relative w-full xl:me-15 xl:w-[408px] xl:shrink-0 xl:self-center">
+            <div className="relative h-[440px] w-full overflow-hidden xl:h-[489px]">
               {content.items.map((service, i) => (
                 <Image
                   key={service.image}
@@ -93,14 +100,14 @@ export default function ServicesSection({
               ))}
             </div>
 
-            <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-start gap-4 bg-navy p-[30px] xl:inset-x-auto xl:end-px xl:h-[224px] xl:w-[428px] xl:px-14 xl:py-12">
-              <p key={active} className="panel-in t-body-lg text-white xl:w-[316px]">
+            <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-start bg-navy p-[30px] xl:inset-x-auto xl:bottom-6 xl:start-[-40px] xl:w-[340px] xl:px-9 xl:py-8">
+              <p key={active} className="panel-in t-body text-white">
                 {current.description}
               </p>
             </div>
 
-            {/* Dot rail */}
-            <div className="hidden flex-col items-center gap-2 xl:flex">
+            {/* Dot rail — 20px off the photo's inline-end edge, centred on it */}
+            <div className="hidden flex-col items-center gap-2 xl:absolute xl:end-[-60px] xl:top-1/2 xl:flex xl:-translate-y-1/2">
               {content.items.map((service, i) => (
                 <button
                   key={service.title}
