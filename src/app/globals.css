@@ -90,18 +90,20 @@ html.lenis body {
   /* ==========================================================================
      Typography primitives (exact computed values from the original)
      ========================================================================== */
+  /* Phone sizes sit well under the desktop ramp: 42px headings on a 350px
+     column ran to four lines and pushed every section past a screen. */
   .t-h1 {
     font-family: var(--font-heading);
     font-weight: 400;
-    font-size: 42px;
-    line-height: 56px;
+    font-size: 32px;
+    line-height: 42px;
     color: var(--navy);
   }
   .t-h2 {
     font-family: var(--font-heading);
     font-weight: 400;
-    font-size: 28px;
-    line-height: 42px;
+    font-size: 26px;
+    line-height: 36px;
     color: var(--navy);
   }
   .t-h4 {
@@ -128,8 +130,8 @@ html.lenis body {
   .t-body-lg {
     font-family: var(--font-sans);
     font-weight: 400;
-    font-size: 18px;
-    line-height: 28px;
+    font-size: 16px;
+    line-height: 26px;
     color: var(--body);
   }
   .t-body {
@@ -216,13 +218,13 @@ html.lenis body {
      16px / 4.8px tracking wraps on a phone; it steps down until 1200px. */
   @media (max-width: 1199px) {
     .hero-eyebrow {
-      font-size: 13px;
-      line-height: 20px;
-      letter-spacing: 3.2px;
+      font-size: 12px;
+      line-height: 18px;
+      letter-spacing: 2.4px;
     }
     [lang="ar"] .hero-eyebrow {
-      font-size: 15px;
-      line-height: 23px;
+      font-size: 14px;
+      line-height: 22px;
     }
   }
 
