@@ -4,7 +4,7 @@ const P = "/ar";
 
 export const AR: SiteContent = {
   brand: {
-    name: "مركز الحاسبة",
+    name: "الحاسبة",
     suffix: "الإلكترونية",
     university: "جامعة وارث الأنبياء",
     logoAlt: "شعار جامعة وارث الأنبياء",
@@ -36,14 +36,6 @@ export const AR: SiteContent = {
       {
         label: "الخدمات",
         href: `${P}/services`,
-        children: [
-          { label: "الشبكات والإنترنت", href: `${P}/services#service-1` },
-          { label: "الأنظمة وقواعد البيانات", href: `${P}/services#service-2` },
-          { label: "الموقع والنشر الرقمي", href: `${P}/services#service-3` },
-          { label: "الصيانة والدعم الفني", href: `${P}/services#service-4` },
-          { label: "الأمن السيبراني", href: `${P}/services#service-5` },
-          { label: "التدريب وبناء القدرات", href: `${P}/services#service-6` },
-        ],
       },
       { label: "الدورات والورش", href: `${P}/courses` },
       { label: "معرض الصور", href: `${P}/gallery` },
@@ -249,6 +241,8 @@ export const AR: SiteContent = {
     label: "الدورات",
     heading: ["دورات وورش", "قادمة في المركز"],
     link: "تفاصيل الدورة",
+    prev: "الدورة السابقة",
+    next: "الدورة التالية",
     items: [
       {
         slug: "information-security-workshop",
@@ -427,6 +421,8 @@ export const AR: SiteContent = {
     heading: ["آخر أخبار المركز"],
     link: "كل الأخبار",
     linkHref: `${P}/news`,
+    prev: "الخبر السابق",
+    next: "الخبر التالي",
     items: [
       {
         slug: "wireless-network-expansion",

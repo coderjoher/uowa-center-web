@@ -2,6 +2,7 @@ import Image from "next/image";
 import SectionLabel from "@/components/ui/SectionLabel";
 import UnderlineLink from "@/components/ui/UnderlineLink";
 import Reveal from "@/components/ui/Reveal";
+import PhoneSlider from "@/components/ui/PhoneSlider";
 import { CalendarIcon, PinIcon } from "@/components/icons";
 import type { SiteContent } from "@/types/content";
 
@@ -12,6 +13,10 @@ import type { SiteContent } from "@/types/content";
  * against the 132px thumbnail, so a two-line title and a one-line title give
  * rows of the same height and the rhythm stays even. Rows enter from
  * translateY(45).
+ *
+ * Below 1200px the rows become cards in a swipeable slider (see PhoneSlider):
+ * a 16:10 photo over the title, date, venue and link, each 82% of the viewport
+ * wide. The hairlines and row padding only apply to the desktop list.
  */
 export default function EventsSection({
   content,
@@ -34,11 +39,20 @@ export default function EventsSection({
         </h2>
       </div>
 
-      <div className="mt-8 flex w-full flex-col items-start divide-y divide-navy/20 xl:mt-0 xl:w-[735px]">
-        {content.items.map((event) => (
-          <Reveal key={event.title} scaleFrom={1} yFrom={45} className="w-full py-8 first:pt-0 last:pb-0">
-            <div className="flex flex-col items-start gap-5 xl:flex-row xl:items-center xl:gap-6">
-              <div className="relative h-[200px] w-full shrink-0 xl:h-33 xl:w-[190px]">
+      <div className="mt-8 w-full xl:mt-0 xl:w-[735px]">
+        <PhoneSlider
+          prev={content.prev}
+          next={content.next}
+          className="xl:flex-col xl:items-start xl:gap-0 xl:divide-y xl:divide-navy/20"
+        >
+          {content.items.map((event) => (
+            <li
+              key={event.title}
+              className="w-[82%] shrink-0 snap-start xl:w-full xl:py-8 xl:first:pt-0 xl:last:pb-0"
+            >
+          <Reveal scaleFrom={1} yFrom={45} className="w-full">
+            <div className="flex flex-col items-start gap-4 xl:flex-row xl:items-center xl:gap-6">
+              <div className="relative aspect-[16/10] w-full shrink-0 xl:aspect-auto xl:h-33 xl:w-[190px]">
                 <Image
                   src={event.image}
                   alt={event.title}
@@ -69,7 +83,9 @@ export default function EventsSection({
               </div>
             </div>
           </Reveal>
-        ))}
+            </li>
+          ))}
+        </PhoneSlider>
       </div>
 
       <div

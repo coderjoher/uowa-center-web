@@ -205,7 +205,13 @@ export interface SiteContent {
     divisions: Division[];
   };
   banner: { imageAlt: string };
-  events: SectionHead & { items: TrainingEvent[]; link: string };
+  events: SectionHead & {
+    items: TrainingEvent[];
+    link: string;
+    /** Phone-only slider controls. */
+    prev: string;
+    next: string;
+  };
   gallery: SectionHead & {
     cta: string;
     ctaHref: string;
@@ -218,7 +224,14 @@ export interface SiteContent {
   };
   faq: SectionHead & { items: FaqItem[] };
   cta: { heading: string; body: string; button: string; href: string };
-  news: SectionHead & { items: NewsPost[]; link: string; linkHref: string };
+  news: SectionHead & {
+    items: NewsPost[];
+    link: string;
+    linkHref: string;
+    /** Phone-only slider controls. */
+    prev: string;
+    next: string;
+  };
   newsletter: {
     heading: string[];
     label: string;
