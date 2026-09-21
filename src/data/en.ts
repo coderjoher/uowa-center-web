@@ -56,11 +56,16 @@ export const EN: SiteContent = {
   },
 
   hero: {
+    label: "Electronic Computer Center",
     heading: "The Digital Backbone of Our University",
     body: "The Electronic Computer Center runs the networks, systems and technical support that every college and department relies on each day.",
     cta: "Our Services",
     ctaHref: `${P}/services`,
-    imageAlt: "The campus of the University of Warith Al-Anbiyaa",
+    secondaryCta: "Contact Us",
+    secondaryCtaHref: `${P}#contact`,
+    imageAlt: "The computer lab at the University of Warith Al-Anbiyaa",
+    imageCaption: "The computer lab",
+    areasLabel: "Areas of work",
   },
 
   about: {

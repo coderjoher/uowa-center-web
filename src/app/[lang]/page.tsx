@@ -29,7 +29,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
     <>
       <SiteHeader lang={lang} content={c} />
       <main className="overflow-x-hidden">
-        <Hero content={c.hero} />
+        <Hero content={c.hero} brand={c.brand} services={c.services.items} />
         <AboutSection content={c.about} />
         <FeatureCards features={c.features} />
         {isSectionVisible("director") ? (
