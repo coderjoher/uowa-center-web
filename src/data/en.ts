@@ -36,14 +36,6 @@ export const EN: SiteContent = {
       {
         label: "Services",
         href: `${P}/services`,
-        children: [
-          { label: "Network & Internet", href: `${P}/services#service-1` },
-          { label: "Systems & Databases", href: `${P}/services#service-2` },
-          { label: "Web & Digital Publishing", href: `${P}/services#service-3` },
-          { label: "Maintenance & Support", href: `${P}/services#service-4` },
-          { label: "Cybersecurity", href: `${P}/services#service-5` },
-          { label: "Training & Capacity Building", href: `${P}/services#service-6` },
-        ],
       },
       { label: "Courses & Workshops", href: `${P}/courses` },
       { label: "Gallery", href: `${P}/gallery` },
@@ -249,6 +241,8 @@ export const EN: SiteContent = {
     label: "Training",
     heading: ["Upcoming courses", "and workshops"],
     link: "Course details",
+    prev: "Previous course",
+    next: "Next course",
     items: [
       {
         slug: "information-security-workshop",
@@ -427,6 +421,8 @@ export const EN: SiteContent = {
     heading: ["Our latest news"],
     link: "See all articles",
     linkHref: `${P}/news`,
+    prev: "Previous article",
+    next: "Next article",
     items: [
       {
         slug: "wireless-network-expansion",
