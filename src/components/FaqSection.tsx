@@ -32,7 +32,7 @@ export default function FaqSection({
         />
       </div>
 
-      <div className="relative z-10 mx-auto flex w-full max-w-[1520px] flex-col items-start justify-between gap-10 overflow-hidden px-5 xl:flex-row xl:items-end xl:px-25">
+      <div className="relative z-10 mx-auto flex w-full max-w-[1520px] flex-col items-start justify-between gap-8 overflow-hidden px-5 xl:flex-row xl:items-end xl:px-25">
         <div className="flex w-full flex-col items-start gap-4 xl:max-w-[325px] xl:pb-12">
           <SectionLabel className="text-navy">{content.label}</SectionLabel>
           <h2 className="t-h2">
@@ -44,7 +44,7 @@ export default function FaqSection({
           </h2>
         </div>
 
-        <div className="flex w-full flex-col items-start gap-6 bg-surface p-[30px] xl:w-[780px] xl:p-14">
+        <div className="flex w-full flex-col items-start gap-6 bg-surface p-6 xl:w-[780px] xl:p-14">
           {content.items.map((faq, i) => {
             const isOpen = open.includes(i);
             return (

@@ -23,7 +23,7 @@ export default function NewsArticle({
   const { common, pages } = content;
 
   return (
-    <article className="mx-auto w-full max-w-[1520px] px-5 pb-20 pt-25 xl:px-25 xl:pb-[140px] xl:pt-[156px]">
+    <article className="mx-auto w-full max-w-[1520px] px-5 pb-14 pt-22 xl:px-25 xl:pb-[140px] xl:pt-[156px]">
       <nav aria-label={common.breadcrumb}>
         <ol className="flex list-none flex-wrap items-center gap-2 p-0">
           <li>
@@ -64,7 +64,7 @@ export default function NewsArticle({
       <h1 className="t-h1 mt-4 xl:max-w-[980px]">{post.title}</h1>
       <p className="t-body-lg mt-5 xl:max-w-[720px]">{post.excerpt}</p>
 
-      <div className="relative mt-10 aspect-[16/9] w-full overflow-hidden xl:mt-14">
+      <div className="relative mt-8 aspect-[16/9] w-full overflow-hidden xl:mt-14">
         <Image
           src={post.image}
           alt={post.imageAlt}
@@ -75,7 +75,7 @@ export default function NewsArticle({
         />
       </div>
 
-      <div className="mt-10 flex flex-col gap-6 xl:mt-14 xl:max-w-[760px]">
+      <div className="mt-8 flex flex-col gap-6 xl:mt-14 xl:max-w-[760px]">
         {post.body.map((paragraph) => (
           <p key={paragraph} className="t-body-lg">
             {paragraph}
@@ -83,7 +83,7 @@ export default function NewsArticle({
         ))}
       </div>
 
-      <div className="mt-12 h-px w-full bg-navy xl:mt-16" />
+      <div className="mt-8 h-px w-full bg-navy xl:mt-16" />
       <Link
         href={`/${lang}/news`}
         className="group mt-6 inline-flex items-center gap-2.5 font-[family-name:var(--font-heading)] text-[16px] font-bold leading-6 text-navy"
@@ -93,9 +93,9 @@ export default function NewsArticle({
       </Link>
 
       {related.length ? (
-        <section className="mt-16 xl:mt-25">
+        <section className="mt-12 xl:mt-25">
           <h2 className="t-h4">{pages.newsDetail.related}</h2>
-          <ul className="mt-8 grid list-none grid-cols-1 gap-10 p-0 xl:grid-cols-2">
+          <ul className="mt-8 grid list-none grid-cols-1 gap-8 p-0 xl:grid-cols-2">
             {related.map((item) => (
               <li key={item.slug}>
                 <Link

@@ -12,7 +12,7 @@ export default function ServicesList({
   content: SiteContent["services"];
 }) {
   return (
-    <section className="mx-auto flex w-full max-w-[1520px] flex-col gap-16 px-5 pb-20 xl:gap-25 xl:px-25 xl:pb-[140px]">
+    <section className="mx-auto flex w-full max-w-[1520px] flex-col gap-12 px-5 pb-14 xl:gap-25 xl:px-25 xl:pb-[140px]">
       {content.items.map((service, i) => (
         <article
           key={service.title}

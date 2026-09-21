@@ -10,7 +10,7 @@ import type { Feature } from "@/types/content";
 export default function FeatureCards({ features }: { features: Feature[] }) {
   return (
     <section className="relative overflow-hidden bg-surface">
-      <div className="mx-auto flex w-full max-w-[1520px] flex-col items-start gap-10 px-5 py-15 xl:h-[380px] xl:flex-row xl:justify-center xl:px-25 xl:py-25">
+      <div className="mx-auto flex w-full max-w-[1520px] flex-col items-start gap-8 px-5 py-10 xl:h-[380px] xl:flex-row xl:justify-center xl:px-25 xl:py-25">
         {features.map((feature) => (
           <Reveal
             key={feature.title}
@@ -19,7 +19,7 @@ export default function FeatureCards({ features }: { features: Feature[] }) {
             className="w-full xl:w-[382px]"
           >
             <div className="flex w-full flex-col items-start gap-6">
-              <FeatureIcon name={feature.icon} className="h-16 w-16 shrink-0" />
+              <FeatureIcon name={feature.icon} className="h-12 w-12 shrink-0 xl:h-16 xl:w-16" />
               <div className="flex flex-col items-start gap-2">
                 <h4 className="t-h4">{feature.title}</h4>
                 <p className="t-body">{feature.body}</p>

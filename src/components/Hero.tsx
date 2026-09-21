@@ -38,7 +38,7 @@ export default function Hero({
 
   return (
     <header className="tech-grid overflow-hidden">
-      <div className="relative mx-auto w-full max-w-[1520px] px-5 pb-10 pt-22 xl:px-25 xl:pb-20 xl:pt-[156px]">
+      <div className="relative mx-auto w-full max-w-[1520px] px-5 pb-8 pt-22 xl:px-25 xl:pb-20 xl:pt-[156px]">
         {/* Row 1: copy + photo */}
         <div className="relative xl:flex xl:min-h-[540px] xl:items-center">
           <div className="hero-rise flex w-full flex-col items-start xl:w-1/2 xl:pe-12">

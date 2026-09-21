@@ -24,12 +24,12 @@ export default function AboutSection({
   return (
     <section
       id="about"
-      className="relative mx-auto w-full max-w-[1520px] scroll-mt-24 px-5 py-20 xl:flex xl:items-end xl:justify-between xl:px-25 xl:py-[140px]"
+      className="relative mx-auto w-full max-w-[1520px] scroll-mt-24 px-5 py-14 xl:flex xl:items-end xl:justify-between xl:px-25 xl:py-[140px]"
     >
       {/* Left composition */}
       <div className="relative w-full max-w-[828px] xl:h-[656px]">
         {/* Navy caption card */}
-        <div className="relative z-20 flex flex-col items-start gap-2 bg-navy p-[30px] xl:absolute xl:start-0 xl:top-0 xl:min-h-[274px] xl:w-[613px] xl:justify-center xl:gap-3 xl:px-14 xl:py-12">
+        <div className="relative z-20 flex flex-col items-start gap-2 bg-navy p-6 xl:absolute xl:start-0 xl:top-0 xl:min-h-[274px] xl:w-[613px] xl:justify-center xl:gap-3 xl:px-14 xl:py-12">
           <SectionLabel className="text-white">{content.label}</SectionLabel>
           <h2 className="t-h2 text-white xl:text-[36px] xl:leading-[54px]">
             {content.heading.map((line) => (
@@ -64,7 +64,7 @@ export default function AboutSection({
       </div>
 
       {/* Right column */}
-      <div className="mt-[30px] flex w-full flex-col items-start gap-9 xl:mt-0 xl:max-w-[367px] xl:pb-13">
+      <div className="mt-6 flex w-full flex-col items-start gap-9 xl:mt-0 xl:max-w-[367px] xl:pb-13">
         <p className="t-body-lg">{content.body}</p>
         <UnderlineLink href={content.linkHref}>{content.link}</UnderlineLink>
       </div>

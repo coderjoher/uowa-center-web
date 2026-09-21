@@ -20,7 +20,7 @@ export default function NewsSection({
   return (
     <section
       id="news"
-      className="mx-auto flex w-full max-w-[1520px] scroll-mt-24 flex-col items-start gap-8 px-5 pb-20 xl:px-25 xl:pb-[140px]"
+      className="mx-auto flex w-full max-w-[1520px] scroll-mt-24 flex-col items-start gap-8 px-5 pb-14 xl:px-25 xl:pb-[140px]"
     >
       <div className="flex w-full flex-col items-start justify-between gap-6 xl:flex-row xl:items-end">
         <div className="flex w-full flex-col items-start gap-4 xl:max-w-[434px]">
@@ -40,7 +40,7 @@ export default function NewsSection({
         ) : null}
       </div>
 
-      <div className="flex w-full flex-col items-center gap-[30px] xl:flex-row xl:gap-10">
+      <div className="flex w-full flex-col items-center gap-6 xl:flex-row xl:gap-10">
         {content.items.map((post) => (
           <Link
             key={post.title}

@@ -84,9 +84,9 @@ export default function MilestonesSection({
   return (
     <section
       id="milestones"
-      className="relative flex scroll-mt-24 flex-col items-center py-20 xl:gap-[85px] xl:py-[140px]"
+      className="relative flex scroll-mt-24 flex-col items-center py-14 xl:gap-[85px] xl:py-[140px]"
     >
-      <div className="relative mx-auto flex w-full max-w-[1520px] flex-col items-start justify-between gap-10 px-5 xl:flex-row xl:px-25">
+      <div className="relative mx-auto flex w-full max-w-[1520px] flex-col items-start justify-between gap-8 px-5 xl:flex-row xl:px-25">
         <div
           aria-hidden
           className="ornament-flip pointer-events-none absolute start-0 top-[247px] z-10 hidden h-[241px] w-[241px] bg-[url('/svg/ornament-alumni.svg')] xl:block"

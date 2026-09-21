@@ -15,8 +15,8 @@ export default function NewsletterSection({
 }) {
   return (
     <section className="overflow-hidden bg-surface">
-      <div className="mx-auto flex w-full max-w-[1520px] flex-col items-start justify-between gap-8 px-5 py-15 xl:flex-row xl:items-center xl:px-25 xl:py-16">
-        <h3 className="max-w-[280px] font-[family-name:var(--font-heading)] text-[30px] font-normal leading-10 tracking-[0.3px] text-navy">
+      <div className="mx-auto flex w-full max-w-[1520px] flex-col items-start justify-between gap-8 px-5 py-10 xl:flex-row xl:items-center xl:px-25 xl:py-16">
+        <h3 className="max-w-[280px] font-[family-name:var(--font-heading)] text-[24px] font-normal leading-8 tracking-[0.3px] text-navy xl:text-[30px] xl:leading-10">
           {content.heading.map((line) => (
             <span key={line} className="block">
               {line}

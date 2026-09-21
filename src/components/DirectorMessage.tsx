@@ -19,7 +19,7 @@ export default function DirectorMessage({
   return (
     <section
       id="director"
-      className="mx-auto w-full max-w-[1520px] scroll-mt-24 px-5 py-20 xl:flex xl:items-start xl:justify-between xl:gap-20 xl:px-25 xl:py-[140px]"
+      className="mx-auto w-full max-w-[1520px] scroll-mt-24 px-5 py-14 xl:flex xl:items-start xl:justify-between xl:gap-20 xl:px-25 xl:py-[140px]"
     >
       {/* Photo + signature */}
       <div className="relative w-full shrink-0 xl:w-[480px]">
@@ -33,8 +33,8 @@ export default function DirectorMessage({
           />
         </div>
 
-        <div className="flex flex-col items-start gap-1 bg-navy p-[30px] xl:absolute xl:bottom-0 xl:end-[-60px] xl:w-[360px] xl:px-10 xl:py-8">
-          <p className="font-[family-name:var(--font-heading)] text-[20px] font-bold leading-8 text-white">
+        <div className="flex flex-col items-start gap-1 bg-navy p-6 xl:absolute xl:bottom-0 xl:end-[-60px] xl:w-[360px] xl:px-10 xl:py-8">
+          <p className="font-[family-name:var(--font-heading)] text-[18px] font-bold leading-7 text-white xl:text-[20px] xl:leading-8">
             {content.name}
           </p>
           <p className="t-body text-[#ccdce6]">{content.role}</p>
@@ -42,7 +42,7 @@ export default function DirectorMessage({
       </div>
 
       {/* Message */}
-      <div className="mt-10 flex w-full flex-col items-start gap-6 xl:mt-0 xl:max-w-[620px]">
+      <div className="mt-8 flex w-full flex-col items-start gap-6 xl:mt-0 xl:max-w-[620px]">
         <div className="flex flex-col items-start gap-4">
           <SectionLabel className="text-navy">{content.label}</SectionLabel>
           <h2 className="t-h2">{content.heading}</h2>

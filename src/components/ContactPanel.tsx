@@ -30,7 +30,7 @@ export default function ContactPanel({
     "h-14 w-full border border-border-soft bg-white px-5 font-[family-name:var(--font-sans)] text-[16px] leading-[26px] text-navy outline-none transition-colors duration-200 placeholder:text-muted focus:border-navy";
 
   return (
-    <section className="mx-auto flex w-full max-w-[1520px] flex-col gap-12 px-5 pb-20 xl:flex-row xl:items-start xl:gap-20 xl:px-25 xl:pb-[140px]">
+    <section className="mx-auto flex w-full max-w-[1520px] flex-col gap-8 px-5 pb-14 xl:flex-row xl:items-start xl:gap-20 xl:px-25 xl:pb-[140px]">
       {/* Details */}
       <ul className="grid w-full list-none grid-cols-1 gap-6 p-0 sm:grid-cols-2 xl:w-[420px] xl:shrink-0 xl:grid-cols-1">
         {content.cards.map((card) => (
@@ -62,7 +62,7 @@ export default function ContactPanel({
       {/* Message form */}
       <form
         onSubmit={onSubmit}
-        className="flex w-full flex-col items-start gap-5 bg-surface p-[30px] xl:p-14"
+        className="flex w-full flex-col items-start gap-5 bg-surface p-6 xl:p-14"
       >
         <h2 className="t-h4">{content.form.legend}</h2>
 

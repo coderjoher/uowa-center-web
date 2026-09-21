@@ -33,10 +33,10 @@ export default function ServicesSection({
   return (
     <section
       id="services"
-      className="relative scroll-mt-24 overflow-hidden py-20 xl:py-[140px]"
+      className="relative scroll-mt-24 overflow-hidden py-14 xl:py-[140px]"
     >
       <div className="mx-auto w-full max-w-[1520px] px-5 xl:px-25">
-        <div className="flex flex-col items-start justify-between gap-[30px] xl:h-[533px] xl:flex-row">
+        <div className="flex flex-col items-start justify-between gap-6 xl:h-[533px] xl:flex-row">
           {/* Heading + list */}
           <div className="flex w-full flex-col items-start justify-center gap-11 xl:h-[498px] xl:w-[490px]">
             <div className="flex flex-col items-start gap-4">
@@ -100,7 +100,7 @@ export default function ServicesSection({
               ))}
             </div>
 
-            <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-start bg-navy p-[30px] xl:inset-x-auto xl:bottom-6 xl:start-[-40px] xl:w-[340px] xl:px-9 xl:py-8">
+            <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-start bg-navy p-6 xl:inset-x-auto xl:bottom-6 xl:start-[-40px] xl:w-[340px] xl:px-9 xl:py-8">
               <p key={active} className="panel-in t-body text-white">
                 {current.description}
               </p>
