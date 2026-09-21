@@ -21,7 +21,7 @@ export default function EventsSection({
   return (
     <section
       id="courses"
-      className="relative mx-auto w-full max-w-[1520px] scroll-mt-24 px-5 py-20 xl:flex xl:items-start xl:justify-between xl:px-25 xl:py-[140px]"
+      className="relative mx-auto w-full max-w-[1520px] scroll-mt-24 px-5 py-14 xl:flex xl:items-start xl:justify-between xl:px-25 xl:py-[140px]"
     >
       <div className="flex max-w-[372px] flex-col items-start gap-4">
         <SectionLabel className="text-navy">{content.label}</SectionLabel>
@@ -34,7 +34,7 @@ export default function EventsSection({
         </h2>
       </div>
 
-      <div className="mt-10 flex w-full flex-col items-start divide-y divide-navy/20 xl:mt-0 xl:w-[735px]">
+      <div className="mt-8 flex w-full flex-col items-start divide-y divide-navy/20 xl:mt-0 xl:w-[735px]">
         {content.items.map((event) => (
           <Reveal key={event.title} scaleFrom={1} yFrom={45} className="w-full py-8 first:pt-0 last:pb-0">
             <div className="flex flex-col items-start gap-5 xl:flex-row xl:items-center xl:gap-6">

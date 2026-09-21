@@ -19,8 +19,8 @@ export default function CoursesList({
   content: SiteContent["events"];
 }) {
   return (
-    <section className="mx-auto w-full max-w-[1520px] px-5 pb-20 xl:px-25 xl:pb-[140px]">
-      <ul className="grid list-none grid-cols-1 gap-10 p-0 xl:grid-cols-3">
+    <section className="mx-auto w-full max-w-[1520px] px-5 pb-14 xl:px-25 xl:pb-[140px]">
+      <ul className="grid list-none grid-cols-1 gap-8 p-0 xl:grid-cols-3">
         {content.items.map((event) => (
           <li key={event.title} className="w-full">
             <Reveal scaleFrom={1} yFrom={30} className="h-full w-full">

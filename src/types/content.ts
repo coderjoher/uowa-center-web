@@ -186,7 +186,12 @@ export interface SiteContent {
     objectivesTitle: string;
     objectives: string[];
   };
-  services: SectionHead & { items: Service[] };
+  services: SectionHead & {
+    items: Service[];
+    /** Phone-only slider controls. */
+    prev: string;
+    next: string;
+  };
   team: SectionHead & {
     intro: string;
     /** Shown in place of a name that has not been supplied yet. */

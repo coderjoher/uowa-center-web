@@ -75,7 +75,7 @@ export default function GalleryGrid({
   const counter = index === null ? "" : `${index + 1} / ${photos.length}`;
 
   return (
-    <section className="mx-auto w-full max-w-[1520px] px-5 pb-20 xl:px-25 xl:pb-[140px]">
+    <section className="mx-auto w-full max-w-[1520px] px-5 pb-14 xl:px-25 xl:pb-[140px]">
       <ul className="grid list-none grid-cols-2 gap-x-5 gap-y-8 p-0 xl:grid-cols-3 xl:gap-x-10 xl:gap-y-12">
         {photos.map((photo, i) => (
           <li key={photo.image} className="w-full">

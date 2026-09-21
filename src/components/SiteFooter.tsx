@@ -19,8 +19,8 @@ export default function SiteFooter({
   const { footer, brand } = content;
 
   return (
-    <footer className="flex flex-col items-center gap-10 bg-navy pb-10 pt-10 xl:gap-25 xl:pt-20">
-      <div className="mx-auto flex w-full max-w-[1520px] flex-col items-start justify-between gap-[60px] px-5 xl:h-[340px] xl:flex-row xl:px-25">
+    <footer className="flex flex-col items-center gap-8 bg-navy pb-8 pt-8 xl:gap-25 xl:pt-20">
+      <div className="mx-auto flex w-full max-w-[1520px] flex-col items-start justify-between gap-10 px-5 xl:h-[340px] xl:flex-row xl:px-25">
         {/* Brand block */}
         <div className="flex w-full max-w-[415px] flex-col items-start justify-between xl:h-full">
           <div className="flex flex-col items-start gap-4.5">
@@ -38,7 +38,7 @@ export default function SiteFooter({
         </div>
 
         {/* Link columns */}
-        <div className="flex w-full flex-col items-start justify-between gap-[33px] xl:w-[735px] xl:flex-row xl:gap-12">
+        <div className="flex w-full flex-col items-start justify-between gap-6 xl:w-[735px] xl:flex-row xl:gap-12">
           {footer.columns.map((column) => (
             <FooterColumn
               key={column.title}
@@ -47,7 +47,7 @@ export default function SiteFooter({
             />
           ))}
 
-          <div className="flex flex-col items-start gap-[33px] xl:gap-12">
+          <div className="flex flex-col items-start gap-6 xl:gap-12">
             <div className="flex flex-col items-start gap-8">
               <h4 className="t-h4 text-white">{footer.addressTitle}</h4>
               <div className="flex max-w-[234px] flex-col items-start gap-[18px] xl:gap-6">

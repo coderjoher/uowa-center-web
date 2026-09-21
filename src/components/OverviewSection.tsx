@@ -15,9 +15,9 @@ export default function OverviewSection({
   return (
     <section
       id="overview"
-      className="scroll-mt-24 bg-surface py-20 xl:py-[140px]"
+      className="scroll-mt-24 bg-surface py-14 xl:py-[140px]"
     >
-      <div className="mx-auto flex w-full max-w-[1520px] flex-col items-start gap-10 px-5 xl:gap-[70px] xl:px-25">
+      <div className="mx-auto flex w-full max-w-[1520px] flex-col items-start gap-8 px-5 xl:gap-[70px] xl:px-25">
         <div className="flex flex-col items-start gap-4">
           <SectionLabel className="text-navy">{content.label}</SectionLabel>
           <h2 className="t-h2">
@@ -31,12 +31,12 @@ export default function OverviewSection({
 
         {/* Vision / mission */}
         <div className="flex w-full flex-col gap-6 xl:flex-row xl:gap-10">
-          <article className="flex w-full flex-col items-start gap-4 bg-navy p-[30px] xl:flex-1 xl:p-14">
+          <article className="flex w-full flex-col items-start gap-4 bg-navy p-6 xl:flex-1 xl:p-14">
             <h3 className="t-h4 text-white">{vision.title}</h3>
             <p className="t-body-lg text-[#ccdce6]">{vision.body}</p>
           </article>
 
-          <article className="flex w-full flex-col items-start gap-4 border border-border-soft bg-white p-[30px] xl:flex-1 xl:p-14">
+          <article className="flex w-full flex-col items-start gap-4 border border-border-soft bg-white p-6 xl:flex-1 xl:p-14">
             <h3 className="t-h4">{mission.title}</h3>
             <p className="t-body-lg">{mission.body}</p>
           </article>

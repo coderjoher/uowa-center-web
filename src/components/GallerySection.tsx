@@ -21,7 +21,7 @@ export default function GallerySection({
   return (
     <section
       id="gallery"
-      className="relative mx-auto flex w-full max-w-[1520px] scroll-mt-24 flex-col gap-10 px-5 py-20 xl:flex-row xl:items-end xl:justify-between xl:px-25 xl:py-[140px]"
+      className="relative mx-auto flex w-full max-w-[1520px] scroll-mt-24 flex-col gap-8 px-5 py-14 xl:flex-row xl:items-end xl:justify-between xl:px-25 xl:py-[140px]"
     >
       {/* Heading column */}
       <div className="flex w-full flex-col items-start gap-8 xl:max-w-[372px] xl:pb-2">

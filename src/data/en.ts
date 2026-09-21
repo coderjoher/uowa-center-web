@@ -195,6 +195,8 @@ export const EN: SiteContent = {
   services: {
     label: "Services",
     heading: ["Services for university", "staff and students"],
+    prev: "Previous service",
+    next: "Next service",
     items: [
       {
         title: "Network & Internet",

@@ -16,7 +16,7 @@ export default function PageHero({
   common: SiteContent["common"];
 }) {
   return (
-    <header className="mx-auto w-full max-w-[1520px] px-5 pb-12 pt-25 xl:px-25 xl:pb-20 xl:pt-[156px]">
+    <header className="mx-auto w-full max-w-[1520px] px-5 pb-8 pt-22 xl:px-25 xl:pb-20 xl:pt-[156px]">
       <nav aria-label={common.breadcrumb}>
         <ol className="flex list-none flex-wrap items-center gap-2 p-0">
           <li>
@@ -39,7 +39,7 @@ export default function PageHero({
       <h1 className="t-h1 mt-4 xl:max-w-[900px]">{page.title}</h1>
       <p className="t-body-lg mt-5 xl:max-w-[680px]">{page.intro}</p>
 
-      <div className="mt-10 h-px w-full bg-navy xl:mt-14" />
+      <div className="mt-8 h-px w-full bg-navy xl:mt-14" />
     </header>
   );
 }

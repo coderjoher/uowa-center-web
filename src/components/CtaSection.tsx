@@ -15,10 +15,10 @@ export default function CtaSection({
   return (
     <section
       id="contact"
-      className="mx-auto w-full max-w-[1520px] scroll-mt-24 px-5 py-20 xl:px-25 xl:py-[140px]"
+      className="mx-auto w-full max-w-[1520px] scroll-mt-24 px-5 py-14 xl:px-25 xl:py-[140px]"
     >
       <Reveal yFrom={70} className="w-full">
-        <div className="relative flex w-full flex-col items-start justify-end gap-8 overflow-hidden bg-navy p-[30px] xl:h-[430px] xl:p-20">
+        <div className="relative flex w-full flex-col items-start justify-end gap-8 overflow-hidden bg-navy p-6 xl:h-[430px] xl:p-20">
           <div className="relative z-10 flex flex-col items-start gap-2.5">
             <h2 className="t-h2 text-white xl:max-w-[532px]">
               {content.heading}
