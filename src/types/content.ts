@@ -158,11 +158,19 @@ export interface SiteContent {
     closeMenu: string;
   };
   hero: {
+    /** Eyebrow above the heading: the centre's name. */
+    label: string;
     heading: string;
     body: string;
     cta: string;
     ctaHref: string;
+    secondaryCta: string;
+    secondaryCtaHref: string;
     imageAlt: string;
+    /** What the photo shows; sits on the navy plaque over its corner. */
+    imageCaption: string;
+    /** Heading for the row of service areas under the composition. */
+    areasLabel: string;
   };
   about: SectionHead & {
     body: string;
