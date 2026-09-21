@@ -6,13 +6,17 @@ import { CarouselArrowIcon } from "@/components/icons";
 /**
  * Turns a row of cards into a swipeable slider below 1200px and leaves it
  * alone above. The track is a scroll-snap list that bleeds to the viewport
- * edges (undoing the page's 20px gutter); each child must be an `<li>` that
- * sets its own phone width and `snap-start`. Under the track a counter and
- * previous/next arrows step the track one card at a time; both are hidden
- * from 1200px, where `className` restores the desktop layout.
+ * edges (undoing the page's 20px gutter) and pads 10vw either side, so each
+ * 80vw-wide card snaps to the centre of the screen with its neighbours peeking
+ * in; each child must be an `<li>` with `w-[80vw] shrink-0 snap-center` (vw,
+ * not a percentage, which would resolve against the padded content box). Under
+ * the track a counter and previous/next arrows step the track one card at a
+ * time; both are hidden from 1200px, where `className` restores the desktop
+ * layout.
  *
- * Every offset is a delta between bounding boxes, so the same code scrolls
- * correctly under RTL, where `scrollLeft` runs negative.
+ * Every offset is a delta between the card's centre and the track's centre in
+ * viewport pixels, and `scrollBy` takes physical pixels, so the same code
+ * scrolls correctly under RTL without a sign flip.
  */
 export default function PhoneSlider({
   children,
@@ -32,13 +36,11 @@ export default function PhoneSlider({
   const trackRef = useRef<HTMLUListElement>(null);
   const [index, setIndex] = useState(0);
 
-  /** The card's leading edge, relative to the track's inner (padded) edge. */
+  /** How far the card's centre sits from the track's centre, in viewport px. */
   const offsetOf = useCallback((track: HTMLUListElement, card: Element) => {
-    const rtl = getComputedStyle(track).direction === "rtl";
-    const pad = parseFloat(getComputedStyle(track).paddingInlineStart) || 0;
     const t = track.getBoundingClientRect();
     const c = card.getBoundingClientRect();
-    return rtl ? t.right - pad - c.right : c.left - (t.left + pad);
+    return c.left + c.width / 2 - (t.left + t.width / 2);
   }, []);
 
   const goTo = useCallback(
@@ -48,9 +50,7 @@ export default function PhoneSlider({
       const target = Math.min(Math.max(i, 0), count - 1);
       const card = track.children[target];
       if (!card) return;
-      const rtl = getComputedStyle(track).direction === "rtl";
-      const delta = offsetOf(track, card);
-      track.scrollBy({ left: rtl ? -delta : delta, behavior: "smooth" });
+      track.scrollBy({ left: offsetOf(track, card), behavior: "smooth" });
     },
     [count, offsetOf],
   );
@@ -90,7 +90,7 @@ export default function PhoneSlider({
       <ul
         ref={trackRef}
         data-lenis-prevent
-        className={`-mx-5 flex w-[calc(100%+40px)] snap-x snap-mandatory list-none gap-4 overflow-x-auto overflow-y-hidden px-5 py-1 [-ms-overflow-style:none] [scrollbar-width:none] xl:mx-0 xl:w-full xl:snap-none xl:overflow-visible xl:px-0 xl:py-0 [&::-webkit-scrollbar]:hidden ${className}`}
+        className={`-mx-5 flex w-[calc(100%+40px)] snap-x snap-mandatory list-none gap-4 overflow-x-auto overflow-y-hidden px-[10vw] py-1 [-ms-overflow-style:none] [scrollbar-width:none] xl:mx-0 xl:w-full xl:snap-none xl:overflow-visible xl:px-0 xl:py-0 [&::-webkit-scrollbar]:hidden ${className}`}
       >
         {children}
       </ul>
