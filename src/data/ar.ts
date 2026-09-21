@@ -195,6 +195,8 @@ export const AR: SiteContent = {
   services: {
     label: "الخدمات",
     heading: ["خدمات المركز لمنتسبي", "الجامعة وطلبتها"],
+    prev: "الخدمة السابقة",
+    next: "الخدمة التالية",
     items: [
       {
         title: "الشبكات والإنترنت",

@@ -38,7 +38,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         {/* Vision/mission/objectives and the milestones carousel live on
             /about (and the nav points there), so the home page no longer
             repeats them. */}
-        <ServicesSection content={c.services} />
+        <ServicesSection content={c.services} lang={lang} />
         {isSectionVisible("structure") ? (
           <StructureSection content={c.structure} />
         ) : null}
