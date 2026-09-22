@@ -7,9 +7,10 @@ import type { SiteContent } from "@/types/content";
 /** Milliseconds the intro is shown at minimum, and at most, before leaving. */
 const MIN_SHOW = 1300;
 const MAX_SHOW = 2600;
-/** Content fade (300) + the last slat's delay (4 × 70) + slat lift (700). */
+/** Content fade (300) + the stagger across all slats (280) + slat lift (700). */
 const LEAVE = 1300;
-const SLATS = 5;
+/** Rendered count; the CSS shows 5 of them below 1200px and all 12 above. */
+const SLATS = 12;
 
 const STORAGE_KEY = "uowa-preloaded";
 const noop = () => () => {};
@@ -17,8 +18,8 @@ const noop = () => () => {};
 /**
  * First-visit intro: a navy screen where the emblem settles in, the wordmark
  * rises under it and a hairline fills while the page finishes loading. It
- * leaves by fading the mark out and lifting five navy slats one after
- * another, which is the same curtain the page transitions use, so the site
+ * leaves by fading the mark out and lifting the navy slats (five on phones,
+ * twelve from 1200px) one after another, which is the same curtain the page transitions use, so the site
  * opens the way it later moves between pages.
  *
  * It runs once per browser session. An inline script in the document head

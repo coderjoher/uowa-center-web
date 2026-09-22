@@ -326,7 +326,11 @@ html.lenis body {
   html[data-preloaded] .preloader {
     display: none;
   }
+  /* Slats: 5 wide ones on phones, 12 narrow ones from 1200px. The stagger is
+     spread across whichever count is showing, so the sweep takes 280ms
+     either way. */
   .preloader-slats {
+    --n: 5;
     position: absolute;
     inset: 0;
     display: flex;
@@ -337,10 +341,21 @@ html.lenis body {
     background: var(--navy);
     transform-origin: top;
     transition: transform 700ms cubic-bezier(0.76, 0, 0.24, 1);
-    transition-delay: calc(300ms + var(--i) * 70ms);
+    transition-delay: calc(300ms + var(--i) * (280ms / (var(--n) - 1)));
   }
   .preloader-slats > span:last-child {
     margin-inline-end: 0;
+  }
+  .preloader-slats > span:nth-child(n + 6) {
+    display: none;
+  }
+  @media (min-width: 1200px) {
+    .preloader-slats {
+      --n: 12;
+    }
+    .preloader-slats > span:nth-child(n + 6) {
+      display: block;
+    }
   }
   .preloader[data-phase="leaving"] .preloader-slats > span {
     transform: scaleY(0);
@@ -430,12 +445,26 @@ html.lenis body {
   /* ==========================================================================
      Page transition curtain (src/components/ui/PageTransition.tsx)
      ========================================================================== */
+  /* Same slat split as the intro: 5 on phones, 12 from 1200px, with the
+     200ms stagger spread across the visible count. */
   .curtain {
+    --n: 5;
     position: fixed;
     inset: 0;
     z-index: 60;
     display: flex;
     pointer-events: none;
+  }
+  .curtain > span:nth-child(n + 6) {
+    display: none;
+  }
+  @media (min-width: 1200px) {
+    .curtain {
+      --n: 12;
+    }
+    .curtain > span:nth-child(n + 6) {
+      display: block;
+    }
   }
   .curtain[data-state="cover"],
   .curtain[data-state="covered"] {
@@ -454,7 +483,7 @@ html.lenis body {
   .curtain[data-state="cover"] > span {
     transform: scaleY(1);
     transition: transform 550ms cubic-bezier(0.76, 0, 0.24, 1);
-    transition-delay: calc(var(--i) * 50ms);
+    transition-delay: calc(var(--i) * (200ms / (var(--n) - 1)));
   }
   .curtain[data-state="covered"] > span {
     transform: scaleY(1);
@@ -464,7 +493,7 @@ html.lenis body {
     transform: scaleY(0);
     transform-origin: top;
     transition: transform 650ms cubic-bezier(0.76, 0, 0.24, 1);
-    transition-delay: calc(var(--i) * 50ms);
+    transition-delay: calc(var(--i) * (200ms / (var(--n) - 1)));
   }
   @keyframes page-in {
     from {
