@@ -11,7 +11,7 @@ import type { SiteContent } from "@/types/content";
  * (date navy / author muted, space-between), a 1px navy rule and the title.
  *
  * Below 1200px the cards run as a swipeable slider (see PhoneSlider) at 80% of
- * the viewport each, so the next card peeks in from the edge.
+ * the viewport each, centred, so the neighbours peek in from both edges.
  */
 export default function NewsSection({
   content,
@@ -46,7 +46,7 @@ export default function NewsSection({
 
       <PhoneSlider prev={content.prev} next={content.next} className="xl:items-start xl:gap-10">
         {content.items.map((post) => (
-          <li key={post.title} className="w-[80%] shrink-0 snap-start xl:w-[382px]">
+          <li key={post.title} className="w-[80vw] shrink-0 snap-center xl:w-[382px]">
           <Link
             href={post.href}
             className="group flex w-full flex-col items-start gap-4 xl:gap-5"

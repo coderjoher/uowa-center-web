@@ -11,6 +11,10 @@ import type { SiteContent } from "@/types/content";
  * 290px of the section (z 0); the 780x554 `#eef4f8` panel (padding 56)
  * overlaps it. Rows are separated by 1px navy rules and inset 24px from the
  * inline start of the panel.
+ *
+ * Below 1200px the photo band is dropped (the heading sat straight on it and
+ * was unreadable) and the panel tightens: 20px inset, 16px questions, 15px
+ * answers and 16px between rows, so the five questions fit in one screen.
  */
 export default function FaqSection({
   content,
@@ -22,7 +26,7 @@ export default function FaqSection({
   return (
     <section id="faq" className="relative scroll-mt-24 xl:pt-25">
       {/* Photo band */}
-      <div className="absolute inset-x-0 top-0 -z-0 h-[290px]">
+      <div className="absolute inset-x-0 top-0 -z-0 hidden h-[290px] xl:block">
         <Image
           src="/images/faq-banner.jpg"
           alt=""
@@ -44,7 +48,7 @@ export default function FaqSection({
           </h2>
         </div>
 
-        <div className="flex w-full flex-col items-start gap-6 bg-surface p-6 xl:w-[780px] xl:p-14">
+        <div className="flex w-full flex-col items-start gap-4 bg-surface p-5 xl:w-[780px] xl:gap-6 xl:p-14">
           {content.items.map((faq, i) => {
             const isOpen = open.includes(i);
             return (
@@ -60,14 +64,16 @@ export default function FaqSection({
                           : [...prev, i],
                       )
                     }
-                    className="relative flex w-full items-center justify-between gap-4 ps-6 text-start"
+                    className="relative flex w-full items-center justify-between gap-3 ps-4 text-start xl:gap-4 xl:ps-6"
                   >
                     {/* 4px navy rule pinned to the inline start of the row */}
                     <span
                       aria-hidden
                       className="absolute start-0 top-0 h-full w-1 bg-navy"
                     />
-                    <h4 className="t-h4 xl:w-[561px]">{faq.question}</h4>
+                    <h4 className="t-h4 text-[16px] leading-6 xl:w-[561px] xl:text-[24px] xl:leading-8">
+                      {faq.question}
+                    </h4>
                     {/* The wrapper carries the RTL mirror so the inline
                         rotation below is free to animate on its own. */}
                     <span className="flex shrink-0 rtl:-scale-x-100">
@@ -79,14 +85,14 @@ export default function FaqSection({
                   </button>
 
                   {isOpen && faq.answer ? (
-                    <div className="flex items-center ps-6">
-                      <p className="t-body xl:w-[579px]">{faq.answer}</p>
+                    <div className="flex items-center ps-4 xl:ps-6">
+                      <p className="t-body text-[15px] xl:w-[579px] xl:text-[16px]">{faq.answer}</p>
                     </div>
                   ) : null}
                 </div>
 
                 {i < content.items.length - 1 ? (
-                  <div className="mt-6 h-px w-full bg-navy" />
+                  <div className="mt-4 h-px w-full bg-navy xl:mt-6" />
                 ) : null}
               </div>
             );

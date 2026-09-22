@@ -15,8 +15,8 @@ import type { SiteContent } from "@/types/content";
  * translateY(45).
  *
  * Below 1200px the rows become cards in a swipeable slider (see PhoneSlider):
- * a 16:10 photo over the title, date, venue and link, each 82% of the viewport
- * wide. The hairlines and row padding only apply to the desktop list.
+ * a 16:10 photo over the title, date, venue and link, each 80% of the viewport
+ * wide and centred. The hairlines and row padding only apply to the desktop list.
  */
 export default function EventsSection({
   content,
@@ -48,7 +48,7 @@ export default function EventsSection({
           {content.items.map((event) => (
             <li
               key={event.title}
-              className="w-[82%] shrink-0 snap-start xl:w-full xl:py-8 xl:first:pt-0 xl:last:pb-0"
+              className="w-[80vw] shrink-0 snap-center xl:w-full xl:py-8 xl:first:pt-0 xl:last:pb-0"
             >
           <Reveal scaleFrom={1} yFrom={45} className="w-full">
             <div className="flex flex-col items-start gap-4 xl:flex-row xl:items-center xl:gap-6">
