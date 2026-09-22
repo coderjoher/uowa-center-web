@@ -3,32 +3,27 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import SectionLabel from "@/components/ui/SectionLabel";
-import { ServicesDashGrid } from "@/components/DashGrid";
-import { CarouselArrowIcon } from "@/components/icons";
+import { ArrowUpRightIcon, CarouselArrowIcon } from "@/components/icons";
 import { dirOf, type Locale } from "@/i18n/config";
 import type { SiteContent } from "@/types/content";
 
 /**
- * Services slider. Selecting an item in the list — or a dot on the rail —
- * swaps the panel: the photos are stacked and cross-fade on opacity, while the
- * navy card's copy remounts on `key` and plays the `.panel-in` keyframe, so the
- * two halves stay in step without any timers.
+ * Services slider. Selecting a row in the list — or stepping with the arrows
+ * on the card — swaps the panel: the photos are stacked and cross-fade on
+ * opacity while the incoming one settles from a slight scale, and the navy
+ * card's copy remounts on `key` and plays the `.panel-in` keyframe, so the
+ * halves stay in step without any timers.
  *
- * The list labels sit flush with the heading's edge: the marker occupies a
- * fixed 36px gutter that hangs outside that edge (negative inline-start
- * margin), and it scales in from zero rather than growing its width, so a
- * selection never shifts the label. The old 148px indent read as a
- * misalignment once the layout mirrored.
+ * From 1200px the section is two columns: a 480px column with the heading
+ * and a numbered, ruled list (gold numerals; the active row is navy with a
+ * gold arrow, the rest muted), and a photo panel that fills the remaining
+ * width at the column's height (600px at least). The navy card sits on the panel's bottom-start corner
+ * with a gold edge and carries the active title, its description, an
+ * `01 / 06` counter and the previous/next arrows.
  *
- * The photo column is sized to its content: the description box overlaps the
- * photo's inline-start corner and the dot rail sits 20px off its inline-end
- * edge, instead of being pushed to the far side of a 630px column.
- *
- * Below 1200px the section becomes a phone slider: the six titles run as a
- * horizontal strip of chips under the heading (the active one scrolls into
- * view), the photo drops to 4:3, and the navy card sits under it carrying the
- * active title, its description, a counter and previous/next arrows that wrap
- * around. The desktop list and dot rail are hidden there.
+ * Below 1200px it is a phone slider: the six titles run as a horizontal
+ * strip of chips under the heading (the active one scrolls into view), the
+ * photo drops to 4:3, and the same navy card sits under it in flow.
  */
 export default function ServicesSection({
   content,
@@ -67,9 +62,9 @@ export default function ServicesSection({
       className="relative scroll-mt-24 overflow-hidden py-14 xl:py-[140px]"
     >
       <div className="mx-auto w-full max-w-[1520px] px-5 xl:px-25">
-        <div className="flex flex-col items-start justify-between gap-6 xl:h-[533px] xl:flex-row">
+        <div className="flex flex-col items-start gap-6 xl:flex-row xl:items-stretch xl:gap-16">
           {/* Heading + list */}
-          <div className="flex w-full flex-col items-start justify-center gap-6 xl:h-[498px] xl:w-[490px] xl:gap-11">
+          <div className="flex w-full flex-col items-start gap-6 xl:w-[480px] xl:shrink-0 xl:gap-10">
             <div className="flex flex-col items-start gap-3 xl:gap-4">
               <SectionLabel className="text-navy">{content.label}</SectionLabel>
               <h2 className="t-h2">
@@ -111,32 +106,39 @@ export default function ServicesSection({
               })}
             </ul>
 
-            {/* Desktop: the vertical list */}
-            <ul className="hidden w-full flex-col items-start gap-5 p-0 xl:-ms-9 xl:flex">
+            {/* Desktop: a numbered, ruled list */}
+            <ul className="hidden w-full list-none flex-col p-0 xl:flex">
               {content.items.map((service, i) => {
                 const isActive = i === active;
                 return (
-                  <li key={service.title} className="w-full">
+                  <li key={service.title} className="w-full border-b border-navy/10 last:border-0">
                     <button
                       type="button"
                       onClick={() => setActive(i)}
                       aria-current={isActive}
-                      className="group flex w-full cursor-pointer items-center gap-3 text-start"
+                      className="group flex w-full cursor-pointer items-center gap-5 py-4 text-start"
                     >
                       <span
-                        aria-hidden
-                        className={`h-0.5 w-6 shrink-0 origin-[inline-start] bg-gold transition-transform duration-300 ease-out ${
-                          isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                        className={`w-7 shrink-0 font-[family-name:var(--font-sans)] text-[12px] font-medium leading-5 tracking-[2px] transition-colors duration-300 ${
+                          isActive ? "text-gold" : "text-muted group-hover:text-gold"
                         }`}
-                      />
+                      >
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
                       <h4
-                        className="t-h4 transition-colors duration-300"
-                        style={{
-                          color: isActive ? "var(--navy)" : "var(--muted)",
-                        }}
+                        className={`t-h4 flex-1 transition-colors duration-300 ${
+                          isActive ? "text-navy" : "text-muted group-hover:text-navy"
+                        }`}
                       >
                         {service.title}
                       </h4>
+                      <ArrowUpRightIcon
+                        className={`shrink-0 text-gold transition-[opacity,transform] duration-300 rtl:-scale-x-100 ${
+                          isActive
+                            ? "translate-x-0 opacity-100"
+                            : "-translate-x-1 opacity-0 group-hover:translate-x-0 group-hover:opacity-60 rtl:translate-x-1"
+                        }`}
+                      />
                     </button>
                   </li>
                 );
@@ -144,33 +146,33 @@ export default function ServicesSection({
             </ul>
           </div>
 
-          {/* Photo + navy description card + dot rail */}
-          <div className="relative w-full xl:me-15 xl:w-[408px] xl:shrink-0 xl:self-center">
-            <div className="relative aspect-[4/3] w-full overflow-hidden xl:aspect-auto xl:h-[489px]">
+          {/* Photo panel + navy description card */}
+          <div className="relative w-full xl:min-w-0 xl:flex-1">
+            <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface xl:aspect-auto xl:h-full xl:min-h-[600px]">
               {content.items.map((service, i) => (
                 <Image
                   key={service.image}
                   src={service.image}
                   alt={i === active ? service.imageAlt : ""}
                   fill
-                  sizes="(max-width: 1199px) 100vw, 408px"
+                  sizes="(max-width: 1199px) 100vw, 900px"
                   priority={i === 0}
-                  className={`object-cover transition-opacity duration-500 ease-out ${
-                    i === active ? "opacity-100" : "opacity-0"
+                  className={`object-cover transition-[opacity,transform] duration-700 ease-out ${
+                    i === active ? "scale-100 opacity-100" : "scale-105 opacity-0"
                   }`}
                 />
               ))}
             </div>
 
-            {/* In flow under the photo on phones; overlapping its corner from 1200px */}
-            <div className="z-10 flex flex-col items-start gap-5 border-s-4 border-gold bg-navy p-6 xl:absolute xl:bottom-6 xl:start-[-40px] xl:w-[340px] xl:gap-0 xl:px-9 xl:py-8">
-              <div key={active} className="panel-in flex flex-col items-start gap-2 xl:gap-0">
-                <p className="t-h5 text-white xl:hidden">{current.title}</p>
-                <p className="t-body text-white">{current.description}</p>
+            {/* In flow under the photo on phones; on the panel's corner from 1200px */}
+            <div className="z-10 flex flex-col items-start gap-5 border-s-4 border-gold bg-navy p-6 xl:absolute xl:bottom-10 xl:start-10 xl:w-[440px] xl:gap-6 xl:px-9 xl:py-8">
+              <div key={active} className="panel-in flex flex-col items-start gap-2 xl:gap-3">
+                <p className="t-h5 text-white xl:text-[20px] xl:leading-7">{current.title}</p>
+                <p className="t-body text-[#ccdce6]">{current.description}</p>
               </div>
 
-              {/* Phone controls: counter + wrap-around arrows */}
-              <div className="flex w-full items-center justify-between xl:hidden">
+              {/* Counter + wrap-around arrows */}
+              <div className="flex w-full items-center justify-between">
                 <p
                   dir="ltr"
                   className="font-[family-name:var(--font-sans)] text-[12px] font-medium leading-[18px] tracking-[2px] text-gold"
@@ -198,39 +200,10 @@ export default function ServicesSection({
               </div>
             </div>
 
-            {/* Dot rail — 20px off the photo's inline-end edge, centred on it */}
-            <div className="hidden flex-col items-center gap-2 xl:absolute xl:end-[-60px] xl:top-1/2 xl:flex xl:-translate-y-1/2">
-              {content.items.map((service, i) => (
-                <button
-                  key={service.title}
-                  type="button"
-                  onClick={() => setActive(i)}
-                  aria-label={service.title}
-                  aria-current={i === active}
-                  className="flex h-10 w-10 cursor-pointer items-center justify-center"
-                >
-                  <span
-                    aria-hidden
-                    className={`flex items-center justify-center rounded-full border transition-all duration-300 ease-out ${
-                      i === active
-                        ? "h-10 w-10 border-gold"
-                        : "h-2 w-2 border-transparent"
-                    }`}
-                  >
-                    <span
-                      className={`block h-2 w-2 shrink-0 rounded-full transition-colors duration-300 ${
-                        i === active ? "bg-gold" : "bg-navy"
-                      }`}
-                    />
-                  </span>
-                </button>
-              ))}
-            </div>
           </div>
         </div>
       </div>
 
-      <ServicesDashGrid className="pointer-events-none absolute start-0 top-[360px] hidden xl:block" />
     </section>
   );
 }
