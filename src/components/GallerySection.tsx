@@ -1,22 +1,69 @@
+"use client";
+
 import Image from "next/image";
+import { useCallback, useRef, useState } from "react";
 import SectionLabel from "@/components/ui/SectionLabel";
 import SolidButton from "@/components/ui/SolidButton";
 import Reveal from "@/components/ui/Reveal";
+import Lightbox, { type LightboxLabels } from "@/components/ui/Lightbox";
+import { ArrowUpRightThinIcon } from "@/components/icons";
+import { dirOf, type Locale } from "@/i18n/config";
 import type { SiteContent } from "@/types/content";
 
 /**
- * Home-page gallery teaser: a four-tile photo mosaic with nothing written on
- * it — one tall tile spanning two rows, three landscape tiles beside it — and
- * a narrow column holding only the label, the heading and the link to the
- * full gallery. The paragraph and the per-photo titles were cut on purpose;
- * the photos carry the section.
+ * Home-page gallery teaser: a four-tile photo mosaic — one tall tile spanning
+ * two rows, three landscape tiles beside it — and a narrow column holding
+ * only the label, the heading and the link to the full gallery. The photos
+ * carry the section, so nothing is written on them at rest.
+ *
+ * Every tile is a button into the shared Lightbox, which holds all four
+ * photos even where the mosaic shows three (phones drop the last tile). The
+ * tiles enter one after another, rising and fading, and respond to touch and
+ * hover: the photo eases up a few percent and a navy gradient with the
+ * photo's title and an expand mark slides in from the bottom. Where hover is
+ * unavailable the gradient stays on, so the tiles read as tappable.
  */
 export default function GallerySection({
   content,
+  lightbox,
+  lang,
 }: {
   content: SiteContent["gallery"];
+  lightbox: LightboxLabels;
+  lang: Locale;
 }) {
-  const [tall, ...wide] = content.items;
+  const rtl = dirOf(lang) === "rtl";
+  const photos = content.items.map((item) => ({
+    image: item.image,
+    caption: item.title,
+  }));
+
+  const [index, setIndex] = useState<number | null>(null);
+  const openerRef = useRef<HTMLButtonElement | null>(null);
+
+  const step = useCallback(
+    (delta: 1 | -1) =>
+      setIndex((i) => (i === null ? i : (i + delta + photos.length) % photos.length)),
+    [photos.length],
+  );
+  const close = useCallback(() => {
+    setIndex(null);
+    openerRef.current?.focus();
+  }, []);
+
+  /** Grid placement per tile: tall, wide, small, small (the last is desktop-only). */
+  const placement = [
+    "row-span-2",
+    "xl:col-span-2",
+    "",
+    "hidden xl:block",
+  ];
+  const sizes = [
+    "(max-width: 1199px) 50vw, 260px",
+    "(max-width: 1199px) 50vw, 520px",
+    "(max-width: 1199px) 50vw, 260px",
+    "260px",
+  ];
 
   return (
     <section
@@ -39,35 +86,55 @@ export default function GallerySection({
       </div>
 
       {/* Mosaic */}
-      <Reveal className="w-full xl:w-[796px]">
-        <div className="grid grid-cols-2 grid-rows-[200px_200px] gap-4 xl:grid-cols-3 xl:grid-rows-[260px_260px] xl:gap-5">
-          <div className="relative row-span-2 overflow-hidden">
-            <Image
-              src={tall.image}
-              alt={tall.title}
-              fill
-              sizes="(max-width: 1199px) 50vw, 260px"
-              className="object-cover"
-            />
-          </div>
-          {wide.map((tile, i) => (
-            <div
-              key={tile.image}
-              className={`relative overflow-hidden ${i === 2 ? "hidden xl:block" : ""} ${
-                i === 0 ? "xl:col-span-2" : ""
-              }`}
+      <ul className="grid w-full list-none grid-cols-2 grid-rows-[200px_200px] gap-4 p-0 xl:w-[796px] xl:grid-cols-3 xl:grid-rows-[260px_260px] xl:gap-5">
+        {content.items.map((tile, i) => (
+          <li key={tile.image} className={`relative ${placement[i] ?? ""}`}>
+            <Reveal
+              scaleFrom={0.96}
+              yFrom={40}
+              delay={i * 110}
+              fade
+              className="h-full w-full"
             >
-              <Image
-                src={tile.image}
-                alt={tile.title}
-                fill
-                sizes="(max-width: 1199px) 50vw, 520px"
-                className="object-cover"
-              />
-            </div>
-          ))}
-        </div>
-      </Reveal>
+              <button
+                type="button"
+                aria-label={`${lightbox.open}: ${tile.title}`}
+                onClick={(event) => {
+                  openerRef.current = event.currentTarget;
+                  setIndex(i);
+                }}
+                className="group relative block h-full w-full cursor-zoom-in overflow-hidden bg-surface text-start outline-offset-4"
+              >
+                <Image
+                  src={tile.image}
+                  alt={tile.title}
+                  fill
+                  sizes={sizes[i]}
+                  className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06] group-focus-visible:scale-[1.06] group-active:scale-[1.03]"
+                />
+                {/* Title plate: on by default, hover-revealed where hover exists */}
+                <span className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-linear-to-t from-navy/85 via-navy/35 to-transparent p-4 transition-opacity duration-500 xl:p-5 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100 [@media(hover:hover)]:group-focus-visible:opacity-100">
+                  <span className="t-h5 translate-y-0 text-white transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] [@media(hover:hover)]:translate-y-2 [@media(hover:hover)]:group-hover:translate-y-0 [@media(hover:hover)]:group-focus-visible:translate-y-0">
+                    {tile.title}
+                  </span>
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center border border-white/60 text-white transition-[background-color,transform] duration-300 group-hover:bg-white/15 rtl:-scale-x-100">
+                    <ArrowUpRightThinIcon />
+                  </span>
+                </span>
+              </button>
+            </Reveal>
+          </li>
+        ))}
+      </ul>
+
+      <Lightbox
+        photos={photos}
+        index={index}
+        labels={lightbox}
+        rtl={rtl}
+        onClose={close}
+        onStep={step}
+      />
     </section>
   );
 }

@@ -10,16 +10,25 @@ import { useEffect, useRef, useState } from "react";
  *
  * Reduced motion is handled in CSS (see `.reveal` in globals.css) rather than
  * in the effect, so the observer callback is the only thing that sets state.
+ *
+ * `delay` staggers a group of siblings that share one viewport entry, and
+ * `fade` adds an opacity ramp to the transform for elements (photo tiles)
+ * whose slide alone would read as a jump.
  */
 export default function Reveal({
   children,
   scaleFrom = 0.9,
   yFrom = 55,
+  delay = 0,
+  fade = false,
   className = "",
 }: {
   children: React.ReactNode;
   scaleFrom?: number;
   yFrom?: number;
+  /** Milliseconds, applied as a transition delay. */
+  delay?: number;
+  fade?: boolean;
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -45,10 +54,11 @@ export default function Reveal({
     <div
       ref={ref}
       data-shown={shown ? "true" : "false"}
-      className={`reveal ${className}`}
+      className={`reveal ${fade ? "reveal-fade" : ""} ${className}`}
       style={
         {
           "--reveal-from": `scale(${scaleFrom}) translateY(${yFrom}px)`,
+          transitionDelay: delay ? `${delay}ms` : undefined,
         } as React.CSSProperties
       }
     >
