@@ -12,8 +12,9 @@ const WIPE = 0.45;
 
 /**
  * Full-bleed campus band, 400px tall and 600px from 1200px up, carrying a
- * muted, looping, control-less video (the photo is its poster, so the band
- * still reads when the file is missing or autoplay is refused).
+ * muted, looping, control-less video: the first half of the campus footage,
+ * trimmed to 20s at 30fps with the audio dropped, in MP4 and WebM. Its first
+ * frame is the poster, so the band still reads when autoplay is refused.
  *
  * The reveal is scroll-linked rather than a one-shot: as the band comes up
  * the page, eight white slices peel off it one after another, alternating
@@ -95,7 +96,7 @@ export default function CampusBanner({
         playsInline
         autoPlay
         preload="metadata"
-        poster="/images/banner-campus-life.jpg"
+        poster="/images/banner-video-poster.jpg"
         aria-label={content.imageAlt}
         className="absolute inset-0 h-full w-full scale-[1.18] object-cover will-change-transform"
         style={{
