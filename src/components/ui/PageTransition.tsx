@@ -3,20 +3,21 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-/** Slat rise (550) + the last slat's delay (4 × 50). */
+/** Slat rise (550) + the stagger across all slats (200). */
 const COVER = 760;
-/** Slat lift (650) + the last slat's delay (4 × 50). */
+/** Slat lift (650) + the stagger across all slats (200). */
 const REVEAL = 860;
 /** If the new route has not arrived by then, lift anyway. */
 const STUCK = 4000;
-const SLATS = 5;
+/** Rendered count; the CSS shows 5 of them below 1200px and all 12 above. */
+const SLATS = 12;
 
 type State = "idle" | "cover" | "covered" | "reveal";
 
 /**
  * Curtain transition between pages. A click on an in-app link is caught in
- * the capture phase before Next's Link sees it; five navy slats rise from the
- * bottom one after another, the route is pushed once they meet the top, and
+ * the capture phase before Next's Link sees it; navy slats (five on phones,
+ * twelve from 1200px) rise from the bottom one after another, the route is pushed once they meet the top, and
  * when the new pathname is in they lift away upward in the same order. The
  * new page's content also fades up under the lifting slats (`.page-in`,
  * keyed on the pathname), which is all that plays on back/forward navigation
