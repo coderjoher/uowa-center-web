@@ -48,13 +48,13 @@ export default function CourseArticle({
 
       <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2">
         <span className="flex items-center gap-[9px]">
-          <CalendarIcon className="shrink-0 text-navy" />
+          <CalendarIcon className="shrink-0 text-gold" />
           <p className="font-[family-name:var(--font-sans)] text-[16px] leading-[26px] text-navy">
             {course.date}
           </p>
         </span>
         <span className="flex items-center gap-[9px]">
-          <PinIcon className="shrink-0 text-navy" />
+          <PinIcon className="shrink-0 text-gold" />
           <p className="t-body">{course.venue}</p>
         </span>
       </div>

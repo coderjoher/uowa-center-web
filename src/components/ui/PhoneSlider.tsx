@@ -101,7 +101,7 @@ export default function PhoneSlider({
         >
           <p
             dir="ltr"
-            className="font-[family-name:var(--font-sans)] text-[12px] leading-[18px] tracking-[2px] text-muted"
+            className="font-[family-name:var(--font-sans)] text-[12px] font-medium leading-[18px] tracking-[2px] text-gold"
           >
             {String(index + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
           </p>

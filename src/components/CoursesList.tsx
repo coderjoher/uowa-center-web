@@ -41,13 +41,13 @@ export default function CoursesList({
                 <div className="mt-4 flex flex-col items-start gap-2">
                   <div className="flex items-center gap-[9px]">
                     <span className="flex w-5 shrink-0 justify-center">
-                      <CalendarIcon className="text-navy" />
+                      <CalendarIcon className="text-gold" />
                     </span>
                     <p className="t-body">{event.date}</p>
                   </div>
                   <div className="flex items-center gap-[9px]">
                     <span className="flex w-5 shrink-0 justify-center">
-                      <PinIcon className="text-navy" />
+                      <PinIcon className="text-gold" />
                     </span>
                     <p className="t-body">{event.venue}</p>
                   </div>

@@ -36,6 +36,7 @@ export default function PageHero({
         </ol>
       </nav>
 
+      <span aria-hidden className="mt-6 block h-0.5 w-10 bg-gold" />
       <h1 className="t-h1 mt-4 xl:max-w-[900px]">{page.title}</h1>
       <p className="t-body-lg mt-5 xl:max-w-[680px]">{page.intro}</p>
 

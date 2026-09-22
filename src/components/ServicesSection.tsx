@@ -125,7 +125,7 @@ export default function ServicesSection({
                     >
                       <span
                         aria-hidden
-                        className={`h-0.5 w-6 shrink-0 origin-[inline-start] bg-navy transition-transform duration-300 ease-out ${
+                        className={`h-0.5 w-6 shrink-0 origin-[inline-start] bg-gold transition-transform duration-300 ease-out ${
                           isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
                         }`}
                       />
@@ -163,7 +163,7 @@ export default function ServicesSection({
             </div>
 
             {/* In flow under the photo on phones; overlapping its corner from 1200px */}
-            <div className="z-10 flex flex-col items-start gap-5 bg-navy p-6 xl:absolute xl:bottom-6 xl:start-[-40px] xl:w-[340px] xl:gap-0 xl:px-9 xl:py-8">
+            <div className="z-10 flex flex-col items-start gap-5 border-s-4 border-gold bg-navy p-6 xl:absolute xl:bottom-6 xl:start-[-40px] xl:w-[340px] xl:gap-0 xl:px-9 xl:py-8">
               <div key={active} className="panel-in flex flex-col items-start gap-2 xl:gap-0">
                 <p className="t-h5 text-white xl:hidden">{current.title}</p>
                 <p className="t-body text-white">{current.description}</p>
@@ -173,7 +173,7 @@ export default function ServicesSection({
               <div className="flex w-full items-center justify-between xl:hidden">
                 <p
                   dir="ltr"
-                  className="font-[family-name:var(--font-sans)] text-[12px] leading-[18px] tracking-[2px] text-pale"
+                  className="font-[family-name:var(--font-sans)] text-[12px] font-medium leading-[18px] tracking-[2px] text-gold"
                 >
                   {String(active + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
                 </p>
@@ -213,11 +213,15 @@ export default function ServicesSection({
                     aria-hidden
                     className={`flex items-center justify-center rounded-full border transition-all duration-300 ease-out ${
                       i === active
-                        ? "h-10 w-10 border-navy"
+                        ? "h-10 w-10 border-gold"
                         : "h-2 w-2 border-transparent"
                     }`}
                   >
-                    <span className="block h-2 w-2 shrink-0 rounded-full bg-navy" />
+                    <span
+                      className={`block h-2 w-2 shrink-0 rounded-full transition-colors duration-300 ${
+                        i === active ? "bg-gold" : "bg-navy"
+                      }`}
+                    />
                   </span>
                 </button>
               ))}

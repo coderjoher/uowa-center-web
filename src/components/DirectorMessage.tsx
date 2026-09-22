@@ -33,7 +33,7 @@ export default function DirectorMessage({
           />
         </div>
 
-        <div className="flex flex-col items-start gap-1 bg-navy p-6 xl:absolute xl:bottom-0 xl:end-[-60px] xl:w-[360px] xl:px-10 xl:py-8">
+        <div className="flex flex-col items-start gap-1 border-s-4 border-gold bg-navy p-6 xl:absolute xl:bottom-0 xl:end-[-60px] xl:w-[360px] xl:px-10 xl:py-8">
           <p className="font-[family-name:var(--font-heading)] text-[18px] font-bold leading-7 text-white xl:text-[20px] xl:leading-8">
             {content.name}
           </p>

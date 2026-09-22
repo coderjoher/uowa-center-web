@@ -124,7 +124,7 @@ export default function SiteHeader({
                 href={link.href}
                 aria-current={isCurrent(link.href) ? "page" : undefined}
                 className={`inline-flex items-center gap-1.5 border-b font-[family-name:var(--font-sans)] text-[16px] leading-[26px] text-navy transition-opacity duration-200 hover:opacity-70 ${
-                  isCurrent(link.href) ? "border-navy" : "border-transparent"
+                  isCurrent(link.href) ? "border-gold" : "border-transparent hover:border-gold"
                 }`}
               >
                 {link.label}
@@ -144,7 +144,7 @@ export default function SiteHeader({
 
             <Link
               href={`/${lang}#contact`}
-              className="flex h-9 items-center justify-center border-b-[1.6px] border-navy px-5 pb-3 font-[family-name:var(--font-heading)] text-[16px] font-bold leading-6 text-navy transition-opacity duration-200 hover:opacity-70"
+              className="flex h-9 items-center justify-center border-b-[1.6px] border-gold px-5 pb-3 font-[family-name:var(--font-heading)] text-[16px] font-bold leading-6 text-navy transition-opacity duration-200 hover:opacity-70"
             >
               {nav.contact}
             </Link>
@@ -170,7 +170,7 @@ export default function SiteHeader({
                 onClick={() => setOpen(false)}
                 aria-current={isCurrent(item.href) ? "page" : undefined}
                 className={`flex min-h-12 items-center border-b border-white/10 py-2.5 font-[family-name:var(--font-sans)] text-[17px] leading-7 transition-opacity duration-200 hover:opacity-80 ${
-                  isCurrent(item.href) ? "text-pale" : "text-white"
+                  isCurrent(item.href) ? "text-gold" : "text-white"
                 }`}
               >
                 {item.label}
@@ -204,7 +204,7 @@ export default function SiteHeader({
             <Link
               href={`/${lang}#contact`}
               onClick={() => setOpen(false)}
-              className="inline-flex h-11 items-center justify-center bg-white px-6 font-[family-name:var(--font-heading)] text-[15px] font-bold leading-6 text-navy transition-opacity duration-200 hover:opacity-90"
+              className="inline-flex h-11 items-center justify-center bg-gold px-6 font-[family-name:var(--font-heading)] text-[15px] font-bold leading-6 text-navy transition-opacity duration-200 hover:opacity-90"
             >
               {nav.contact}
             </Link>

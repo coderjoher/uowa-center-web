@@ -84,7 +84,7 @@ export default function SiteFooter({
                   aria-label={social.title}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex h-11 min-w-11 items-center justify-center border-[0.5px] border-white bg-navy px-2 font-[family-name:var(--font-sans)] text-[15px] font-bold leading-6 text-white transition-opacity duration-200 hover:opacity-70 xl:h-12 xl:min-w-12 xl:text-[16px] xl:leading-[26px]"
+                  className="flex h-11 min-w-11 items-center justify-center border-[0.5px] border-white bg-navy px-2 font-[family-name:var(--font-sans)] text-[15px] font-bold leading-6 text-white transition-colors duration-200 hover:border-gold hover:text-gold xl:h-12 xl:min-w-12 xl:text-[16px] xl:leading-[26px]"
                 >
                   {social.label}
                 </a>

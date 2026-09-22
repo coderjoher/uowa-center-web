@@ -31,7 +31,7 @@ export default function OverviewSection({
 
         {/* Vision / mission */}
         <div className="flex w-full flex-col gap-6 xl:flex-row xl:gap-10">
-          <article className="flex w-full flex-col items-start gap-4 bg-navy p-6 xl:flex-1 xl:p-14">
+          <article className="flex w-full flex-col items-start gap-4 border-s-4 border-gold bg-navy p-6 xl:flex-1 xl:p-14">
             <h3 className="t-h4 text-white">{vision.title}</h3>
             <p className="t-body-lg text-[#ccdce6]">{vision.body}</p>
           </article>

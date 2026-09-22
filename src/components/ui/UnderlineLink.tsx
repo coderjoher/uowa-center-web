@@ -22,7 +22,7 @@ export default function UnderlineLink({
   return (
     <Link
       href={href}
-      className={`group inline-flex items-center gap-2.5 border-b-[1.6px] pb-2 ${rule} ${color} ${className}`}
+      className={`group inline-flex items-center gap-2.5 border-b-[1.6px] pb-2 transition-colors duration-200 hover:border-gold ${rule} ${color} ${className}`}
     >
       <span className="font-[family-name:var(--font-heading)] text-[16px] font-bold leading-6">
         {children}

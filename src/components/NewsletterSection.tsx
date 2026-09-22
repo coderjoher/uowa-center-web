@@ -43,7 +43,7 @@ export default function NewsletterSection({
 
           <button
             type="submit"
-            className="flex h-13 w-full shrink-0 items-center justify-center bg-navy px-10 py-2.5 font-[family-name:var(--font-heading)] text-[16px] font-bold leading-6 text-white transition-opacity duration-200 hover:opacity-90 xl:h-16 xl:w-[180px]"
+            className="flex h-13 w-full shrink-0 items-center justify-center bg-gold px-10 py-2.5 font-[family-name:var(--font-heading)] text-[16px] font-bold leading-6 text-navy transition-opacity duration-200 hover:opacity-90 xl:h-16 xl:w-[180px]"
           >
             {content.submit}
           </button>

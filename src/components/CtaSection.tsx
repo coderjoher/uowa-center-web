@@ -30,7 +30,7 @@ export default function CtaSection({
 
           <SolidButton
             href={content.href}
-            variant="white"
+            variant="gold"
             className="relative z-10"
           >
             {content.button}
