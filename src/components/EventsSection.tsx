@@ -67,13 +67,13 @@ export default function EventsSection({
                   <h4 className="t-h4">{event.title}</h4>
                   <div className="mt-3 flex items-center gap-[9px]">
                     <span className="flex w-5 shrink-0 justify-center">
-                      <CalendarIcon className="text-navy" />
+                      <CalendarIcon className="text-gold" />
                     </span>
                     <p className="t-body">{event.date}</p>
                   </div>
                   <div className="mt-2 flex items-center gap-[9px]">
                     <span className="flex w-5 shrink-0 justify-center">
-                      <PinIcon className="text-navy" />
+                      <PinIcon className="text-gold" />
                     </span>
                     <p className="t-body">{event.venue}</p>
                   </div>

@@ -117,7 +117,7 @@ export default function GallerySection({
                   <span className="t-h5 translate-y-0 text-white transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] [@media(hover:hover)]:translate-y-2 [@media(hover:hover)]:group-hover:translate-y-0 [@media(hover:hover)]:group-focus-visible:translate-y-0">
                     {tile.title}
                   </span>
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center border border-white/60 text-white transition-[background-color,transform] duration-300 group-hover:bg-white/15 rtl:-scale-x-100">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center border border-gold text-gold transition-colors duration-300 group-hover:bg-gold group-hover:text-navy rtl:-scale-x-100">
                     <ArrowUpRightThinIcon />
                   </span>
                 </span>

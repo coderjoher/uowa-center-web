@@ -43,7 +43,7 @@ export default function Hero({
         <div className="relative xl:flex xl:min-h-[540px] xl:items-center">
           <div className="hero-rise flex w-full flex-col items-start xl:w-1/2 xl:pe-12">
             <p className="t-label hero-eyebrow flex items-center gap-4 text-muted">
-              <span aria-hidden className="hidden h-px w-10 shrink-0 bg-navy xl:block" />
+              <span aria-hidden className="hidden h-0.5 w-10 shrink-0 bg-gold xl:block" />
               {content.label}
             </p>
             <h1 className="t-h1 mt-3 text-balance xl:mt-6">{content.heading}</h1>
@@ -72,7 +72,7 @@ export default function Hero({
               sizes="(max-width: 1199px) 100vw, 55vw"
               className="origin-top scale-[1.12] object-cover object-top"
             />
-            <figcaption className="absolute bottom-0 start-0 flex max-w-[calc(100%-40px)] flex-col gap-0.5 bg-navy px-4 py-3 text-white xl:gap-1 xl:px-8 xl:py-6">
+            <figcaption className="absolute bottom-0 start-0 flex max-w-[calc(100%-40px)] flex-col gap-0.5 border-s-[3px] border-gold bg-navy px-4 py-3 text-white xl:gap-1 xl:px-8 xl:py-6">
               <span className="font-[family-name:var(--font-sans)] text-[12px] leading-[18px] text-pale xl:text-[13px] xl:leading-5">
                 {brand.university}
               </span>
@@ -95,7 +95,7 @@ export default function Hero({
                   href={`${content.ctaHref}#service-${i + 1}`}
                   className="group flex flex-col gap-1.5 xl:gap-3"
                 >
-                  <span className="font-[family-name:var(--font-sans)] text-[12px] leading-[18px] tracking-[2px] text-muted xl:text-[13px] xl:leading-5">
+                  <span className="font-[family-name:var(--font-sans)] text-[12px] font-medium leading-[18px] tracking-[2px] text-gold xl:text-[13px] xl:leading-5">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span className="t-h5 border-b border-transparent pb-1 text-[15px] text-navy transition-colors duration-200 group-hover:border-navy xl:text-[16px]">

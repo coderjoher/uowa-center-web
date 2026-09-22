@@ -14,12 +14,16 @@ export default function SolidButton({
 }: {
   href: string;
   children: React.ReactNode;
-  variant?: "navy" | "white";
+  variant?: "navy" | "white" | "gold";
   /** Renders a plain anchor — for mailto: and off-site destinations. */
   external?: boolean;
   className?: string;
 }) {
-  const tone = variant === "navy" ? "bg-navy text-white" : "bg-white text-navy";
+  const tone = {
+    navy: "bg-navy text-white",
+    white: "bg-white text-navy",
+    gold: "bg-gold text-navy",
+  }[variant];
   const classes = `inline-flex h-11 min-w-[189px] items-center justify-center px-10 py-2.5 text-center font-[family-name:var(--font-heading)] text-[16px] font-bold leading-6 transition-opacity duration-200 hover:opacity-90 ${tone} ${className}`;
 
   if (external) {

@@ -69,7 +69,9 @@ export default function FaqSection({
                     {/* 4px navy rule pinned to the inline start of the row */}
                     <span
                       aria-hidden
-                      className="absolute start-0 top-0 h-full w-1 bg-navy"
+                      className={`absolute start-0 top-0 h-full w-1 transition-colors duration-300 ${
+                        isOpen ? "bg-gold" : "bg-navy"
+                      }`}
                     />
                     <h4 className="t-h4 text-[16px] leading-6 xl:w-[561px] xl:text-[24px] xl:leading-8">
                       {faq.question}

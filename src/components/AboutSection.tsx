@@ -29,7 +29,7 @@ export default function AboutSection({
       {/* Left composition */}
       <div className="relative w-full max-w-[828px] xl:h-[656px]">
         {/* Navy caption card */}
-        <div className="relative z-20 flex flex-col items-start gap-2 bg-navy p-6 xl:absolute xl:start-0 xl:top-0 xl:min-h-[274px] xl:w-[613px] xl:justify-center xl:gap-3 xl:px-14 xl:py-12">
+        <div className="relative z-20 flex flex-col items-start gap-2 border-s-4 border-gold bg-navy p-6 xl:absolute xl:start-0 xl:top-0 xl:min-h-[274px] xl:w-[613px] xl:justify-center xl:gap-3 xl:px-14 xl:py-12">
           <SectionLabel className="text-white">{content.label}</SectionLabel>
           <h2 className="t-h2 text-white xl:text-[36px] xl:leading-[54px]">
             {content.heading.map((line) => (
