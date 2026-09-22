@@ -4,7 +4,7 @@
  * and its site-map entries come back with it; nothing else needs editing.
  */
 export const VISIBLE_SECTIONS = {
-  director: false,
+  director: true,
   structure: false,
   team: false,
 } as const;
