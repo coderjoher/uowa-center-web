@@ -312,6 +312,179 @@ html.lenis body {
     }
   }
 
+  /* ==========================================================================
+     First-visit intro (src/components/ui/Preloader.tsx)
+     ========================================================================== */
+  .preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    display: grid;
+    place-items: center;
+    pointer-events: none;
+  }
+  html[data-preloaded] .preloader {
+    display: none;
+  }
+  .preloader-slats {
+    position: absolute;
+    inset: 0;
+    display: flex;
+  }
+  .preloader-slats > span {
+    flex: 1;
+    margin-inline-end: -1px;
+    background: var(--navy);
+    transform-origin: top;
+    transition: transform 700ms cubic-bezier(0.76, 0, 0.24, 1);
+    transition-delay: calc(300ms + var(--i) * 70ms);
+  }
+  .preloader-slats > span:last-child {
+    margin-inline-end: 0;
+  }
+  .preloader[data-phase="leaving"] .preloader-slats > span {
+    transform: scaleY(0);
+  }
+  .preloader-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    transition: opacity 300ms ease-out, transform 300ms ease-out;
+  }
+  .preloader[data-phase="leaving"] .preloader-content {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  @keyframes preloader-mark {
+    from {
+      opacity: 0;
+      transform: scale(0.85) translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes preloader-rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes preloader-line {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+  .preloader-mark {
+    animation: preloader-mark 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .preloader-word {
+    margin: 0;
+    animation: preloader-rise 800ms cubic-bezier(0.16, 1, 0.3, 1) 150ms both;
+  }
+  .preloader-uni {
+    margin: 0;
+    animation: preloader-rise 800ms cubic-bezier(0.16, 1, 0.3, 1) 280ms both;
+  }
+  [lang="ar"] .preloader-uni {
+    letter-spacing: normal;
+    font-size: 13px;
+  }
+  .preloader-line {
+    display: block;
+    width: 160px;
+    height: 1px;
+    margin-top: 10px;
+    background: color-mix(in srgb, var(--white) 55%, transparent);
+    transform-origin: inline-start;
+    animation: preloader-line 1200ms cubic-bezier(0.65, 0, 0.35, 1) 200ms both;
+  }
+  /* Hold the hero's entrance until the intro has lifted. */
+  html[data-loading] .hero-rise > *,
+  html[data-loading] .hero-settle {
+    animation-play-state: paused;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .preloader-mark,
+    .preloader-word,
+    .preloader-uni,
+    .preloader-line {
+      animation: none;
+    }
+    .preloader-slats > span,
+    .preloader-content {
+      transition: none;
+    }
+  }
+
+  /* ==========================================================================
+     Page transition curtain (src/components/ui/PageTransition.tsx)
+     ========================================================================== */
+  .curtain {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: flex;
+    pointer-events: none;
+  }
+  .curtain[data-state="cover"],
+  .curtain[data-state="covered"] {
+    pointer-events: auto;
+  }
+  .curtain > span {
+    flex: 1;
+    margin-inline-end: -1px;
+    background: var(--navy);
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+  .curtain > span:last-child {
+    margin-inline-end: 0;
+  }
+  .curtain[data-state="cover"] > span {
+    transform: scaleY(1);
+    transition: transform 550ms cubic-bezier(0.76, 0, 0.24, 1);
+    transition-delay: calc(var(--i) * 50ms);
+  }
+  .curtain[data-state="covered"] > span {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  .curtain[data-state="reveal"] > span {
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 650ms cubic-bezier(0.76, 0, 0.24, 1);
+    transition-delay: calc(var(--i) * 50ms);
+  }
+  @keyframes page-in {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .page-in {
+    animation: page-in 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .page-in {
+      animation: none;
+    }
+  }
+
   /* Lightbox backdrop fade (see src/components/ui/Lightbox.tsx). ---------- */
   @keyframes overlay-in {
     from {

@@ -4,6 +4,8 @@ import { Cairo, IBM_Plex_Sans_Arabic, Inter, Merriweather } from "next/font/goog
 import localFont from "next/font/local";
 import "../globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
+import Preloader from "@/components/ui/Preloader";
+import PageTransition from "@/components/ui/PageTransition";
 import { LOCALES, dirOf, isLocale } from "@/i18n/config";
 import { getContent } from "@/data";
 
@@ -112,11 +114,24 @@ export default async function RootLayout({
       ? `${koSans.variable} ${cairo.variable} ${plexArabic.variable}`
       : `${inter.variable} ${merriweather.variable}`;
 
+  const { brand } = getContent(lang);
+
   return (
     <html lang={lang} dir={dirOf(lang)} className={fonts}>
+      <head>
+        {/* Runs before first paint: returning sessions skip the intro, and a
+            first visit pauses the hero's entrance until the intro lifts. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{document.documentElement.setAttribute(sessionStorage.getItem('uowa-preloaded')?'data-preloaded':'data-loading','')}catch(e){}",
+          }}
+        />
+      </head>
       <body>
         <SmoothScroll />
-        {children}
+        <Preloader brand={brand} />
+        <PageTransition>{children}</PageTransition>
       </body>
     </html>
   );
