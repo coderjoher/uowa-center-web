@@ -4,9 +4,9 @@
  * and its site-map entries come back with it; nothing else needs editing.
  */
 export const VISIBLE_SECTIONS = {
-  director: true,
+  director: false,
   structure: false,
-  team: false,
+  team: true,
 } as const;
 
 export type HideableSection = keyof typeof VISIBLE_SECTIONS;
