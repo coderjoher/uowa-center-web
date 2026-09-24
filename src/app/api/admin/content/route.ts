@@ -14,7 +14,9 @@ const FILES: Record<string, string> = {
 function fail(e: unknown) {
   if (e instanceof GitHubError) {
     const text =
-      e.status === 409
+      e.status === 0
+        ? `تعذّر على الخادم الاتصال بـ GitHub: ${e.message}`
+        : e.status === 409
         ? "تغيّر الملف على المستودع منذ فتحه. أعد التحميل ثم كرر التعديل."
         : e.status === 401 || e.status === 403
           ? "رمز GitHub على الخادم غير صالح أو لا يملك صلاحية الكتابة."
