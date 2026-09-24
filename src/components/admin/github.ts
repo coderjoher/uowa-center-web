@@ -28,11 +28,37 @@ function headers(token: string): HeadersInit {
     Authorization: `Bearer ${token}`,
     Accept: "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
+    /* GitHub rejects API requests without a User-Agent. */
+    "User-Agent": "uowa-center-admin",
   };
 }
 
+/**
+ * Describes a request that never got an HTTP answer. Node's fetch throws a
+ * bare "fetch failed" and puts the real reason (DNS, refused connection,
+ * TLS certificate, timeout) on `cause`, sometimes nested once more; this
+ * digs it out so the admin can show it.
+ */
+function networkReason(e: unknown): string {
+  const parts: string[] = [];
+  let cur: unknown = e;
+  for (let i = 0; i < 4 && cur; i++) {
+    const err = cur as { code?: string; message?: string; cause?: unknown };
+    const bit = [err.code, err.message].filter(Boolean).join(" ");
+    if (bit && !parts.includes(bit)) parts.push(bit);
+    cur = err.cause;
+  }
+  return parts.join(" ← ") || String(e);
+}
+
 async function request<T>(token: string, path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(`${API}${path}`, { ...init, headers: { ...headers(token), ...(init?.headers ?? {}) } });
+  let res: Response;
+  try {
+    res = await fetch(`${API}${path}`, { ...init, headers: { ...headers(token), ...(init?.headers ?? {}) } });
+  } catch (e) {
+    /* Status 0 marks "no HTTP response at all". */
+    throw new GitHubError(networkReason(e), 0);
+  }
   if (!res.ok) {
     let detail = res.statusText;
     try {

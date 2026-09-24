@@ -23,7 +23,9 @@ export async function GET() {
       images: [...images.map((n) => `/images/${n}`), ...uploads.map((n) => `/images/uploads/${n}`)],
     });
   } catch (e) {
-    return NextResponse.json({ error: e instanceof Error ? e.message : String(e) }, { status: 502 });
+    const reason = e instanceof Error ? e.message : String(e);
+    const text = e instanceof GitHubError && e.status === 0 ? `تعذّر على الخادم الاتصال بـ GitHub: ${reason}` : reason;
+    return NextResponse.json({ error: text }, { status: 502 });
   }
 }
 
