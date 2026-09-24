@@ -1,12 +1,12 @@
 /**
- * Thin client for the GitHub Contents API, called straight from the editor's
- * browser with a fine-grained personal access token that has "Contents:
- * read and write" on this repository. Nothing here touches a server of ours:
- * a save is a commit to `master`, and the existing Wasmer deploy publishes
- * it a few minutes later.
+ * Thin client for the GitHub Contents API, used by the admin API routes on
+ * the server with the repository token from the environment. A save is a
+ * commit to `master`, and the existing Wasmer deploy publishes it a few
+ * minutes later.
  */
 export const REPO = { owner: "coderjoher", repo: "uowa-center-web", branch: "master" };
-const API = "https://api.github.com";
+/** Overridable so tests can point the client at a local stand-in. */
+const API = process.env.GITHUB_API_URL ?? "https://api.github.com";
 
 export interface RepoFile {
   path: string;
