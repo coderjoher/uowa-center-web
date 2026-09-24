@@ -1,15 +1,15 @@
-/**
- * Sections that are built, translated and kept in the codebase but not shown
- * right now. Flip one back to `true` to restore it — the pages render it again
- * and its site-map entries come back with it; nothing else needs editing.
- */
-export const VISIBLE_SECTIONS = {
-  director: false,
-  structure: false,
-  team: true,
-} as const;
+import settings from "../../public/content/settings.json";
 
-export type HideableSection = keyof typeof VISIBLE_SECTIONS;
+/**
+ * Sections that are built and translated but can be switched off. The flags
+ * live in `public/content/settings.json` so the admin at `/admin` can flip
+ * them; a hidden section leaves the pages and its site-map entries go with
+ * it, nothing else needs editing.
+ */
+export type HideableSection = "director" | "structure" | "team";
+
+export const VISIBLE_SECTIONS: Record<HideableSection, boolean> =
+  settings.sections;
 
 export function isSectionVisible(id: HideableSection): boolean {
   return VISIBLE_SECTIONS[id];
