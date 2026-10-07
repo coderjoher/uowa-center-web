@@ -1,7 +1,8 @@
 export interface NavLink {
   label: string;
   href: string;
-  hasDropdown?: boolean;
+  /** Sub-pages shown in a dropdown under the link on desktop. */
+  children?: { label: string; href: string }[];
 }
 
 export interface MobileMenuItem {
@@ -141,6 +142,38 @@ export interface GalleryPhoto {
   caption: string;
 }
 
+/** A playable video with a poster and a play button. */
+export interface VideoBlock {
+  label: string;
+  heading: string[];
+  body: string;
+  src: string;
+  poster: string;
+  /** Accessible name of the play button. */
+  play: string;
+}
+
+/** One planned activity in the annual plan table. */
+export interface PlanRow {
+  month: string;
+  date: string;
+  activity: string;
+  type: string;
+  venue: string;
+  /** Optional link to the activity's own page. */
+  href?: string;
+}
+
+export interface AnnualPlan {
+  label: string;
+  heading: string[];
+  intro: string;
+  columns: { month: string; date: string; activity: string; type: string; venue: string };
+  /** Label of the per-row link to the activity's page. */
+  details: string;
+  rows: PlanRow[];
+}
+
 export interface SiteContent {
   brand: {
     /** Bold half of the wordmark. */
@@ -152,6 +185,8 @@ export interface SiteContent {
   };
   nav: {
     links: NavLink[];
+    /** Label of the menu that collects links past the ones that fit. */
+    more: string;
     contact: string;
     menu: MobileMenuItem[];
     openMenu: string;
@@ -205,6 +240,8 @@ export interface SiteContent {
     divisions: Division[];
   };
   banner: { imageAlt: string };
+  video: VideoBlock;
+  plan: AnnualPlan;
   events: SectionHead & {
     items: TrainingEvent[];
     link: string;
@@ -274,6 +311,7 @@ export interface SiteContent {
       related: string;
     };
     faq: PageMeta;
+    plan: PageMeta;
     contact: PageMeta & {
       cards: ContactCard[];
       form: {

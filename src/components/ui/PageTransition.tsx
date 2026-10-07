@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
+import SectionReveal from "./SectionReveal";
 
 /** Slat rise (550) + the stagger across all slats (200). */
 const COVER = 760;
@@ -106,6 +107,7 @@ export default function PageTransition({ children }: { children: React.ReactNode
       <div key={pathname} className="page-in">
         {children}
       </div>
+      <SectionReveal />
       <div className="curtain" data-state={state} aria-hidden>
         {Array.from({ length: SLATS }, (_, i) => (
           <span key={i} style={{ "--i": i } as React.CSSProperties} />

@@ -87,11 +87,6 @@ export default function EventsSection({
           ))}
         </PhoneSlider>
       </div>
-
-      <div
-        aria-hidden
-        className="ornament-flip pointer-events-none absolute start-0 top-[412px] z-10 hidden h-[396px] w-[490px] bg-[url('/svg/ornament-events.svg')] xl:block"
-      />
     </section>
   );
 }

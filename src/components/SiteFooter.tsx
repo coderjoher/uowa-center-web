@@ -1,12 +1,13 @@
 import Link from "next/link";
 import Logo from "@/components/ui/Logo";
+import CircuitPattern from "@/components/ui/CircuitPattern";
 import type { Locale } from "@/i18n/config";
 import type { NavLink, SiteContent } from "@/types/content";
 
 /**
  * Navy footer, 586px tall: padding 80px 0 40px, flex column, gap 100.
  * Row 1 (340 tall): a 415-wide brand block (wordmark + tagline over a 302x168
- * dash ornament) and a 735-wide group of three link columns.
+ * circuit ornament) and a 735-wide group of three link columns.
  * Row 2: centred copyright.
  *
  * Below 1200px the two link columns sit side by side in a two-column grid
@@ -34,11 +35,7 @@ export default function SiteFooter({
             </p>
           </div>
 
-          <div
-            aria-hidden
-            className="ornament-flip pointer-events-none mt-13 hidden h-[168px] w-[302px] xl:block"
-            style={{ backgroundImage: "url(/svg/ornament-footer.svg)" }}
-          />
+          <CircuitPattern className="mt-10 hidden h-[170px] w-[300px] xl:block" />
         </div>
 
         {/* Link columns: a 2-up grid on phones, a spaced row from 1200px */}

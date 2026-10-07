@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Cairo, IBM_Plex_Sans_Arabic, Inter, Merriweather } from "next/font/google";
 import localFont from "next/font/local";
 import "../globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -9,55 +8,24 @@ import PageTransition from "@/components/ui/PageTransition";
 import { LOCALES, dirOf, isLocale } from "@/i18n/config";
 import { getContent } from "@/data";
 
-/* Latin ------------------------------------------------------------------- */
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-});
-
-const merriweather = Merriweather({
-  variable: "--font-merriweather",
-  subsets: ["latin"],
-  weight: ["300", "400", "700", "900"],
-  display: "swap",
-});
-
-/* Arabic ------------------------------------------------------------------ */
-const cairo = Cairo({
-  variable: "--font-cairo",
-  subsets: ["arabic", "latin"],
-  weight: ["300", "400", "600", "700"],
-  display: "swap",
-});
-
 /**
- * KO Sans carries the Arabic headings. It is an Arabic-only face — 281 glyphs
- * with full init/medi/fina/isol shaping, Arabic and ASCII digits and basic
- * punctuation, but no Latin letters at all — so it is layered over Cairo rather
- * than replacing it, and never loaded on the English page.
- *
- * The OTFs ship one family name per weight ("KO Sans Bold"), so each file is
- * declared separately here to collapse them into a single weighted family.
+ * Somar Sans, the face the university's main site (uowa.edu.iq) uses for its
+ * headings and text, self-hosted from the same files so the centre's site
+ * reads as part of it. One family covers both scripts — Arabic and Latin —
+ * so both locales use it. The university ships four weights; 700 points at
+ * the SemiBold file as well, so `font-bold` renders the real SemiBold cut
+ * instead of a synthesised bold, which is what the university's bold is.
  */
-const koSans = localFont({
-  variable: "--font-ko-sans",
+const somar = localFont({
+  variable: "--font-somar",
   display: "swap",
   src: [
-    { path: "../../../public/fonts/ko-sans/KOSans-Light.otf", weight: "300", style: "normal" },
-    { path: "../../../public/fonts/ko-sans/KOSans-Regular.otf", weight: "400", style: "normal" },
-    { path: "../../../public/fonts/ko-sans/KOSans-Medium.otf", weight: "500", style: "normal" },
-    { path: "../../../public/fonts/ko-sans/KOSans-SemiBold.otf", weight: "600", style: "normal" },
-    { path: "../../../public/fonts/ko-sans/KOSans-Bold.otf", weight: "700", style: "normal" },
+    { path: "../../../public/fonts/somar/SomarSans-Light.woff2", weight: "300", style: "normal" },
+    { path: "../../../public/fonts/somar/SomarSans-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../../../public/fonts/somar/SomarSans-Medium.woff2", weight: "500", style: "normal" },
+    { path: "../../../public/fonts/somar/SomarSans-SemiBold.woff2", weight: "600", style: "normal" },
+    { path: "../../../public/fonts/somar/SomarSans-SemiBold.woff2", weight: "700", style: "normal" },
   ],
-});
-
-const plexArabic = IBM_Plex_Sans_Arabic({
-  variable: "--font-plex-arabic",
-  subsets: ["arabic", "latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
 });
 
 export function generateStaticParams() {
@@ -107,17 +75,10 @@ export default async function RootLayout({
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
 
-  // Only the active script's faces are attached, so the other language's fonts
-  // are never preloaded on a page that cannot use them.
-  const fonts =
-    lang === "ar"
-      ? `${koSans.variable} ${cairo.variable} ${plexArabic.variable}`
-      : `${inter.variable} ${merriweather.variable}`;
-
   const { brand } = getContent(lang);
 
   return (
-    <html lang={lang} dir={dirOf(lang)} className={fonts}>
+    <html lang={lang} dir={dirOf(lang)} className={somar.variable}>
       <head>
         {/* Runs before first paint: returning sessions skip the intro, and a
             first visit pauses the hero's entrance until the intro lifts. */}

@@ -9,16 +9,71 @@
     "links": [
       {
         "label": "حول القسم",
-        "href": "/ar/about"
+        "href": "/ar/about",
+        "children": [
+          {
+            "label": "نبذة عن المركز",
+            "href": "/ar/about#about"
+          },
+          {
+            "label": "كلمة مدير القسم",
+            "href": "/ar/about#director"
+          },
+          {
+            "label": "الرؤية والرسالة والأهداف",
+            "href": "/ar/about#overview"
+          },
+          {
+            "label": "هيكلية القسم",
+            "href": "/ar/about#structure"
+          },
+          {
+            "label": "فريق المركز",
+            "href": "/ar/about#team"
+          },
+          {
+            "label": "محطات المركز",
+            "href": "/ar/about#milestones"
+          }
+        ]
       },
       {
         "label": "الخدمات",
         "href": "/ar/services",
-        "hasDropdown": true
+        "children": [
+          {
+            "label": "الشبكات والإنترنت",
+            "href": "/ar/services#service-1"
+          },
+          {
+            "label": "الأنظمة وقواعد البيانات",
+            "href": "/ar/services#service-2"
+          },
+          {
+            "label": "الموقع والنشر الرقمي",
+            "href": "/ar/services#service-3"
+          },
+          {
+            "label": "الصيانة والدعم الفني",
+            "href": "/ar/services#service-4"
+          },
+          {
+            "label": "الأمن السيبراني",
+            "href": "/ar/services#service-5"
+          },
+          {
+            "label": "التدريب وبناء القدرات",
+            "href": "/ar/services#service-6"
+          }
+        ]
       },
       {
         "label": "الدورات",
         "href": "/ar/courses"
+      },
+      {
+        "label": "الخطة السنوية",
+        "href": "/ar/plan"
       },
       {
         "label": "معرض الصور",
@@ -27,8 +82,13 @@
       {
         "label": "الأخبار",
         "href": "/ar/news"
+      },
+      {
+        "label": "الأسئلة الشائعة",
+        "href": "/ar/faq"
       }
     ],
+    "more": "المزيد",
     "contact": "تواصل معنا",
     "menu": [
       {
@@ -72,6 +132,10 @@
       {
         "label": "الدورات والورش",
         "href": "/ar/courses"
+      },
+      {
+        "label": "الخطة السنوية",
+        "href": "/ar/plan"
       },
       {
         "label": "معرض الصور",
@@ -137,6 +201,16 @@
       "offsetY": 50
     }
   ],
+  "video": {
+    "label": "فيديو",
+    "heading": [
+      "مشاهد من الجامعة"
+    ],
+    "body": "لقطات من أنشطة الجامعة ومعارضها التقنية.",
+    "src": "/videos/campus-tour.mp4",
+    "poster": "/images/campus-tour-poster.jpg",
+    "play": "تشغيل الفيديو"
+  },
   "director": {
     "label": "كلمة المدير",
     "heading": "كلمة مدير القسم",
@@ -421,6 +495,48 @@
           "ويجري خلالها تنفيذ اختبار تجريبي كامل، يتولى فيه المشاركون دور المدرّس والطالب بالتناوب للاطلاع على الواجهتين.",
           "تُعقد الدورة قبل بدء الامتحانات الشهرية، ويُنصح بحضورها لمن سيعتمد المنصة للمرة الأولى."
         ],
+        "href": "/ar/courses/electronic-examination-system"
+      }
+    ]
+  },
+  "plan": {
+    "label": "الخطة السنوية",
+    "heading": [
+      "خطة أنشطة المركز",
+      "للعام الدراسي"
+    ],
+    "intro": "الدورات والورش والأنشطة المخطط لها خلال العام، مرتبة حسب الشهر. تُحدَّث الخطة من لوحة تحكم المحتوى كلما أُضيف نشاط جديد.",
+    "columns": {
+      "month": "الشهر",
+      "date": "التاريخ",
+      "activity": "النشاط",
+      "type": "النوع",
+      "venue": "المكان"
+    },
+    "details": "التفاصيل",
+    "rows": [
+      {
+        "month": "أيلول",
+        "date": "14 - 15 أيلول 2026",
+        "activity": "ورشة أمن المعلومات للمنتسبين",
+        "type": "ورشة",
+        "venue": "قاعة التدريب - الحاسبة الإلكترونية",
+        "href": "/ar/courses/information-security-workshop"
+      },
+      {
+        "month": "تشرين الأول",
+        "date": "6 تشرين الأول 2026",
+        "activity": "دورة إدارة الشبكات",
+        "type": "دورة",
+        "venue": "مختبر الحاسوب - كلية الهندسة",
+        "href": "/ar/courses/network-administration"
+      },
+      {
+        "month": "تشرين الثاني",
+        "date": "18 تشرين الثاني 2026",
+        "activity": "دورة نظام الامتحانات الإلكترونية",
+        "type": "دورة",
+        "venue": "قاعة المؤتمرات - رئاسة الجامعة",
         "href": "/ar/courses/electronic-examination-system"
       }
     ]
@@ -836,6 +952,13 @@
         "submit": "إرسال الرسالة",
         "note": "يفتح الزر برنامج البريد لديك برسالة جاهزة موجّهة إلى info@uowa.edu.iq."
       }
+    },
+    "plan": {
+      "label": "الخطة السنوية",
+      "title": "الخطة السنوية",
+      "intro": "الدورات والورش والأنشطة المخطط لها خلال العام، مرتبة حسب الشهر. تُحدَّث الخطة من لوحة تحكم المحتوى كلما أُضيف نشاط جديد.",
+      "metaTitle": "الخطة السنوية | قسم الحاسبة الإلكترونية",
+      "metaDescription": "الخطة السنوية لأنشطة قسم الحاسبة الإلكترونية في جامعة وارث الأنبياء: الدورات والورش مرتبة حسب الشهر."
     }
   },
   "meta": {

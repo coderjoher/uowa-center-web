@@ -8,7 +8,7 @@ import Logo from "@/components/ui/Logo";
 import { ChevronDownIcon, MenuBulletIcon } from "@/components/icons";
 import { SWITCH_TO, type Locale } from "@/i18n/config";
 import { pointsAtHiddenSection } from "@/config/sections";
-import type { SiteContent } from "@/types/content";
+import type { NavLink, SiteContent } from "@/types/content";
 
 /**
  * Fixed navbar. Solid white with a hairline under it, so it reads as its own
@@ -28,6 +28,67 @@ import type { SiteContent } from "@/types/content";
  * Every inline offset uses logical properties so the whole bar mirrors under
  * `dir="rtl"` without a second set of rules.
  */
+const MAX_VISIBLE = 5;
+
+/**
+ * One desktop nav title. With sub-pages it opens a dropdown panel on hover
+ * or keyboard focus (pure CSS: `group-hover` / `group-focus-within`); the
+ * title itself still links to its page. Sub-pages pointing at a hidden
+ * section are dropped. The "more" menu is the same control with the
+ * overflow titles as its items and no link of its own.
+ */
+function DesktopLink({ link, current, isMore = false }: { link: NavLink; current: boolean; isMore?: boolean }) {
+  const children = (link.children ?? []).filter((c) => !pointsAtHiddenSection(c.href));
+  const label = (
+    <>
+      {link.label}
+      {children.length ? (
+        <ChevronDownIcon className="text-[#aaa] transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180" />
+      ) : null}
+    </>
+  );
+  const cls = `inline-flex items-center gap-1.5 border-b font-[family-name:var(--font-sans)] text-[16px] leading-[26px] text-navy transition-colors duration-200 ${
+    current ? "border-gold" : "border-transparent hover:border-gold"
+  }`;
+
+  if (!children.length) {
+    return (
+      <Link href={link.href} aria-current={current ? "page" : undefined} className={cls}>
+        {label}
+      </Link>
+    );
+  }
+
+  return (
+    <div className="group relative">
+      {isMore ? (
+        <button type="button" aria-haspopup="true" className={`${cls} cursor-pointer`}>
+          {label}
+        </button>
+      ) : (
+        <Link href={link.href} aria-current={current ? "page" : undefined} aria-haspopup="true" className={cls}>
+          {label}
+        </Link>
+      )}
+      {/* The padding bridges the gap so the pointer can travel into the panel. */}
+      <div className="invisible absolute start-1/2 top-full z-40 -translate-x-1/2 pt-3 opacity-0 transition-[opacity,visibility,transform] duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 rtl:translate-x-1/2">
+        <ul className="min-w-[240px] list-none border-t-2 border-gold bg-white p-2 shadow-[0_18px_40px_-20px_rgb(21_40_61/0.45)]">
+          {children.map((child) => (
+            <li key={child.href}>
+              <Link
+                href={child.href}
+                className="block whitespace-nowrap px-3 py-2.5 font-[family-name:var(--font-sans)] text-[15px] leading-6 text-navy transition-colors duration-150 hover:bg-surface"
+              >
+                {child.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 export default function SiteHeader({
   lang,
   content,
@@ -42,6 +103,12 @@ export default function SiteHeader({
 
   /** Marks the live page. Menu hrefs may carry a hash; the route is what counts. */
   const isCurrent = (href: string) => pathname === href.split("#")[0];
+
+  /* The bar fits five titles beside the switcher and the contact link at
+     1200px; anything past that folds into the "more" menu, so editors can
+     add titles from the admin without breaking the row. */
+  const visibleLinks = nav.links.slice(0, MAX_VISIBLE);
+  const overflowLinks = nav.links.slice(MAX_VISIBLE);
 
   /* Every link closes the menu on click; Escape closes it too. */
   useEffect(() => {
@@ -117,22 +184,17 @@ export default function SiteHeader({
           {/* Six links plus the switcher and CTA just touch the logo at
               1200px on the 40px design gap, so it tightens to 28 until there
               is room for the original spacing again. */}
-          <div className="hidden items-center gap-7 xl:flex 2xl:gap-10">
-            {nav.links.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                aria-current={isCurrent(link.href) ? "page" : undefined}
-                className={`inline-flex items-center gap-1.5 border-b font-[family-name:var(--font-sans)] text-[16px] leading-[26px] text-navy transition-opacity duration-200 hover:opacity-70 ${
-                  isCurrent(link.href) ? "border-gold" : "border-transparent hover:border-gold"
-                }`}
-              >
-                {link.label}
-                {link.hasDropdown ? (
-                  <ChevronDownIcon className="text-[#aaa]" />
-                ) : null}
-              </Link>
+          <div className="hidden items-center gap-6 xl:flex 2xl:gap-9">
+            {visibleLinks.map((link) => (
+              <DesktopLink key={link.href} link={link} current={isCurrent(link.href)} />
             ))}
+            {overflowLinks.length ? (
+              <DesktopLink
+                link={{ label: nav.more, href: overflowLinks[0].href, children: overflowLinks }}
+                current={overflowLinks.some((l) => isCurrent(l.href))}
+                isMore
+              />
+            ) : null}
 
             <Link
               href={`/${other.locale}`}

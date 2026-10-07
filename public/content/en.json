@@ -9,16 +9,71 @@
     "links": [
       {
         "label": "About",
-        "href": "/en/about"
+        "href": "/en/about",
+        "children": [
+          {
+            "label": "The Center in Brief",
+            "href": "/en/about#about"
+          },
+          {
+            "label": "Director's Word",
+            "href": "/en/about#director"
+          },
+          {
+            "label": "Vision, Mission & Objectives",
+            "href": "/en/about#overview"
+          },
+          {
+            "label": "Department Structure",
+            "href": "/en/about#structure"
+          },
+          {
+            "label": "Our Team",
+            "href": "/en/about#team"
+          },
+          {
+            "label": "Milestones",
+            "href": "/en/about#milestones"
+          }
+        ]
       },
       {
         "label": "Services",
         "href": "/en/services",
-        "hasDropdown": true
+        "children": [
+          {
+            "label": "Network & Internet",
+            "href": "/en/services#service-1"
+          },
+          {
+            "label": "Systems & Databases",
+            "href": "/en/services#service-2"
+          },
+          {
+            "label": "Web & Digital Publishing",
+            "href": "/en/services#service-3"
+          },
+          {
+            "label": "Maintenance & Support",
+            "href": "/en/services#service-4"
+          },
+          {
+            "label": "Cybersecurity",
+            "href": "/en/services#service-5"
+          },
+          {
+            "label": "Training & Capacity Building",
+            "href": "/en/services#service-6"
+          }
+        ]
       },
       {
         "label": "Training",
         "href": "/en/courses"
+      },
+      {
+        "label": "Annual Plan",
+        "href": "/en/plan"
       },
       {
         "label": "Gallery",
@@ -27,8 +82,13 @@
       {
         "label": "News",
         "href": "/en/news"
+      },
+      {
+        "label": "FAQ",
+        "href": "/en/faq"
       }
     ],
+    "more": "More",
     "contact": "Contact Us",
     "menu": [
       {
@@ -72,6 +132,10 @@
       {
         "label": "Courses & Workshops",
         "href": "/en/courses"
+      },
+      {
+        "label": "Annual Plan",
+        "href": "/en/plan"
       },
       {
         "label": "Gallery",
@@ -137,6 +201,16 @@
       "offsetY": 50
     }
   ],
+  "video": {
+    "label": "Video",
+    "heading": [
+      "Scenes from the university"
+    ],
+    "body": "Footage from the university's activities and technology exhibitions.",
+    "src": "/videos/campus-tour.mp4",
+    "poster": "/images/campus-tour-poster.jpg",
+    "play": "Play the video"
+  },
   "director": {
     "label": "Director",
     "heading": "A word from the director",
@@ -421,6 +495,48 @@
           "A complete mock exam runs during the session, with participants taking the instructor and student roles in turn so they see both interfaces.",
           "It is held ahead of the monthly examination period and is recommended for anyone using the platform for the first time."
         ],
+        "href": "/en/courses/electronic-examination-system"
+      }
+    ]
+  },
+  "plan": {
+    "label": "Annual plan",
+    "heading": [
+      "The centre's activities",
+      "for the academic year"
+    ],
+    "intro": "Courses, workshops and activities planned for the year, by month. The plan is updated from the content admin whenever an activity is added.",
+    "columns": {
+      "month": "Month",
+      "date": "Date",
+      "activity": "Activity",
+      "type": "Type",
+      "venue": "Venue"
+    },
+    "details": "Details",
+    "rows": [
+      {
+        "month": "September",
+        "date": "14 - 15 September 2026",
+        "activity": "Information Security Workshop",
+        "type": "Workshop",
+        "venue": "Training Hall - Computer Center",
+        "href": "/en/courses/information-security-workshop"
+      },
+      {
+        "month": "October",
+        "date": "6 October 2026",
+        "activity": "Network Administration Course",
+        "type": "Course",
+        "venue": "Computer Lab - College of Engineering",
+        "href": "/en/courses/network-administration"
+      },
+      {
+        "month": "November",
+        "date": "18 November 2026",
+        "activity": "Electronic Examination System Course",
+        "type": "Course",
+        "venue": "Conference Hall - University Presidency",
         "href": "/en/courses/electronic-examination-system"
       }
     ]
@@ -836,6 +952,13 @@
         "submit": "Send message",
         "note": "This opens your mail app with a message ready to send to info@uowa.edu.iq."
       }
+    },
+    "plan": {
+      "label": "Annual plan",
+      "title": "Annual Plan",
+      "intro": "Courses, workshops and activities planned for the year, by month. The plan is updated from the content admin whenever an activity is added.",
+      "metaTitle": "Annual Plan | Electronic Computer Department",
+      "metaDescription": "The annual activity plan of the Electronic Computer Department at the University of Warith Al-Anbiyaa: courses and workshops by month."
     }
   },
   "meta": {
