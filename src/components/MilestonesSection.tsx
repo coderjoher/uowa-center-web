@@ -87,11 +87,6 @@ export default function MilestonesSection({
       className="relative flex scroll-mt-24 flex-col items-center py-14 xl:gap-[85px] xl:py-[140px]"
     >
       <div className="relative mx-auto flex w-full max-w-[1520px] flex-col items-start justify-between gap-8 px-5 xl:flex-row xl:px-25">
-        <div
-          aria-hidden
-          className="ornament-flip pointer-events-none absolute start-0 top-[247px] z-10 hidden h-[241px] w-[241px] bg-[url('/svg/ornament-alumni.svg')] xl:block"
-        />
-
         <div className="flex w-full max-w-[420px] flex-col items-start gap-4">
           <SectionLabel className="text-navy">{content.label}</SectionLabel>
           <h2 className="t-h2">

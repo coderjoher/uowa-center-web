@@ -1,7 +1,7 @@
 import Image from "next/image";
 import UnderlineLink from "@/components/ui/UnderlineLink";
 import SectionLabel from "@/components/ui/SectionLabel";
-import { AboutDashGrid } from "@/components/DashGrid";
+import CircuitPattern from "@/components/ui/CircuitPattern";
 import type { SiteContent } from "@/types/content";
 
 /**
@@ -69,8 +69,8 @@ export default function AboutSection({
         <UnderlineLink href={content.linkHref}>{content.link}</UnderlineLink>
       </div>
 
-      {/* Dash-grid ornament, bottom of the inline-end edge */}
-      <AboutDashGrid className="pointer-events-none absolute end-[24px] top-[140px] -z-0 hidden xl:block" />
+      {/* Circuit ornament along the inline-end edge */}
+      <CircuitPattern tone="dark" className="absolute end-0 top-[120px] -z-0 hidden h-[300px] w-[420px] xl:block" />
     </section>
   );
 }

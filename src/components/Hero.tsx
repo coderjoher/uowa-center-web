@@ -2,28 +2,27 @@ import Image from "next/image";
 import Link from "next/link";
 import SolidButton from "@/components/ui/SolidButton";
 import UnderlineLink from "@/components/ui/UnderlineLink";
+import CircuitPattern from "@/components/ui/CircuitPattern";
 import type { Service, SiteContent } from "@/types/content";
 
 /**
- * Home-page hero in two rows.
+ * Home-page hero, in the university's own idiom (compare the student-life
+ * page on uowa.edu.iq): the photo runs full-bleed under a navy gradient that
+ * deepens toward the copy, so white type sits on it with full contrast.
  *
- * Row 1 — the composition. Copy on the inline-start side (eyebrow, heading,
- * intro, primary + secondary CTA). From 1200px the photo leaves the container:
- * it starts at 52% of the row, hangs from the underside of the navbar and
- * bleeds off the inline-end edge of the viewport, so the section reads as one
- * asymmetric spread rather than a text block next to a floating card. A navy
- * plaque on its bottom-start corner carries the caption in the house style.
+ * Row 1 — the photo band. Copy on the inline-start side: a gold rule and the
+ * eyebrow, the heading in white, the intro, then a gold primary button and a
+ * white underline link. The circuit ornament runs across the gradient with
+ * its pulses moving, and the photo's caption plaque keeps the bottom-end
+ * corner. Below 1200px the gradient turns to rise from the bottom and the
+ * copy sits at the foot of the photo.
  *
- * Row 2 — the areas of work. A hairline, then the first four service titles
- * as numbered links into the services page. It gives the hero a foothold in
- * what the centre actually does, and the rule under the photo ties the bleed
- * back to the grid.
+ * Row 2 — the areas of work, as a navy strip joined to the band: four
+ * numbered links (gold numerals) into the services page, 2×2 on phones.
  *
- * Below 1200px everything stacks on a tighter rhythm: copy, photo (16:10,
- * plaque still on its corner), then the areas as a 2×2 grid. The whole
- * section is meant to fit in roughly one phone screen.
- *
- * Every inline offset is logical, so the spread mirrors under `dir="rtl"`.
+ * The copy keeps the `.hero-rise` stagger and the photo `.hero-settle`; both
+ * are held while the first-visit intro is up. Every offset is logical, so the
+ * spread mirrors under `dir="rtl"`.
  */
 export default function Hero({
   content,
@@ -37,68 +36,69 @@ export default function Hero({
   const areas = services.slice(0, 4);
 
   return (
-    <header className="tech-grid overflow-hidden">
-      <div className="relative mx-auto w-full max-w-[1520px] px-5 pb-8 pt-22 xl:px-25 xl:pb-20 xl:pt-[156px]">
-        {/* Row 1: copy + photo */}
-        <div className="relative xl:flex xl:min-h-[540px] xl:items-center">
-          <div className="hero-rise flex w-full flex-col items-start xl:w-1/2 xl:pe-12">
-            <p className="t-label hero-eyebrow flex items-center gap-4 text-muted">
-              <span aria-hidden className="hidden h-0.5 w-10 shrink-0 bg-gold xl:block" />
+    <header className="bg-navy pt-[68px] xl:pt-20">
+      {/* Row 1: photo band */}
+      <div className="relative isolate flex min-h-[560px] items-end overflow-hidden xl:min-h-[620px] xl:items-center">
+        {/* The student sits on the photo's right; on RTL pages the copy takes
+            that side, so the photo is mirrored to keep him in view. The
+            scale crops the watermark along the bottom, so nothing legible
+            is reversed. */}
+        <div className="hero-settle absolute inset-0 -z-20 rtl:-scale-x-100">
+          <Image
+            src="/images/service-network.jpg"
+            alt={content.imageAlt}
+            fill
+            loading="eager"
+            sizes="100vw"
+            className="origin-top scale-[1.12] object-cover object-[center_30%]"
+          />
+        </div>
+        <div className="absolute inset-0 -z-10 bg-linear-to-t from-navy via-navy/85 to-navy/25 xl:bg-linear-to-r xl:from-navy xl:via-navy/80 xl:to-navy/0 xl:rtl:bg-linear-to-l" />
+        <CircuitPattern className="absolute inset-y-0 start-0 -z-10 hidden h-full w-[62%] opacity-80 xl:block" />
+
+        <div className="relative mx-auto w-full max-w-[1520px] px-5 pb-10 pt-40 xl:px-25 xl:py-24">
+          <div className="hero-rise flex max-w-[640px] flex-col items-start">
+            <p className="t-label hero-eyebrow flex items-center gap-4 text-pale">
+              <span aria-hidden className="h-0.5 w-10 shrink-0 bg-gold" />
               {content.label}
             </p>
-            <h1 className="t-h1 mt-3 text-balance xl:mt-6">{content.heading}</h1>
-            <p className="t-body-lg mt-4 max-w-[520px] text-pretty xl:mt-6">
+            <h1 className="t-h1 mt-4 text-balance text-white xl:mt-6">{content.heading}</h1>
+            <p className="t-body-lg mt-4 max-w-[540px] text-pretty text-[#ccdce6] xl:mt-6">
               {content.body}
             </p>
-            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-4 xl:mt-9 xl:gap-x-8">
-              <SolidButton href={content.ctaHref}>{content.cta}</SolidButton>
-              <UnderlineLink href={content.secondaryCtaHref}>
+            <div className="mt-7 flex flex-wrap items-center gap-x-7 gap-y-4 xl:mt-10">
+              <SolidButton href={content.ctaHref} variant="gold">
+                {content.cta}
+              </SolidButton>
+              <UnderlineLink href={content.secondaryCtaHref} tone="white">
                 {content.secondaryCta}
               </UnderlineLink>
             </div>
           </div>
-
-          {/* Photo. On desktop it is taken out of flow, pinned to the row's
-              vertical extent, pulled up under the navbar (156 − 80 = 76px)
-              and stretched to the viewport edge. The image is scaled up from
-              its top edge so the photographer's mark along the bottom of the
-              source is cropped away at every size. */}
-          <figure className="hero-settle relative mt-8 aspect-[16/10] w-full overflow-hidden xl:absolute xl:-top-[76px] xl:bottom-0 xl:mt-0 xl:aspect-auto xl:w-auto xl:start-[52%] xl:end-[calc((100%-100vw)/2)]">
-            <Image
-              src="/images/service-network.jpg"
-              alt={content.imageAlt}
-              fill
-              loading="eager"
-              sizes="(max-width: 1199px) 100vw, 55vw"
-              className="origin-top scale-[1.12] object-cover object-top"
-            />
-            <figcaption className="absolute bottom-0 start-0 flex max-w-[calc(100%-40px)] flex-col gap-0.5 border-s-[3px] border-gold bg-navy px-4 py-3 text-white xl:gap-1 xl:px-8 xl:py-6">
-              <span className="font-[family-name:var(--font-sans)] text-[12px] leading-[18px] text-pale xl:text-[13px] xl:leading-5">
-                {brand.university}
-              </span>
-              <span className="t-h5 text-[15px] text-white xl:text-[16px]">
-                {content.imageCaption}
-              </span>
-            </figcaption>
-          </figure>
         </div>
 
-        {/* Row 2: areas of work */}
-        <div className="relative mt-8 border-t border-navy pt-5 xl:mt-20 xl:flex xl:gap-16 xl:pt-10">
-          <p className="t-label hero-eyebrow mb-4 shrink-0 text-muted xl:mb-0 xl:w-[220px] xl:pt-1">
+        <p className="absolute bottom-0 end-0 hidden flex-col gap-1 border-s-[3px] border-gold bg-navy/90 px-7 py-5 text-white backdrop-blur-sm xl:flex">
+          <span className="font-[family-name:var(--font-sans)] text-[13px] leading-5 text-pale">
+            {brand.university}
+          </span>
+          <span className="t-h5 text-white">{content.imageCaption}</span>
+        </p>
+      </div>
+
+      {/* Row 2: areas of work */}
+      <div className="border-t border-white/10">
+        <div className="mx-auto w-full max-w-[1520px] px-5 py-7 xl:flex xl:items-center xl:gap-16 xl:px-25 xl:py-10">
+          <p className="t-label hero-eyebrow mb-5 shrink-0 text-pale xl:mb-0 xl:w-[200px]">
             {content.areasLabel}
           </p>
-          <ol className="grid w-full list-none grid-cols-2 gap-x-5 gap-y-5 p-0 xl:grid-cols-4 xl:gap-x-10 xl:gap-y-8">
+          <ol className="grid w-full list-none grid-cols-2 gap-x-5 gap-y-6 p-0 xl:grid-cols-4 xl:gap-x-10">
             {areas.map((service, i) => (
               <li key={service.title}>
-                <Link
-                  href={`${content.ctaHref}#service-${i + 1}`}
-                  className="group flex flex-col gap-1.5 xl:gap-3"
-                >
+                <Link href={`${content.ctaHref}#service-${i + 1}`} className="group flex flex-col gap-1.5 xl:gap-2">
                   <span className="font-[family-name:var(--font-sans)] text-[12px] font-medium leading-[18px] tracking-[2px] text-gold xl:text-[13px] xl:leading-5">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="t-h5 border-b border-transparent pb-1 text-[15px] text-navy transition-colors duration-200 group-hover:border-navy xl:text-[16px]">
+                  <span className="t-h5 border-b border-transparent pb-1 text-[15px] text-white transition-colors duration-200 group-hover:border-gold xl:text-[17px]">
                     {service.title}
                   </span>
                 </Link>

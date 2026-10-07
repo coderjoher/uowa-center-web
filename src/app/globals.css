@@ -189,29 +189,27 @@ html.lenis body {
     }
   }
 
-  /* Faint technical grid behind the hero: 1px hairlines on a 48px pitch at 7%
-     navy, drawn on a pseudo-element so the radial fade masks only the grid.
-     (Masking the section itself faded the copy, the button and the photo
-     edges along with it.) ------------------------------------------------ */
-  .tech-grid {
-    position: relative;
+  /* Circuit ornament pulses (see src/components/ui/CircuitPattern.tsx). Each
+     path has pathLength 100 and a 7/93 dash, so sliding the offset by 100
+     carries one pulse from the start of its trace to the end. ------------ */
+  @keyframes circuit-pulse {
+    from {
+      stroke-dashoffset: 107;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
   }
-  .tech-grid::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background-image:
-      linear-gradient(to right, color-mix(in srgb, var(--navy) 7%, transparent) 1px, transparent 1px),
-      linear-gradient(to bottom, color-mix(in srgb, var(--navy) 7%, transparent) 1px, transparent 1px);
-    background-size: 48px 48px;
-    background-position: center top;
-    mask-image: radial-gradient(ellipse 70% 80% at 30% 30%, #000 20%, transparent 100%);
+  .circuit-pulses path {
+    stroke-dashoffset: 107;
+    animation-name: circuit-pulse;
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+    animation-iteration-count: infinite;
   }
-  /* The fade sits behind the copy column, which swaps sides under RTL. */
-  [dir="rtl"] .tech-grid::before {
-    mask-image: radial-gradient(ellipse 70% 80% at 70% 30%, #000 20%, transparent 100%);
+  @media (prefers-reduced-motion: reduce) {
+    .circuit-pulses {
+      display: none;
+    }
   }
 
   /* The hero eyebrow carries the centre's full name, which even at the phone
@@ -562,14 +560,6 @@ html.lenis body {
     font-weight: 500;
   }
 
-  /* The ornament artwork is directional; mirror it with the layout. */
-  .ornament-flip {
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-  }
-  [dir="rtl"] .ornament-flip {
-    transform: scaleX(-1);
-  }
 
   /* Services slider: the copy remounts on change and plays this on entry,
      which needs no timers and stays in step with the image cross-fade. */
