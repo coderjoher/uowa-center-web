@@ -502,6 +502,35 @@ html.lenis body {
     }
   }
 
+  /* One-time section entrance (src/components/ui/SectionReveal.tsx). Only
+     ever set by script, so the page reads fine without it. ------------- */
+  [data-sec="pending"] {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  [data-sec="shown"] {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 800ms ease-out,
+      transform 1000ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Campus band slices: full height until revealed, then wipe once. */
+  .banner-slices > span {
+    transform: scaleY(1);
+    transition: transform 900ms cubic-bezier(0.76, 0, 0.24, 1);
+  }
+  .banner-slices[data-revealed="true"] > span {
+    transform: scaleY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .banner-slices > span {
+      transform: scaleY(0);
+      transition: none;
+    }
+  }
+
   /* Lightbox backdrop fade (see src/components/ui/Lightbox.tsx). ---------- */
   @keyframes overlay-in {
     from {
