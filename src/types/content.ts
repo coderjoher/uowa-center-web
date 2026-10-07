@@ -148,9 +148,21 @@ export interface VideoBlock {
   heading: string[];
   body: string;
   src: string;
+  /** Optional WebM copy, offered after the MP4 for browsers without H.264. */
+  srcWebm?: string;
   poster: string;
   /** Accessible name of the play button. */
   play: string;
+  /** Accessible names for the player's own controls. */
+  controls: {
+    pause: string;
+    mute: string;
+    unmute: string;
+    volume: string;
+    fullscreen: string;
+    exitFullscreen: string;
+    seek: string;
+  };
 }
 
 /** One planned activity in the annual plan table. */
