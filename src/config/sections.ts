@@ -6,7 +6,7 @@ import settings from "../../public/content/settings.json";
  * them; a hidden section leaves the pages and its site-map entries go with
  * it, nothing else needs editing.
  */
-export type HideableSection = "director" | "structure" | "team";
+export type HideableSection = "director" | "structure" | "team" | "video";
 
 export const VISIBLE_SECTIONS: Record<HideableSection, boolean> =
   settings.sections;

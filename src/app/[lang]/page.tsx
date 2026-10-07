@@ -3,6 +3,7 @@ import SiteHeader from "@/components/SiteHeader";
 import Hero from "@/components/Hero";
 import AboutSection from "@/components/AboutSection";
 import FeatureCards from "@/components/FeatureCards";
+import VideoSection from "@/components/VideoSection";
 import DirectorMessage from "@/components/DirectorMessage";
 import ServicesSection from "@/components/ServicesSection";
 import StructureSection from "@/components/StructureSection";
@@ -32,6 +33,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         <Hero content={c.hero} brand={c.brand} services={c.services.items} />
         <AboutSection content={c.about} />
         <FeatureCards features={c.features} />
+        {isSectionVisible("video") ? <VideoSection content={c.video} /> : null}
         {isSectionVisible("director") ? (
           <DirectorMessage content={c.director} />
         ) : null}
