@@ -203,10 +203,8 @@
   ],
   "video": {
     "label": "فيديو",
-    "heading": [
-      "مشاهد من الجامعة"
-    ],
-    "body": "لقطات من أنشطة الجامعة ومعارضها التقنية.",
+    "heading": [],
+    "body": "ابتكارات الطلبة",
     "src": "/videos/campus-tour.mp4",
     "srcWebm": "/videos/campus-tour.webm",
     "poster": "/images/campus-tour-poster.jpg",
