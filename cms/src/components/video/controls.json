@@ -1,0 +1,32 @@
+{
+  "collectionName": "components_video_controls",
+  "info": {
+    "displayName": "أزرار المشغّل (وصف)",
+    "icon": "bulletList",
+    "description": "controls"
+  },
+  "options": {},
+  "attributes": {
+    "pause": {
+      "type": "string"
+    },
+    "mute": {
+      "type": "string"
+    },
+    "unmute": {
+      "type": "string"
+    },
+    "volume": {
+      "type": "string"
+    },
+    "fullscreen": {
+      "type": "string"
+    },
+    "exitFullscreen": {
+      "type": "string"
+    },
+    "seek": {
+      "type": "string"
+    }
+  }
+}

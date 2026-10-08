@@ -37,8 +37,18 @@ const MAX_VISIBLE = 5;
  * section are dropped. The "more" menu is the same control with the
  * overflow titles as its items and no link of its own.
  */
-function DesktopLink({ link, current, isMore = false }: { link: NavLink; current: boolean; isMore?: boolean }) {
-  const children = (link.children ?? []).filter((c) => !pointsAtHiddenSection(c.href));
+function DesktopLink({
+  link,
+  current,
+  sections,
+  isMore = false,
+}: {
+  link: NavLink;
+  current: boolean;
+  sections: SiteContent["sections"];
+  isMore?: boolean;
+}) {
+  const children = (link.children ?? []).filter((c) => !pointsAtHiddenSection(c.href, sections));
   const label = (
     <>
       {link.label}
@@ -186,12 +196,13 @@ export default function SiteHeader({
               is room for the original spacing again. */}
           <div className="hidden items-center gap-6 xl:flex 2xl:gap-9">
             {visibleLinks.map((link) => (
-              <DesktopLink key={link.href} link={link} current={isCurrent(link.href)} />
+              <DesktopLink key={link.href} link={link} current={isCurrent(link.href)} sections={content.sections} />
             ))}
             {overflowLinks.length ? (
               <DesktopLink
                 link={{ label: nav.more, href: overflowLinks[0].href, children: overflowLinks }}
                 current={overflowLinks.some((l) => isCurrent(l.href))}
+                sections={content.sections}
                 isMore
               />
             ) : null}
@@ -238,10 +249,10 @@ export default function SiteHeader({
                 {item.label}
               </Link>
 
-              {item.children ? (
+              {item.children?.length ? (
                 <ul className="flex list-none flex-col p-0 ps-2.5">
                   {item.children
-                    .filter((child) => !pointsAtHiddenSection(child.href))
+                    .filter((child) => !pointsAtHiddenSection(child.href, content.sections))
                     .map((child) => (
                       <li key={child.label}>
                         <Link

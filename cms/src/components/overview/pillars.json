@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_overview_pillars",
+  "info": {
+    "displayName": "pillars",
+    "icon": "bulletList",
+    "description": "pillars"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "body": {
+      "type": "text"
+    }
+  }
+}

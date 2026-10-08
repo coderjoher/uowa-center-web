@@ -6,6 +6,15 @@ import SectionLabel from "@/components/ui/SectionLabel";
 import CircuitPattern from "@/components/ui/CircuitPattern";
 import type { VideoBlock } from "@/types/content";
 
+/** The 11-character ID from a YouTube link, embed URL or bare ID. */
+function youtubeId(value?: string): string | null {
+  if (!value) return null;
+  const v = value.trim();
+  if (/^[\w-]{11}$/.test(v)) return v;
+  const m = v.match(/(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/|\/live\/)([\w-]{11})/);
+  return m ? m[1] : null;
+}
+
 /** Seconds as m:ss. */
 function clock(t: number): string {
   if (!Number.isFinite(t) || t < 0) t = 0;
@@ -68,6 +77,10 @@ const Expand = ({ on }: { on: boolean }) => (
  * skip 5s, M mutes, F toggles full screen. The bar follows the page
  * direction, so the seek fill grows from the inline start in Arabic, as it
  * does in Arabic YouTube. The file is requested only on the first play.
+ *
+ * When a YouTube link or ID is set, the same poster and gold play button
+ * start a privacy-enhanced YouTube embed in the frame instead, with
+ * YouTube's own controls.
  */
 export default function VideoSection({ content }: { content: VideoBlock }) {
   const frame = useRef<HTMLDivElement>(null);
@@ -85,6 +98,8 @@ export default function VideoSection({ content }: { content: VideoBlock }) {
   const [chrome, setChrome] = useState(true);
 
   const c = content.controls;
+  /* A YouTube video, when one is set, plays in an embed instead of the file. */
+  const yt = youtubeId(content.youtube);
 
   /* Show the bar, and schedule it to hide again while playing. */
   const wake = useCallback(() => {
@@ -105,6 +120,7 @@ export default function VideoSection({ content }: { content: VideoBlock }) {
 
   const start = () => {
     setStarted(true);
+    if (yt) return;
     requestAnimationFrame(() => {
       ref.current?.play().catch(() => {});
       frame.current?.focus({ preventScroll: true });
@@ -191,6 +207,16 @@ export default function VideoSection({ content }: { content: VideoBlock }) {
           full ? "" : "rounded-e-md"
         } ${started && !chrome && playing ? "cursor-none" : ""}`}
       >
+        {yt && started ? (
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
+            title={content.heading.join(" ")}
+            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+            allowFullScreen
+            className="absolute inset-0 h-full w-full border-0"
+          />
+        ) : null}
+        {yt ? null : (
         <video
           ref={ref}
           poster={content.poster}
@@ -221,6 +247,7 @@ export default function VideoSection({ content }: { content: VideoBlock }) {
           <source src={content.src} type="video/mp4" />
           {content.srcWebm ? <source src={content.srcWebm} type="video/webm" /> : null}
         </video>
+        )}
 
         {/* Poster state */}
         {!started ? (
@@ -245,7 +272,7 @@ export default function VideoSection({ content }: { content: VideoBlock }) {
         ) : null}
 
         {/* Centre mark while paused, and the buffering ring */}
-        {started && !playing ? (
+        {started && !playing && !yt ? (
           <button
             type="button"
             onClick={toggle}
@@ -264,8 +291,8 @@ export default function VideoSection({ content }: { content: VideoBlock }) {
           />
         ) : null}
 
-        {/* Control bar */}
-        {started ? (
+        {/* Control bar (YouTube embeds bring their own) */}
+        {started && !yt ? (
           <div
             className={`absolute inset-x-0 bottom-0 bg-linear-to-t from-navy via-navy/85 to-transparent px-3 pb-2 pt-10 transition-[opacity,transform] duration-300 xl:px-5 xl:pb-3 ${
               chrome ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-2 opacity-0"

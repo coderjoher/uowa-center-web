@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_pages_gallery_lightbox",
+  "info": {
+    "displayName": "عارض الصور",
+    "icon": "bulletList",
+    "description": "gallery › lightbox"
+  },
+  "options": {},
+  "attributes": {
+    "open": {
+      "type": "string"
+    },
+    "close": {
+      "type": "string"
+    },
+    "prev": {
+      "type": "string"
+    },
+    "next": {
+      "type": "string"
+    }
+  }
+}

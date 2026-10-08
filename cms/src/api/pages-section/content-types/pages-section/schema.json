@@ -1,0 +1,119 @@
+{
+  "kind": "singleType",
+  "collectionName": "pages_sections",
+  "info": {
+    "singularName": "pages-section",
+    "pluralName": "pages-sections",
+    "displayName": "الصفحات الداخلية"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "about": {
+      "type": "component",
+      "repeatable": false,
+      "component": "pages.about",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "services": {
+      "type": "component",
+      "repeatable": false,
+      "component": "pages.services",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "courseDetail": {
+      "type": "component",
+      "repeatable": false,
+      "component": "pages.course-detail",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "courses": {
+      "type": "component",
+      "repeatable": false,
+      "component": "pages.courses",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "gallery": {
+      "type": "component",
+      "repeatable": false,
+      "component": "pages.gallery",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "newsDetail": {
+      "type": "component",
+      "repeatable": false,
+      "component": "pages.news-detail",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "news": {
+      "type": "component",
+      "repeatable": false,
+      "component": "pages.news",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "faq": {
+      "type": "component",
+      "repeatable": false,
+      "component": "pages.faq",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "contact": {
+      "type": "component",
+      "repeatable": false,
+      "component": "pages.contact",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "plan": {
+      "type": "component",
+      "repeatable": false,
+      "component": "pages.plan",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

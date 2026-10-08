@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_pages_news",
+  "info": {
+    "displayName": "الأخبار",
+    "icon": "bulletList",
+    "description": "news"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "intro": {
+      "type": "text"
+    },
+    "metaTitle": {
+      "type": "string"
+    },
+    "metaDescription": {
+      "type": "text"
+    }
+  }
+}

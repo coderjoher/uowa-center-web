@@ -1,0 +1,36 @@
+{
+  "collectionName": "components_pages_contact",
+  "info": {
+    "displayName": "زر التواصل",
+    "icon": "bulletList",
+    "description": "contact"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "intro": {
+      "type": "text"
+    },
+    "metaTitle": {
+      "type": "string"
+    },
+    "metaDescription": {
+      "type": "text"
+    },
+    "cards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "pages.contact-cards"
+    },
+    "form": {
+      "type": "component",
+      "repeatable": false,
+      "component": "pages.contact-form"
+    }
+  }
+}

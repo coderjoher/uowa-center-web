@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_shared_lines",
+  "info": {
+    "displayName": "سطر / فقرة",
+    "icon": "align-left",
+    "description": "One line or paragraph of a list"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "text"
+    }
+  }
+}

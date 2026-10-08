@@ -1,3 +1,5 @@
+import type { HideableSection } from "@/config/sections";
+
 export interface NavLink {
   label: string;
   href: string;
@@ -150,6 +152,11 @@ export interface VideoBlock {
   src: string;
   /** Optional WebM copy, offered after the MP4 for browsers without H.264. */
   srcWebm?: string;
+  /**
+   * Optional YouTube video (a link or the 11-character ID). When set it is
+   * played in the themed frame instead of the uploaded file.
+   */
+  youtube?: string;
   poster: string;
   /** Accessible name of the play button. */
   play: string;
@@ -187,6 +194,8 @@ export interface AnnualPlan {
 }
 
 export interface SiteContent {
+  /** Section switches (from the CMS settings, or settings.json). */
+  sections?: Record<HideableSection, boolean>;
   brand: {
     /** Bold half of the wordmark. */
     name: string;

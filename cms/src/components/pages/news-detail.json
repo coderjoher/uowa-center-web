@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_pages_news_detail",
+  "info": {
+    "displayName": "صفحة الخبر",
+    "icon": "bulletList",
+    "description": "newsDetail"
+  },
+  "options": {},
+  "attributes": {
+    "back": {
+      "type": "string"
+    },
+    "related": {
+      "type": "string"
+    }
+  }
+}
