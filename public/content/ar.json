@@ -167,7 +167,8 @@
     "secondaryCtaHref": "/ar#contact",
     "imageAlt": "قاعة الحاسوب في جامعة وارث الأنبياء",
     "imageCaption": "قاعة الحاسوب",
-    "areasLabel": "احصاءات"
+    "areasLabel": "احصاءات",
+    "image": "/images/service-network.jpg"
   },
   "about": {
     "label": "من نحن",
@@ -179,7 +180,9 @@
     "link": "المزيد عن المركز",
     "linkHref": "/ar/about",
     "buildingAlt": "بناية العلوم في جامعة وارث الأنبياء",
-    "walkwayAlt": "طلبة الجامعة في الحرم الجامعي"
+    "walkwayAlt": "طلبة الجامعة في الحرم الجامعي",
+    "buildingImage": "/images/about-building.jpg",
+    "walkwayImage": "/images/about-walkway.jpg"
   },
   "features": [
     {
@@ -376,7 +379,10 @@
     ]
   },
   "banner": {
-    "imageAlt": "لوحة الحياة الجامعية عند مدخل الجامعة"
+    "imageAlt": "لوحة الحياة الجامعية عند مدخل الجامعة",
+    "video": "/videos/campus-life.mp4",
+    "videoWebm": "/videos/campus-life.webm",
+    "poster": "/images/banner-video-poster.jpg"
   },
   "events": {
     "label": "الدورات",
@@ -645,7 +651,8 @@
         "question": "ما أوقات الدوام الرسمي للمركز؟",
         "answer": "من الأحد إلى الخميس، من الثامنة صباحًا حتى الثانية ظهرًا، عدا العطل الرسمية."
       }
-    ]
+    ],
+    "image": "/images/faq-banner.jpg"
   },
   "cta": {
     "heading": "هل تحتاج دعمًا تقنيًا من المركز؟",

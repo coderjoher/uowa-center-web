@@ -14,6 +14,8 @@ import settings from "../../public/content/settings.json";
  *   for the history view and restores.
  * - cms_users / cms_sessions: editor accounts and their signed-in sessions.
  * - cms_media: uploaded pictures and videos (the files live in MEDIA_DIR).
+ * - cms_previews: each editor's unsaved changes, which the live preview in
+ *   the admin renders (draft mode); never shown to visitors.
  *
  * The tables are created on first use, and an empty database is filled from
  * the bundled JSON, so a fresh install starts with the site's current content.
@@ -75,6 +77,13 @@ CREATE TABLE IF NOT EXISTS cms_revisions (
   author_id  integer REFERENCES cms_users(id) ON DELETE SET NULL
 );
 CREATE INDEX IF NOT EXISTS cms_revisions_key ON cms_revisions (key, id DESC);
+CREATE TABLE IF NOT EXISTS cms_previews (
+  user_id    integer NOT NULL REFERENCES cms_users(id) ON DELETE CASCADE,
+  key        text NOT NULL,
+  data       jsonb NOT NULL,
+  updated_at timestamptz NOT NULL DEFAULT now(),
+  PRIMARY KEY (user_id, key)
+);
 CREATE TABLE IF NOT EXISTS cms_media (
   id            serial PRIMARY KEY,
   filename      text NOT NULL UNIQUE,

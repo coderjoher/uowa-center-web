@@ -44,7 +44,7 @@ export default function AboutSection({
         {/* Building photo */}
         <div className="relative mt-5 h-[200px] w-full xl:absolute xl:start-[420px] xl:top-24 xl:mt-0 xl:h-[508px] xl:w-[406px]">
           <Image
-            src="/images/about-building.jpg"
+            src={content.buildingImage || "/images/about-building.jpg"}
             alt={content.buildingAlt}
             fill
             sizes="(max-width: 1199px) 100vw, 406px"
@@ -55,7 +55,7 @@ export default function AboutSection({
         {/* Overlapping campus photo */}
         <div className="relative mt-5 h-[200px] w-full xl:absolute xl:start-[85px] xl:top-[316px] xl:mt-0 xl:h-[340px] xl:w-[315px]">
           <Image
-            src="/images/about-walkway.jpg"
+            src={content.walkwayImage || "/images/about-walkway.jpg"}
             alt={content.walkwayAlt}
             fill
             sizes="(max-width: 1199px) 100vw, 315px"

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { draftMode } from "next/headers";
 import localFont from "next/font/local";
 import "../globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -7,6 +8,7 @@ import Preloader from "@/components/ui/Preloader";
 import PageTransition from "@/components/ui/PageTransition";
 import { LOCALES, dirOf, isLocale } from "@/i18n/config";
 import { getContent } from "@/data";
+import PreviewBridge from "@/components/preview/PreviewBridge";
 
 /**
  * Somar Sans, the face the university's main site (uowa.edu.iq) uses for its
@@ -76,6 +78,8 @@ export default async function RootLayout({
   if (!isLocale(lang)) notFound();
 
   const { brand } = await getContent(lang);
+  /* The admin's live preview: the site in draft mode, inside the editor. */
+  const preview = (await draftMode()).isEnabled;
 
   return (
     <html lang={lang} dir={dirOf(lang)} className={somar.variable}>
@@ -93,6 +97,7 @@ export default async function RootLayout({
         <SmoothScroll />
         <Preloader brand={brand} />
         <PageTransition>{children}</PageTransition>
+        {preview ? <PreviewBridge /> : null}
       </body>
     </html>
   );
