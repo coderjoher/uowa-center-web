@@ -279,22 +279,34 @@
         "image": "/images/director.jpg"
       },
       {
-        "role": "Lead, Network & Communications"
+        "name": "",
+        "role": "Lead, Network & Communications",
+        "image": ""
       },
       {
-        "role": "Lead, Systems & Databases"
+        "name": "",
+        "role": "Lead, Systems & Databases",
+        "image": ""
       },
       {
-        "role": "Lead, Web & Digital Publishing"
+        "name": "",
+        "role": "Lead, Web & Digital Publishing",
+        "image": ""
       },
       {
-        "role": "Lead, Maintenance & Technical Support"
+        "name": "",
+        "role": "Lead, Maintenance & Technical Support",
+        "image": ""
       },
       {
-        "role": "Lead, Information Security"
+        "name": "",
+        "role": "Lead, Information Security",
+        "image": ""
       },
       {
-        "role": "Lead, Training & Development"
+        "name": "",
+        "role": "Lead, Training & Development",
+        "image": ""
       }
     ]
   },
