@@ -9,7 +9,7 @@ import { readAllDocuments } from "./content";
 import type { User } from "./auth";
 
 /**
- * Uploaded pictures and videos.
+ * Uploaded pictures, videos and documents (guides, policies, reports).
  *
  * Files are written to MEDIA_DIR (a Docker volume in production; `.media/`
  * in the project during development) under a unique name, recorded in
@@ -27,7 +27,9 @@ export const MEDIA_ROUTE = "/media/";
 /** The file on disk for an upload's name (already checked with safeName). */
 export const mediaPath = (name: string) => path.join(/*turbopackIgnore: true*/ MEDIA_DIR, name);
 
-export const TYPES: Record<string, { ext: string; kind: "image" | "video"; max: number }> = {
+export type MediaKind = "image" | "video" | "document";
+
+export const TYPES: Record<string, { ext: string; kind: MediaKind; max: number }> = {
   "image/jpeg": { ext: "jpg", kind: "image", max: 15 * 1024 * 1024 },
   "image/png": { ext: "png", kind: "image", max: 15 * 1024 * 1024 },
   "image/webp": { ext: "webp", kind: "image", max: 15 * 1024 * 1024 },
@@ -36,6 +38,10 @@ export const TYPES: Record<string, { ext: string; kind: "image" | "video"; max: 
   "image/svg+xml": { ext: "svg", kind: "image", max: 2 * 1024 * 1024 },
   "video/mp4": { ext: "mp4", kind: "video", max: 300 * 1024 * 1024 },
   "video/webm": { ext: "webm", kind: "video", max: 300 * 1024 * 1024 },
+  "application/pdf": { ext: "pdf", kind: "document", max: 50 * 1024 * 1024 },
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document": { ext: "docx", kind: "document", max: 50 * 1024 * 1024 },
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": { ext: "xlsx", kind: "document", max: 50 * 1024 * 1024 },
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation": { ext: "pptx", kind: "document", max: 50 * 1024 * 1024 },
 };
 
 export const MIME_BY_EXT: Record<string, string> = Object.fromEntries(
@@ -50,7 +56,7 @@ export interface MediaItem {
   url: string;
   name: string;
   mime: string;
-  kind: "image" | "video";
+  kind: MediaKind;
   size: number;
   alt: string;
   createdAt: string | null;
@@ -70,7 +76,7 @@ export async function saveUpload(
   user: User,
 ): Promise<MediaItem> {
   const type = TYPES[mime];
-  if (!type) throw new MediaError("نوع الملف غير مدعوم. المسموح: JPG وPNG وWebP وAVIF وGIF وSVG وMP4 وWebM.");
+  if (!type) throw new MediaError("نوع الملف غير مدعوم. المسموح: الصور (JPG وPNG وWebP وAVIF وGIF وSVG) والفيديو (MP4 وWebM) والمستندات (PDF وWord وExcel وPowerPoint).");
   if (!body) throw new MediaError("لم يصل أي ملف.");
 
   const stem =
@@ -121,7 +127,7 @@ export async function saveUpload(
 
 async function bundledFiles(): Promise<MediaItem[]> {
   const out: MediaItem[] = [];
-  for (const dir of ["images", "videos"]) {
+  for (const dir of ["images", "videos", "files"]) {
     const root = path.join(/*turbopackIgnore: true*/ process.cwd(), "public", dir);
     let names: string[] = [];
     try {

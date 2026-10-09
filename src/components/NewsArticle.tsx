@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowUpRightIcon } from "@/components/icons";
 import type { Locale } from "@/i18n/config";
 import type { NewsPost, SiteContent } from "@/types/content";
+import RichText from "@/components/ui/RichText";
 
 /**
  * A single news item. Three-level breadcrumb, meta row, title and lead, then
@@ -76,11 +77,7 @@ export default function NewsArticle({
       </div>
 
       <div className="mt-8 flex flex-col gap-6 xl:mt-14 xl:max-w-[760px]">
-        {post.body.map((paragraph) => (
-          <p key={paragraph} className="t-body-lg">
-            {paragraph}
-          </p>
-        ))}
+        <RichText value={post.body} className="t-body-lg" />
       </div>
 
       <div className="mt-8 h-px w-full bg-navy xl:mt-16" />

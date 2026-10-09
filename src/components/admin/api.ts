@@ -11,12 +11,14 @@ export interface Me {
   role: Role;
 }
 
+export type MediaKind = "image" | "video" | "document";
+
 export interface MediaItem {
   id: number | null;
   url: string;
   name: string;
   mime: string;
-  kind: "image" | "video";
+  kind: MediaKind;
   size: number;
   alt: string;
   createdAt: string | null;

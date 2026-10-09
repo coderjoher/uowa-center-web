@@ -1,10 +1,15 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { api, errorText, formatDate, formatSize, uploadFile, type MediaItem } from "./api";
+import { api, errorText, formatDate, formatSize, uploadFile, type MediaItem, type MediaKind } from "./api";
 import { btn, card, h1, input, primary, secondary, small } from "./ui";
 
-type KindFilter = "all" | "image" | "video";
+type KindFilter = "all" | MediaKind;
+
+const DOCUMENT_TYPES =
+  "application/pdf,.pdf,.docx,.xlsx,.pptx,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.presentationml.presentation";
+const ACCEPT: Record<MediaKind, string> = { image: "image/*", video: "video/mp4,video/webm", document: DOCUMENT_TYPES };
+const ext = (url: string) => (url.split(".").pop() ?? "").toUpperCase().slice(0, 4);
 
 /** Loads the library and handles uploads; shared by the page and the picker. */
 function useMedia() {
@@ -65,14 +70,14 @@ function Filters({
     <div className="flex flex-wrap items-center gap-2">
       {lockKind
         ? null
-        : (["all", "image", "video"] as const).map((k) => (
+        : (["all", "image", "video", "document"] as const).map((k) => (
             <button
               key={k}
               type="button"
               onClick={() => setKind(k)}
               className={`${btn} ${kind === k ? "border-navy font-bold" : ""}`}
             >
-              {k === "all" ? "الكل" : k === "image" ? "الصور" : "الفيديو"}
+              {{ all: "الكل", image: "الصور", video: "الفيديو", document: "المستندات" }[k]}
             </button>
           ))}
       <input className={`${input} h-8 max-w-[260px] py-0 text-[13px]`} placeholder="بحث بالاسم…" value={search} onChange={(e) => setSearch(e.target.value)} />
@@ -129,8 +134,10 @@ function Thumb({ item, selected, onClick }: { item: MediaItem; selected?: boolea
         {item.kind === "image" ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={item.url} alt={item.alt} loading="lazy" className="h-full w-full object-cover" />
-        ) : (
+        ) : item.kind === "video" ? (
           <video src={`${item.url}#t=0.1`} muted preload="metadata" className="h-full w-full object-cover" />
+        ) : (
+          <span className="flex h-full w-full items-center justify-center text-[20px] font-bold text-navy">{ext(item.url)}</span>
         )}
         {item.kind === "video" ? (
           <span className="absolute start-1 top-1 bg-navy px-1.5 text-[11px] text-white">فيديو</span>
@@ -198,10 +205,10 @@ export function MediaLibrary({ onUnauthorized }: { onUnauthorized: (e: unknown) 
     <div className="mx-auto flex max-w-[1100px] flex-col gap-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className={h1}>مكتبة الوسائط</h1>
-        <UploadButton accept="image/*,video/mp4,video/webm" onFiles={(f) => void media.upload(f)} />
+        <UploadButton accept={`image/*,video/mp4,video/webm,${DOCUMENT_TYPES}`} onFiles={(f) => void media.upload(f)} />
       </div>
       <p className={small}>
-        الصور حتى 15 ميغابايت، والفيديو (MP4 أو WebM) حتى 300 ميغابايت. الملفات «من الموقع» جزء من الموقع نفسه ولا تُحذف من هنا.
+        الصور حتى 15 ميغابايت، والفيديو (MP4 أو WebM) حتى 300 ميغابايت، والمستندات (PDF وWord وExcel وPowerPoint) حتى 50 ميغابايت. الملفات «من الموقع» جزء من الموقع نفسه ولا تُحذف من هنا.
       </p>
       <Filters kind={kind} setKind={setKind} search={search} setSearch={setSearch} />
       <Progress uploads={media.uploads} />
@@ -218,8 +225,12 @@ export function MediaLibrary({ onUnauthorized }: { onUnauthorized: (e: unknown) 
             {selected.kind === "image" ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={selected.url} alt={selected.alt} className="max-h-56 w-full bg-surface object-contain" />
-            ) : (
+            ) : selected.kind === "video" ? (
               <video src={selected.url} controls preload="metadata" className="max-h-56 w-full bg-black" />
+            ) : (
+              <a href={selected.url} target="_blank" rel="noreferrer" className="flex h-32 w-full items-center justify-center bg-surface text-[28px] font-bold text-navy underline">
+                {ext(selected.url)}
+              </a>
             )}
             <p className="break-all text-[14px] font-bold text-navy" dir="auto">
               {selected.name}
@@ -269,7 +280,7 @@ export function MediaPicker({
   onPick,
   onClose,
 }: {
-  kind: "image" | "video";
+  kind: MediaKind;
   current: string;
   onPick: (item: MediaItem) => void;
   onClose: () => void;
@@ -293,11 +304,11 @@ export function MediaPicker({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h2 className="text-[18px] font-bold text-navy">{kind === "video" ? "اختيار فيديو" : "اختيار صورة"}</h2>
+          <h2 className="text-[18px] font-bold text-navy">{{ image: "اختيار صورة", video: "اختيار فيديو", document: "اختيار ملف" }[kind]}</h2>
           <div className="flex gap-2">
             <UploadButton
-              label={kind === "video" ? "رفع فيديو" : "رفع صورة"}
-              accept={kind === "video" ? "video/mp4,video/webm" : "image/*"}
+              label={{ image: "رفع صورة", video: "رفع فيديو", document: "رفع ملف" }[kind]}
+              accept={ACCEPT[kind]}
               onFiles={async (f) => {
                 const [first] = await media.upload(f);
                 if (first) onPick(first);

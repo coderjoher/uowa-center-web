@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
  * Serves uploaded files from MEDIA_DIR. Names are unique per upload, so
  * responses are cached for a year. Supports byte ranges, which browsers use
  * to stream and seek videos. SVGs are sandboxed so a script inside one can
- * never run on the site's origin.
+ * never run on the site's origin, and Office documents are downloaded.
  */
 export async function GET(request: Request, { params }: { params: Promise<{ name: string }> }) {
   const name = safeName((await params).name);
@@ -26,6 +26,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ name
     "X-Content-Type-Options": "nosniff",
   };
   if (mime === "image/svg+xml") headers["Content-Security-Policy"] = "default-src 'none'; style-src 'unsafe-inline'; sandbox";
+  /* PDFs open in the browser's viewer; Office files download. */
+  if (mime.startsWith("application/") && mime !== "application/pdf") headers["Content-Disposition"] = `attachment; filename="${name}"`;
 
   const range = /^bytes=(\d*)-(\d*)$/.exec(request.headers.get("range") ?? "");
   if (range && (range[1] || range[2])) {

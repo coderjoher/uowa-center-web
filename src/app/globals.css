@@ -80,6 +80,54 @@ html.lenis body {
 }
 
 @layer components {
+  /* Text formatted in the admin (see components/ui/RichText.tsx). It takes
+     the type style of the paragraph it replaces; this adds the spacing and
+     the marks the formatting toolbar can produce. */
+  .rich > * + * {
+    margin-top: 0.75em;
+  }
+  .rich ul {
+    list-style: disc;
+    padding-inline-start: 1.5em;
+  }
+  .rich ol {
+    list-style: decimal;
+    padding-inline-start: 1.5em;
+  }
+  .rich li + li {
+    margin-top: 0.25em;
+  }
+  .rich strong {
+    font-weight: 700;
+  }
+  .rich em {
+    font-style: italic;
+  }
+  .rich a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .rich h2,
+  .rich h3,
+  .rich h4 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .rich h2 {
+    font-size: 1.4em;
+  }
+  .rich h3 {
+    font-size: 1.25em;
+  }
+  .rich h4 {
+    font-size: 1.1em;
+  }
+  .rich blockquote {
+    border-inline-start: 3px solid var(--gold);
+    padding-inline-start: 1em;
+  }
+
   /* ==========================================================================
      Typography primitives (exact computed values from the original)
      ========================================================================== */

@@ -2,6 +2,7 @@ import SolidButton from "@/components/ui/SolidButton";
 import Reveal from "@/components/ui/Reveal";
 import CircuitPattern from "@/components/ui/CircuitPattern";
 import type { SiteContent } from "@/types/content";
+import RichText from "@/components/ui/RichText";
 
 /**
  * The "need technical support?" band. A compact navy strip rather than the
@@ -26,7 +27,7 @@ export default function CtaSection({
           <CircuitPattern className="absolute inset-y-0 end-0 -z-10 h-full w-full opacity-70 xl:w-[55%]" />
           <div className="flex flex-col items-start gap-2 xl:max-w-[640px]">
             <h2 className="t-h2 text-white xl:text-[30px]">{content.heading}</h2>
-            <p className="t-body text-[#ccdce6]">{content.body}</p>
+            <RichText value={content.body} className="t-body text-[#ccdce6]" />
           </div>
           <SolidButton href={content.href} variant="gold" className="shrink-0">
             {content.button}

@@ -1,6 +1,7 @@
 import Reveal from "@/components/ui/Reveal";
 import { FeatureIcon } from "@/components/icons";
 import type { Feature } from "@/types/content";
+import RichText from "@/components/ui/RichText";
 
 /**
  * Desktop: a 380px strip on `#eef4f8`, overflow hidden, inner padding 100px.
@@ -30,7 +31,7 @@ export default function FeatureCards({ features }: { features: Feature[] }) {
               />
               <div className="flex min-w-0 flex-col items-start gap-1 xl:gap-2">
                 <h4 className="t-h4">{feature.title}</h4>
-                <p className="t-body text-[15px] xl:text-[16px]">{feature.body}</p>
+                <RichText value={feature.body} className="t-body text-[15px] xl:text-[16px]" />
               </div>
             </div>
           </Reveal>

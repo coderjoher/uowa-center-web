@@ -1,8 +1,18 @@
 {
   "sections": {
+    "about": true,
+    "features": true,
+    "video": true,
     "director": false,
+    "services": true,
     "structure": false,
     "team": true,
-    "video": true
+    "banner": true,
+    "events": true,
+    "gallery": true,
+    "faq": true,
+    "cta": true,
+    "news": true,
+    "newsletter": true
   }
 }

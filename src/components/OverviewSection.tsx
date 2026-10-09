@@ -1,5 +1,6 @@
 import SectionLabel from "@/components/ui/SectionLabel";
 import type { SiteContent } from "@/types/content";
+import RichText from "@/components/ui/RichText";
 
 /**
  * Vision and mission as a matched pair of cards — the first navy, the second
@@ -33,12 +34,12 @@ export default function OverviewSection({
         <div className="flex w-full flex-col gap-6 xl:flex-row xl:gap-10">
           <article className="flex w-full flex-col items-start gap-4 border-s-4 border-gold bg-navy p-6 xl:flex-1 xl:p-14">
             <h3 className="t-h4 text-white">{vision.title}</h3>
-            <p className="t-body-lg text-[#ccdce6]">{vision.body}</p>
+            <RichText value={vision.body} className="t-body-lg text-[#ccdce6]" />
           </article>
 
           <article className="flex w-full flex-col items-start gap-4 border border-border-soft bg-white p-6 xl:flex-1 xl:p-14">
             <h3 className="t-h4">{mission.title}</h3>
-            <p className="t-body-lg">{mission.body}</p>
+            <RichText value={mission.body} className="t-body-lg" />
           </article>
         </div>
 

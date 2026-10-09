@@ -975,5 +975,10 @@
   "meta": {
     "title": "Electronic Computer Center | University of Warith Al-Anbiyaa",
     "description": "The Electronic Computer Center at the University of Warith Al-Anbiyaa: campus network, systems and data center operations, technical support and training for staff and students."
+  },
+  "customPages": [],
+  "homeBlocks": {
+    "afterHero": [],
+    "beforeFooter": []
   }
 }

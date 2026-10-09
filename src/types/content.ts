@@ -193,7 +193,34 @@ export interface AnnualPlan {
   rows: PlanRow[];
 }
 
+/**
+ * A block of content that editors add in the admin, on their own pages or
+ * on the home page. `type` is the display: how the block is laid out.
+ */
+export type Block =
+  | { type: "text"; title?: string; content: string }
+  | { type: "cards"; title?: string; intro?: string; items: { title: string; text: string; image?: string; href?: string }[] }
+  | { type: "links"; title?: string; intro?: string; items: { title: string; description?: string; href?: string; file?: string }[] }
+  | { type: "accordion"; title?: string; items: { question: string; answer: string }[] }
+  | { type: "stats"; title?: string; items: { value: string; label: string }[] }
+  | { type: "announcements"; title?: string; items: { badge: string; date: string; title: string; text: string }[] }
+  | { type: "cta"; title: string; content: string; button: string; href: string; image?: string }
+  | { type: "image"; image: string; caption?: string };
+
+/** A page editors create in the admin, at /<lang>/<slug>. */
+export interface CustomPage {
+  slug: string;
+  title: string;
+  intro: string;
+  image: string;
+  blocks: Block[];
+}
+
 export interface SiteContent {
+  /** Pages created in the admin, each at /<lang>/<slug>. */
+  customPages?: CustomPage[];
+  /** Blocks added in the admin to the home page, right after the hero and just before the footer. */
+  homeBlocks?: { afterHero?: Block[]; beforeFooter?: Block[] };
   /** Section switches (from the CMS settings, or settings.json). */
   sections?: Record<HideableSection, boolean>;
   brand: {

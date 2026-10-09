@@ -4,6 +4,7 @@ import SolidButton from "@/components/ui/SolidButton";
 import { ArrowUpRightIcon, CalendarIcon, PinIcon } from "@/components/icons";
 import type { Locale } from "@/i18n/config";
 import type { SiteContent, TrainingEvent } from "@/types/content";
+import RichText from "@/components/ui/RichText";
 
 /**
  * A single course. Breadcrumb, title and lead, photo, then a two-column body:
@@ -75,11 +76,7 @@ export default function CourseArticle({
 
       <div className="mt-8 flex flex-col gap-8 xl:mt-14 xl:flex-row xl:items-start xl:gap-20">
         <div className="flex flex-col gap-6 xl:max-w-[760px]">
-          {course.body.map((paragraph) => (
-            <p key={paragraph} className="t-body-lg">
-              {paragraph}
-            </p>
-          ))}
+          <RichText value={course.body} className="t-body-lg" />
 
           <h2 className="t-h4 mt-4">{t.outline}</h2>
           <ul className="flex list-none flex-col gap-4 p-0">

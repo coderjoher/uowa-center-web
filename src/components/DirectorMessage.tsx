@@ -1,6 +1,7 @@
 import Image from "next/image";
 import SectionLabel from "@/components/ui/SectionLabel";
 import type { SiteContent } from "@/types/content";
+import RichText from "@/components/ui/RichText";
 
 /**
  * The director's word. Portrait on the leading side (480x560 on desktop) with
@@ -51,11 +52,7 @@ export default function DirectorMessage({
         {/* 4px navy rule pinned to the inline start of the message body */}
         <div className="relative flex flex-col items-start gap-5 ps-6">
           <span aria-hidden className="absolute start-0 top-0 h-full w-1 bg-navy" />
-          {content.body.map((paragraph) => (
-            <p key={paragraph} className="t-body-lg">
-              {paragraph}
-            </p>
-          ))}
+          <RichText value={content.body} className="t-body-lg" />
         </div>
       </div>
     </section>
