@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { Json, MediaItem, MediaKind } from "./api";
+import { errorText, uploadFile, type Json, type MediaItem, type MediaKind } from "./api";
 import { FILE_KEYS, IMAGE_KEYS, LONG_KEYS, RICH_KEYS, VIDEO_KEYS, labelFor } from "./labels";
 import { MediaPicker } from "./MediaLibrary";
 import { RichEditor, plainText } from "./RichEditor";
@@ -70,6 +70,8 @@ export interface EditorContext {
   referenceLabel?: string;
   /** A field the search jumped to: groups on its way open up. */
   focus?: Path;
+  /** Lets a screen render some fields its own way (e.g. a list managed as a collection). */
+  override?: (path: Path, value: Json, name: string) => React.ReactNode | undefined;
 }
 
 interface FieldProps {
@@ -103,6 +105,14 @@ function Reference({ value, ctx }: { value: Json | undefined; ctx: EditorContext
 
 const isStringList = (v: Json): v is string[] => Array.isArray(v) && v.every((x) => typeof x === "string");
 
+/** Which keys hold a picture, a video or a document, by name. */
+export function mediaKind(name: string): MediaKind | null {
+  if (VIDEO_KEYS.has(name) || /Video$|^video$|Webm$/.test(name)) return "video";
+  if (FILE_KEYS.has(name)) return "document";
+  if (IMAGE_KEYS.has(name) || /Image$/.test(name)) return "image";
+  return null;
+}
+
 /**
  * Renders any JSON value as a form, by shape: strings become inputs (a
  * textarea for paragraph keys, the formatting editor for text that can be
@@ -113,6 +123,8 @@ const isStringList = (v: Json): v is string[] => Array.isArray(v) && v.every((x)
  */
 export function Field({ name, value, reference, path, onChange, ctx, depth = 0 }: FieldProps) {
   const label = labelFor(name);
+  const custom = ctx.override?.(path, value, name);
+  if (custom !== undefined) return <>{custom}</>;
 
   if (RICH_KEYS.has(name) && (typeof value === "string" || isStringList(value))) {
     /* A list of paragraphs is edited as one formatted text, stored as one item. */
@@ -133,13 +145,14 @@ export function Field({ name, value, reference, path, onChange, ctx, depth = 0 }
   }
 
   if (typeof value === "string") {
-    if (IMAGE_KEYS.has(name) || VIDEO_KEYS.has(name) || FILE_KEYS.has(name)) {
+    const kind = mediaKind(name);
+    if (kind) {
       return (
         <div data-path={pathKey(path)}>
           <MediaField
             label={label}
             name={name}
-            kind={VIDEO_KEYS.has(name) ? "video" : FILE_KEYS.has(name) ? "document" : "image"}
+            kind={kind}
             value={value}
             onChange={(v) => onChange(path, v)}
           />
@@ -345,6 +358,17 @@ function ListField({
 
 const ext = (url: string) => (url.split(".").pop() ?? "").toUpperCase().slice(0, 4);
 
+const ACCEPT: Record<MediaKind, string> = {
+  image: "image/*",
+  video: "video/mp4,video/webm",
+  document: ".pdf,.docx,.xlsx,.pptx,application/pdf",
+};
+
+/**
+ * A picture, video or document field, as in Strapi's media fields: a
+ * preview you can drop a file on, a button to upload one directly, and one
+ * to pick from the media library.
+ */
 export function MediaField({
   label,
   name,
@@ -359,14 +383,44 @@ export function MediaField({
   onChange: (v: string) => void;
 }) {
   const [picking, setPicking] = useState(false);
-  const choose = { image: "اختيار صورة أو رفعها…", video: "اختيار فيديو أو رفعه…", document: "اختيار ملف أو رفعه…" }[kind];
+  const [over, setOver] = useState(false);
+  const [progress, setProgress] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const choose = { image: "من المكتبة", video: "من المكتبة", document: "من المكتبة" }[kind];
+  const upload = async (file: File | undefined) => {
+    if (!file) return;
+    setError(null);
+    setProgress(0);
+    try {
+      onChange((await uploadFile(file, setProgress)).url);
+    } catch (e) {
+      setError(errorText(e));
+    } finally {
+      setProgress(null);
+    }
+  };
   return (
     <div className="flex flex-col gap-2">
       <span className={small}>
         {label} <Key name={name} />
       </span>
       <div className="flex items-start gap-3">
-        <div className="flex h-20 w-28 shrink-0 items-center justify-center overflow-hidden border border-border-soft bg-surface">
+        <label
+          onDragOver={(e) => {
+            e.preventDefault();
+            setOver(true);
+          }}
+          onDragLeave={() => setOver(false)}
+          onDrop={(e) => {
+            e.preventDefault();
+            setOver(false);
+            void upload(e.dataTransfer.files[0]);
+          }}
+          title="اسحب ملفًا وأفلته هنا للرفع"
+          className={`relative flex h-24 w-36 shrink-0 cursor-pointer items-center justify-center overflow-hidden border-2 border-dashed bg-surface ${
+            over ? "border-gold bg-gold/10" : "border-border-soft"
+          }`}
+        >
           {value && kind === "image" ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={value} alt="" className="h-full w-full object-cover" />
@@ -375,12 +429,22 @@ export function MediaField({
           ) : value ? (
             <span className="text-[14px] font-bold text-navy">{ext(value)}</span>
           ) : (
-            <span className="text-[12px] text-muted">لا يوجد</span>
+            <span className="px-2 text-center text-[12px] leading-5 text-muted">اسحب ملفًا هنا أو انقر للرفع</span>
           )}
-        </div>
+          {progress !== null ? (
+            <span className="absolute inset-x-0 bottom-0 h-1.5 bg-white/70">
+              <span className="block h-full bg-gold" style={{ width: `${Math.round(progress * 100)}%` }} />
+            </span>
+          ) : null}
+          <input type="file" accept={ACCEPT[kind]} className="hidden" onChange={(e) => void upload(e.target.files?.[0])} />
+        </label>
         <div className="flex min-w-0 flex-1 flex-col gap-2">
           <input dir="ltr" className={input} value={value} onChange={(e) => onChange(e.target.value)} placeholder="/media/…" />
           <div className="flex flex-wrap gap-2">
+            <label className={btn}>
+              {progress !== null ? `جارٍ الرفع ${Math.round(progress * 100)}%` : "رفع ملف"}
+              <input type="file" accept={ACCEPT[kind]} className="hidden" onChange={(e) => void upload(e.target.files?.[0])} />
+            </label>
             <button type="button" className={btn} onClick={() => setPicking(true)}>
               {choose}
             </button>
@@ -390,6 +454,7 @@ export function MediaField({
               </button>
             ) : null}
           </div>
+          {error ? <span className="text-[12px] text-danger">{error}</span> : null}
         </div>
       </div>
       {picking ? (

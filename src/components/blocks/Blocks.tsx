@@ -57,7 +57,7 @@ function Section({ title, intro, children, tone = "white" }: { title?: string; i
   );
 }
 
-function BlockView({ block }: { block: Block }) {
+export function BlockView({ block }: { block: Block }) {
   switch (block.type) {
     case "text":
       return (

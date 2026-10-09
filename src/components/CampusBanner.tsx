@@ -66,18 +66,19 @@ export default function CampusBanner({
   return (
     <div ref={ref} className="relative h-100 w-full overflow-hidden bg-surface xl:h-150">
       <video
+        key={content.video}
         ref={videoRef}
         muted
         loop
         playsInline
         autoPlay
         preload="metadata"
-        poster="/images/banner-video-poster.jpg"
+        poster={content.poster || "/images/banner-video-poster.jpg"}
         aria-label={content.imageAlt}
         className="absolute inset-0 h-full w-full object-cover"
       >
-        <source src="/videos/campus-life.mp4" type="video/mp4" />
-        <source src="/videos/campus-life.webm" type="video/webm" />
+        <source src={content.video || "/videos/campus-life.mp4"} type="video/mp4" />
+        {content.videoWebm ? <source src={content.videoWebm} type="video/webm" /> : null}
       </video>
 
       {/* Slices: full height until the band is revealed, then each wipes away

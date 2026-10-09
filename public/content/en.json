@@ -167,7 +167,8 @@
     "secondaryCtaHref": "/en#contact",
     "imageAlt": "The computer lab at the University of Warith Al-Anbiyaa",
     "imageCaption": "The computer lab",
-    "areasLabel": "Areas of work"
+    "areasLabel": "Areas of work",
+    "image": "/images/service-network.jpg"
   },
   "about": {
     "label": "About",
@@ -179,7 +180,9 @@
     "link": "Learn More",
     "linkHref": "/en/about",
     "buildingAlt": "The science building at the University of Warith Al-Anbiyaa",
-    "walkwayAlt": "Students on the university campus"
+    "walkwayAlt": "Students on the university campus",
+    "buildingImage": "/images/about-building.jpg",
+    "walkwayImage": "/images/about-walkway.jpg"
   },
   "features": [
     {
@@ -379,7 +382,10 @@
     ]
   },
   "banner": {
-    "imageAlt": "The campus-life sign at the university entrance"
+    "imageAlt": "The campus-life sign at the university entrance",
+    "video": "/videos/campus-life.mp4",
+    "videoWebm": "/videos/campus-life.webm",
+    "poster": "/images/banner-video-poster.jpg"
   },
   "events": {
     "label": "Training",
@@ -640,7 +646,8 @@
         "question": "What are the center's working hours?",
         "answer": "Sunday to Thursday, 8:00 AM to 2:00 PM, excluding official holidays."
       }
-    ]
+    ],
+    "image": "/images/faq-banner.jpg"
   },
   "cta": {
     "heading": "Need technical support from the center?",

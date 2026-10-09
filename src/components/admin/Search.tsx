@@ -35,7 +35,7 @@ function describe(doc: Json, path: Path): string {
   let cur: Json | undefined = doc;
   path.forEach((key, i) => {
     const prev = path[i - 1];
-    if (i === 0) parts.push(key === "customPages" ? "الصفحات" : key === "homeBlocks" ? "أقسام إضافية في الرئيسية" : SECTION_LABELS[key as string] ?? String(key));
+    if (i === 0) parts.push(key === "customPages" ? "الصفحات" : key === "homeLayout" ? "تخطيط الرئيسية" : key === "homeBlocks" ? "أقسام إضافية في الرئيسية" : SECTION_LABELS[key as string] ?? String(key));
     else if (prev === "customPages" && typeof key === "number") {
       const page = (cur as Json[] | undefined)?.[key] as { title?: string } | undefined;
       parts.push(page?.title || `#${key + 1}`);

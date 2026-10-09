@@ -46,7 +46,7 @@ export default function Hero({
             is reversed. */}
         <div className="hero-settle absolute inset-0 -z-20 rtl:-scale-x-100">
           <Image
-            src="/images/service-network.jpg"
+            src={content.image || "/images/service-network.jpg"}
             alt={content.imageAlt}
             fill
             loading="eager"

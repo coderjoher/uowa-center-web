@@ -19,7 +19,7 @@ export const DOC_LABELS: Record<DocKey, string> = {
   settings: "إظهار الأقسام",
 };
 
-const sectionName = (k: string) => (k === "customPages" ? "الصفحات" : k === "homeBlocks" ? "أقسام إضافية في الرئيسية" : SECTION_LABELS[k] ?? k);
+const sectionName = (k: string) => (k === "customPages" ? "الصفحات" : k === "homeLayout" ? "تخطيط الرئيسية" : k === "homeBlocks" ? "أقسام إضافية في الرئيسية" : SECTION_LABELS[k] ?? k);
 
 /** Top-level sections whose content differs between two documents. */
 function changedSections(a: Json, b: Json): string[] {

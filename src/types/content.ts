@@ -207,20 +207,50 @@ export type Block =
   | { type: "cta"; title: string; content: string; button: string; href: string; image?: string }
   | { type: "image"; image: string; caption?: string };
 
+/** The site's built-in sections, which can be placed on the home page and on pages. */
+export type SectionKey =
+  | "hero"
+  | "about"
+  | "features"
+  | "video"
+  | "director"
+  | "overview"
+  | "services"
+  | "structure"
+  | "team"
+  | "banner"
+  | "events"
+  | "plan"
+  | "gallery"
+  | "milestones"
+  | "faq"
+  | "cta"
+  | "news"
+  | "newsletter";
+
+/**
+ * One entry in a page's layout: a block editors made, or one of the site's
+ * built-in sections (whose content is edited where the section lives).
+ * `hidden` keeps it in the layout without showing it.
+ */
+export type LayoutItem = (Block | { type: "section"; section: SectionKey }) & { hidden?: boolean };
+
 /** A page editors create in the admin, at /<lang>/<slug>. */
 export interface CustomPage {
   slug: string;
   title: string;
   intro: string;
   image: string;
-  blocks: Block[];
+  blocks: LayoutItem[];
 }
 
 export interface SiteContent {
   /** Pages created in the admin, each at /<lang>/<slug>. */
   customPages?: CustomPage[];
-  /** Blocks added in the admin to the home page, right after the hero and just before the footer. */
+  /** Blocks added in the admin to the home page, right after the hero and just before the footer (before the page builder). */
   homeBlocks?: { afterHero?: Block[]; beforeFooter?: Block[] };
+  /** The home page's sections, in order, as arranged in the page builder. */
+  homeLayout?: LayoutItem[];
   /** Section switches (from the CMS settings, or settings.json). */
   sections?: Record<HideableSection, boolean>;
   brand: {
@@ -241,6 +271,8 @@ export interface SiteContent {
     closeMenu: string;
   };
   hero: {
+    /** The photo behind the hero. */
+    image?: string;
     /** Eyebrow above the heading: the centre's name. */
     label: string;
     heading: string;
@@ -256,6 +288,9 @@ export interface SiteContent {
     areasLabel: string;
   };
   about: SectionHead & {
+    /** The two overlapping photos. */
+    buildingImage?: string;
+    walkwayImage?: string;
     body: string;
     link: string;
     linkHref: string;
@@ -287,7 +322,7 @@ export interface SiteContent {
     rootNote: string;
     divisions: Division[];
   };
-  banner: { imageAlt: string };
+  banner: { imageAlt: string; /** The looping campus film, its WebM copy and its still. */ video?: string; videoWebm?: string; poster?: string };
   video: VideoBlock;
   plan: AnnualPlan;
   events: SectionHead & {
@@ -307,7 +342,7 @@ export interface SiteContent {
     prev: string;
     next: string;
   };
-  faq: SectionHead & { items: FaqItem[] };
+  faq: SectionHead & { items: FaqItem[]; /** Photo band above the panel (desktop). */ image?: string };
   cta: { heading: string; body: string; button: string; href: string };
   news: SectionHead & {
     items: NewsPost[];

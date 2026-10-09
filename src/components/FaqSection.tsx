@@ -29,7 +29,7 @@ export default function FaqSection({
       {/* Photo band */}
       <div className="absolute inset-x-0 top-0 -z-0 hidden h-[290px] xl:block">
         <Image
-          src="/images/faq-banner.jpg"
+          src={content.image || "/images/faq-banner.jpg"}
           alt=""
           fill
           sizes="100vw"

@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import PageHero from "@/components/ui/PageHero";
-import Blocks from "@/components/blocks/Blocks";
+import Layout from "@/components/sections/Layout";
 import { getContent } from "@/data";
 import { LOCALES, isLocale } from "@/i18n/config";
 
@@ -57,7 +57,7 @@ export default async function Page({ params }: PageProps<"/[lang]/[slug]">) {
             </div>
           </div>
         ) : null}
-        <Blocks blocks={page.blocks} />
+        <Layout items={page.blocks} c={c} lang={lang} at={`customPages.${c.customPages?.indexOf(page)}.blocks`} />
       </main>
       <SiteFooter content={c} lang={lang} />
     </>
