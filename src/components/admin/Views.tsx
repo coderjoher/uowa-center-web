@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { api, formatDate, type DocKey, type Json } from "./api";
 import { COLLECTIONS, GLOBAL_GROUPS, collectionAt, globalUrl, type CollectionDef } from "./collections";
-import { Field, blank, getAt, setAt, summarize, type EditorContext, type Path } from "./Editor";
+import { Field, blank, getAt, setAt, summarize, withSiblingFields, type EditorContext, type Path } from "./Editor";
 import { DOC_LABELS } from "./History";
 import { SECTION_LABELS, labelFor } from "./labels";
 import { LivePreview, type PreviewSelection } from "./LivePreview";
@@ -378,7 +378,7 @@ export function ItemEdit({ id, index }: { id: string; index: number }) {
         </span>
       }
     >
-      {Object.entries(item).map(([k, v]) => (
+      {withSiblingFields(items[index], [...items, ...itemsOf(docs[locale === "ar" ? "en" : "ar"]?.draft, c)]).map(([k, v]) => (
         <Field key={`${locale}:${index}:${k}`} name={k} value={v} reference={reference?.[k]} path={[...c.path, index, k]} onChange={edit(locale)} ctx={ctx} depth={1} />
       ))}
     </DocumentView>

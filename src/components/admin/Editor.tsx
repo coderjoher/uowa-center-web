@@ -52,6 +52,27 @@ export function blank(value: Json): Json {
   return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, blank(v)]));
 }
 
+/**
+ * Every item of a list shown with every field any item of the list has, so
+ * a field filled on one item (a team member's photo, say) can be filled on
+ * the others too, even where their stored data never had it. Missing fields
+ * start empty.
+ */
+export function withSiblingFields(item: Json, siblings: Json[]): [string, Json][] {
+  const own = item && typeof item === "object" && !Array.isArray(item) ? (item as { [k: string]: Json }) : {};
+  const out: [string, Json][] = Object.entries(own);
+  const seen = new Set(Object.keys(own));
+  for (const sibling of siblings) {
+    if (!sibling || typeof sibling !== "object" || Array.isArray(sibling)) continue;
+    for (const [k, v] of Object.entries(sibling)) {
+      if (seen.has(k)) continue;
+      seen.add(k);
+      out.push([k, blank(v)]);
+    }
+  }
+  return out;
+}
+
 /** A short description of an object in a list, for its card header. */
 export function summarize(value: Json): string {
   if (typeof value !== "object" || value === null || Array.isArray(value)) return plainText(String(value ?? ""));
@@ -334,7 +355,7 @@ function ListField({
             </>
           ) : typeof item === "object" && item !== null && !Array.isArray(item) ? (
             <div className="flex flex-col gap-3">
-              {Object.entries(item).map(([k, v]) => (
+              {withSiblingFields(item, value).map(([k, v]) => (
                 <Field
                   key={k}
                   name={k}

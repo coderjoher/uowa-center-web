@@ -7,8 +7,9 @@ import type { SiteContent } from "@/types/content";
 /**
  * The roster. Cards are 3:4 portraits over a navy rule, name and role beneath.
  *
- * A member with no portrait yet gets a `#eef4f8` tile with the avatar glyph,
- * and their name falls back to `pendingName` in muted grey — so a partly filled
+ * Every member's portrait and name are set in the admin (فريق المركز). A
+ * member with no portrait yet gets a `#eef4f8` tile with the avatar glyph,
+ * and an empty name falls back to `pendingName` in muted grey — so a partly filled
  * roster still reads as deliberate rather than broken.
  *
  * This is the one grid that goes two-up below 1200px instead of stacking: the
@@ -50,7 +51,7 @@ export default function TeamSection({
                     {member.image ? (
                       <Image
                         src={member.image}
-                        alt={member.name ?? member.role}
+                        alt={member.name || member.role}
                         fill
                         sizes="(max-width: 1199px) 50vw, 320px"
                         className="object-cover"
@@ -71,7 +72,7 @@ export default function TeamSection({
                       className="t-h4"
                       style={named ? undefined : { color: "var(--muted)" }}
                     >
-                      {member.name ?? content.pendingName}
+                      {member.name || content.pendingName}
                     </h4>
                     <p className="t-body">{member.role}</p>
                   </div>
