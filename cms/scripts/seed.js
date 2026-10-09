@@ -7,13 +7,14 @@
  *   npm run seed            # only fills types that are still empty
  *   npm run seed -- --force # replaces everything with the JSON content
  *
- * Stop the Strapi server first; the script boots its own instance.
+ * Stop the Strapi server first; the script boots its own instance. It reads
+ * the site's public/ folder next to cms/, or the folder in SEED_SOURCE.
  */
 const fs = require("fs");
 const path = require("path");
 const { createStrapi, compileStrapi } = require("@strapi/strapi");
 
-const SITE = path.resolve(__dirname, "..", "..", "public");
+const SITE = path.resolve(process.env.SEED_SOURCE ?? path.join(__dirname, "..", "..", "public"));
 const CONTENT = path.join(SITE, "content");
 const map = require("../src/content-map.json");
 const FORCE = process.argv.includes("--force");

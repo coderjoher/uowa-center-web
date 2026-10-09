@@ -1,0 +1,15 @@
+# Caddy gets and renews the HTTPS certificates for both addresses itself,
+# once their DNS records point at this server.
+
+{$SITE_DOMAIN} {
+	encode zstd gzip
+	reverse_proxy site:3000
+}
+
+{$CMS_DOMAIN} {
+	encode zstd gzip
+	request_body {
+		max_size 250MB
+	}
+	reverse_proxy cms:1337
+}

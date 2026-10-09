@@ -17,6 +17,9 @@ if (mediaOrigin) {
 }
 
 const nextConfig: NextConfig = {
+  /* A self-contained server in .next/standalone, used by the Docker image
+     (deploy/). Vercel ignores it. */
+  output: "standalone",
   /* Next refuses to optimise images from private addresses. Allow it only
      when the CMS runs on this machine (local development); remotePatterns
      still limits it to the CMS's /uploads/ path. */

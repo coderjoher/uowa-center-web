@@ -49,7 +49,11 @@ content; `npm run seed -- --force` replaces it all.
 
 1. Set `STRAPI_URL` (and `REVALIDATE_SECRET`) on the site's host — see the
    root README.
-2. In the admin, *Settings → Webhooks → Create new webhook*:
+2. Set `SITE_REVALIDATE_URL=https://<site address>/api/revalidate` and the
+   same `REVALIDATE_SECRET` here; Strapi then creates and keeps the webhook
+   ("Refresh the website") itself. The AWS setup in `deploy/` does this.
+
+   Or add it by hand in the admin, *Settings → Webhooks → Create new webhook*:
    - URL: `https://<site address>/api/revalidate`
    - Header: `x-revalidate-secret` = the same `REVALIDATE_SECRET`
    - Events: Entry *publish*, *unpublish*, *delete*; Media *create*, *update*,
@@ -59,7 +63,10 @@ content; `npm run seed -- --force` replaces it all.
 
 ## Deploying
 
-Strapi is a long-running Node server with a database and an uploads folder,
+The ready-made setup is [`deploy/`](../deploy/README.md): Strapi, Postgres,
+the website and HTTPS on one AWS server, using this folder's `Dockerfile`.
+
+Elsewhere: Strapi is a long-running Node server with a database and an uploads folder,
 so it needs a host that keeps all three: Strapi Cloud, a VPS or university
 server, or a platform such as Railway or Render with a Postgres database and
 a persistent disk (or an S3-type upload provider). Do not use SQLite on a
@@ -72,6 +79,7 @@ Production settings (`.env`):
 | `APP_KEYS`, `API_TOKEN_SALT`, `ADMIN_JWT_SECRET`, `JWT_SECRET`, `TRANSFER_TOKEN_SALT`, `ENCRYPTION_KEY` | Random secrets; generate each with `openssl rand -base64 32` |
 | `DATABASE_CLIENT=postgres`, `DATABASE_URL` | Postgres connection |
 | `PUBLIC_URL` | The CMS's public address (admin links and emails) |
+| `IS_PROXIED=true` | When behind a reverse proxy that terminates HTTPS |
 
 Build and run: `npm run build && npm run start`.
 
