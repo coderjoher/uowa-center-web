@@ -37,6 +37,11 @@ export const FIELD_LABELS: Record<string, string> = {
   "value": "الرقم",
   "text": "النص",
   "blocks": "أقسام الصفحة",
+  "homeLayout": "تخطيط الرئيسية",
+  "hidden": "مخفي",
+  "buildingImage": "صورة المبنى",
+  "walkwayImage": "صورة الممر",
+  "videoWebm": "نسخة WebM (اختياري)",
   "afterHero": "بعد الصورة الرئيسية مباشرة",
   "beforeFooter": "قبل التذييل",
   "name": "الاسم",
@@ -167,7 +172,7 @@ export const FILE_KEYS = new Set(["file"]);
 export const RICH_KEYS = new Set(["body", "answer", "content"]);
 
 /** Keys with their own editors in the admin, not listed as content sections. */
-export const BUILDER_KEYS = new Set(["customPages", "homeBlocks"]);
+export const BUILDER_KEYS = new Set(["customPages", "homeBlocks", "homeLayout"]);
 
 /** Keys whose value is a video path: edited with the media picker, videos only. */
 export const VIDEO_KEYS = new Set(["src", "srcWebm"]);

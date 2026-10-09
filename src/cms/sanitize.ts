@@ -1,4 +1,5 @@
 import sanitizeHtml from "sanitize-html";
+import { vercelStegaClean } from "@vercel/stega";
 import { isRichText } from "@/lib/rich";
 
 /**
@@ -30,12 +31,20 @@ export function sanitizeRich(html: string): string {
   return sanitizeHtml(html, OPTIONS).trim();
 }
 
-/** Sanitises every formatted string anywhere in a content document. */
+/**
+ * Sanitises every formatted string anywhere in a content document, and
+ * removes the invisible location markers the live preview adds to text, in
+ * case any came back with an edit made in the preview.
+ */
 export function sanitizeDocument<T>(value: T): T {
+  return sanitizeStrings(vercelStegaClean(value));
+}
+
+function sanitizeStrings<T>(value: T): T {
   if (typeof value === "string" && isRichText(value)) return sanitizeRich(value) as T;
-  if (Array.isArray(value)) return value.map(sanitizeDocument) as T;
+  if (Array.isArray(value)) return value.map(sanitizeStrings) as T;
   if (value && typeof value === "object") {
-    return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, sanitizeDocument(v)])) as T;
+    return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, sanitizeStrings(v)])) as T;
   }
   return value;
 }

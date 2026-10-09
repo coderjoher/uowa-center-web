@@ -67,36 +67,33 @@ All copy, lists (news, courses, team, FAQ, gallery, the annual plan…),
 pictures, videos and the section switches are edited at **`/admin`**, in
 Arabic and English. Saving publishes right away.
 
-What it offers:
+What it offers (organised like Strapi and Payload):
 
-- **Editor accounts** with two roles: *admin* (accounts and content) and
-  *editor* (content and media). The first visit to `/admin` on a fresh
-  install creates the first admin.
-- **Every section as a form**, generated from the content's shape, with
-  Arabic labels. While editing English, each field shows the Arabic text
-  under it.
-- **A media library**: upload pictures (up to 15 MB), videos (MP4/WebM,
-  up to 300 MB) and documents (up to 50 MB), describe them, pick them from
-  any picture, video or file field.
-  Files still used in the content can't be deleted.
-- **History**: every save is kept with who made it; any version can be
-  compared with the current one and restored.
-- **Safe concurrent editing**: if someone else saved the same content after
-  you opened it, your save is refused instead of overwriting theirs.
-- **Pages and blocks**: editors create their own pages (at `/<lang>/<slug>`)
-  and add blocks to the home page (right after the hero, and before the
-  footer). Each block has a display type: formatted text, cards, links and
-  files, questions and answers, statistics, announcements, a call to action,
-  or an image (`src/lib/blocks.ts`, rendered by `src/components/blocks`).
-- **Hide any home section** under «إظهار الأقسام».
-- **Formatting** (bold, lists, alignment including justify, links) in body
-  text and answers. It is cleaned on save (`src/cms/sanitize.ts`) and
-  rendered by `src/components/ui/RichText.tsx`.
-- **Search** across all content in both languages, jumping to the field;
-  **undo/redo** (Ctrl+Z), reverting one section, and restoring one section
-  from an older version.
-- **Documents** (PDF, Word, Excel, PowerPoint) in the media library, for
-  guides, policies and reports.
+- **Dashboard** with the pages, the collections and their counts, the
+  globals, and the latest edits.
+- **Page builder** (`VisualBuilder`): layers on one side, the live site in
+  the middle (desktop, tablet, phone), properties on the other. Drag layers
+  to reorder, hide them with the eye, add built-in sections or new blocks
+  (formatted text, cards, links and files, Q&A, statistics, announcements,
+  call to action, image). Click anything in the canvas to select its layer
+  and field; double-click text to type over it. Works for the home page and
+  for editors' own pages; on the other pages, content is edited by clicking.
+- **Collections** (news, courses, services, FAQ, annual plan, gallery
+  photos, team, divisions, milestones, features, contact cards): a table
+  with search, create, duplicate, move and delete, and an edit screen per
+  item. **Globals**: the menu, footer, identity, SEO and each section's
+  texts.
+- Every edit screen has breadcrumbs, the language, a **live preview** of the
+  page beside the form (unsaved changes included), and the document's
+  status. Every picture, video and file field takes a dropped or uploaded
+  file directly, or one from the **media library**.
+- **Accounts** with *admin* and *editor* roles; the first visit to `/admin`
+  on a fresh install creates the first admin.
+- **Formatting** (bold, lists, alignment including justify, links), cleaned
+  on save (`src/cms/sanitize.ts`) and rendered by `components/ui/RichText`.
+- **Search** across all content in both languages, **undo/redo** (Ctrl+Z),
+  **Ctrl+S** to save, **history** with restore of a whole version or a single
+  section, and refusal of saves that would overwrite someone else's.
 
 How it works:
 
@@ -106,6 +103,14 @@ How it works:
   added to those files later appear automatically.
 - Pages are static HTML; every save re-renders them
   (`revalidatePath("/", "layout")`).
+- The live preview is the real site in Next's draft mode, for the signed-in
+  editor only: their unsaved documents (`cms_previews`) are rendered with an
+  invisible marker on every text value (`src/cms/preview.ts`), which
+  `components/preview/PreviewBridge` uses to map clicks back to fields. The
+  markers are stripped on every save and never reach visitors.
+- The home page and editors' pages render from layouts
+  (`components/sections/Layout`); older content without a home layout gets
+  one matching the previous home page.
 - Uploads are written to `MEDIA_DIR` and served at `/media/<name>`.
 - Without `DATABASE_URL` (a plain `npm run dev`, or Vercel) the site renders
   the bundled JSON and `/admin` explains that it isn't configured.

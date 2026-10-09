@@ -25,7 +25,7 @@ type Box = { top: number; left: number; width: number; height: number; label: st
 
 const FROM_ADMIN = "uowa-cms";
 const TO_ADMIN = "uowa-preview";
-const STEGA = new RegExp(VERCEL_STEGA_REGEX.source, "g");
+const STEGA = new RegExp(VERCEL_STEGA_REGEX.source, "gu");
 const clean = (text: string) => text.replace(STEGA, "");
 
 function decode(text: string): Ref | null {
@@ -267,8 +267,13 @@ export default function PreviewBridge() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
-  /* Tell the admin when the preview moves to another page. */
+  /* Tell the admin when the preview moves to another page (not on first load: "ready" covers that). */
+  const firstPath = useRef(true);
   useEffect(() => {
+    if (firstPath.current) {
+      firstPath.current = false;
+      return;
+    }
     if (window.parent !== window) post({ type: "navigated", path: pathname });
   }, [pathname]);
 
