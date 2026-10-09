@@ -1,6 +1,7 @@
-/* Starts the website, then asks it once to refresh its content from the CMS.
-   The pages baked into the image were rendered while the CMS was unreachable
-   (it isn't running during `docker build`), so they hold the bundled copy. */
+/* Starts the website, then asks it once to re-render every page from the
+   database. The pages baked into the image were rendered without one (the
+   database isn't available during `docker build`), so they hold the bundled
+   copy of the content. */
 import { spawn } from "node:child_process";
 
 const port = process.env.PORT ?? "3000";
@@ -18,7 +19,7 @@ if (secret) {
         headers: { "x-revalidate-secret": secret },
       });
       if (res.ok) {
-        console.log("[start] content refreshed from the CMS");
+        console.log("[start] pages refreshed from the database");
         break;
       }
     } catch {
