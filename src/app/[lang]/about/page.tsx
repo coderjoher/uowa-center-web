@@ -19,7 +19,7 @@ export async function generateMetadata({
 }: PageProps<"/[lang]/about">): Promise<Metadata> {
   const { lang } = await params;
   if (!isLocale(lang)) return {};
-  const page = getContent(lang).pages.about;
+  const page = (await getContent(lang)).pages.about;
   return {
     title: page.metaTitle,
     description: page.metaDescription,
@@ -30,7 +30,7 @@ export async function generateMetadata({
 export default async function Page({ params }: PageProps<"/[lang]/about">) {
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
-  const c = getContent(lang);
+  const c = await getContent(lang);
 
   return (
     <>
@@ -38,14 +38,14 @@ export default async function Page({ params }: PageProps<"/[lang]/about">) {
       <main className="overflow-x-hidden">
         <PageHero lang={lang} page={c.pages.about} common={c.common} />
         <AboutSection content={c.about} />
-        {isSectionVisible("director") ? (
+        {isSectionVisible(c, "director") ? (
           <DirectorMessage content={c.director} />
         ) : null}
         <OverviewSection content={c.overview} />
-        {isSectionVisible("structure") ? (
+        {isSectionVisible(c, "structure") ? (
           <StructureSection content={c.structure} />
         ) : null}
-        {isSectionVisible("team") ? <TeamSection content={c.team} /> : null}
+        {isSectionVisible(c, "team") ? <TeamSection content={c.team} /> : null}
         <MilestonesSection content={c.milestones} lang={lang} />
         <CtaSection content={c.cta} />
       </main>

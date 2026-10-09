@@ -1,0 +1,65 @@
+{
+  "kind": "singleType",
+  "collectionName": "overview_sections",
+  "info": {
+    "singularName": "overview-section",
+    "pluralName": "overview-sections",
+    "displayName": "الرؤية والرسالة"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "label": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "heading": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.line",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "pillars": {
+      "type": "component",
+      "repeatable": true,
+      "component": "overview.pillars",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "objectivesTitle": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "objectives": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.line",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

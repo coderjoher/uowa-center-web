@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_nav_menu_children",
+  "info": {
+    "displayName": "الروابط الفرعية",
+    "icon": "bulletList",
+    "description": "menu › children"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string"
+    },
+    "href": {
+      "type": "string"
+    }
+  }
+}

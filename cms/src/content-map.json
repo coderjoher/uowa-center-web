@@ -1,0 +1,36 @@
+{
+  "sections": {
+    "brand": "api::brand-section.brand-section",
+    "nav": "api::nav-section.nav-section",
+    "hero": "api::hero-section.hero-section",
+    "about": "api::about-section.about-section",
+    "features": "api::features-section.features-section",
+    "video": "api::video-section.video-section",
+    "director": "api::director-section.director-section",
+    "overview": "api::overview-section.overview-section",
+    "team": "api::team-section.team-section",
+    "structure": "api::structure-section.structure-section",
+    "services": "api::services-section.services-section",
+    "banner": "api::banner-section.banner-section",
+    "events": "api::events-section.events-section",
+    "plan": "api::plan-section.plan-section",
+    "gallery": "api::gallery-section.gallery-section",
+    "milestones": "api::milestones-section.milestones-section",
+    "faq": "api::faq-section.faq-section",
+    "cta": "api::cta-section.cta-section",
+    "news": "api::news-section.news-section",
+    "newsletter": "api::newsletter-section.newsletter-section",
+    "footer": "api::footer-section.footer-section",
+    "common": "api::common-section.common-section",
+    "pages": "api::pages-section.pages-section",
+    "meta": "api::meta-section.meta-section"
+  },
+  "wrapped": [
+    "features"
+  ],
+  "collections": {
+    "events.items": "api::course.course",
+    "news.items": "api::news-post.news-post"
+  },
+  "settings": "api::site-setting.site-setting"
+}

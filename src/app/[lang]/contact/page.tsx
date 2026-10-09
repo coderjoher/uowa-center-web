@@ -12,7 +12,7 @@ export async function generateMetadata({
 }: PageProps<"/[lang]/contact">): Promise<Metadata> {
   const { lang } = await params;
   if (!isLocale(lang)) return {};
-  const page = getContent(lang).pages.contact;
+  const page = (await getContent(lang)).pages.contact;
   return {
     title: page.metaTitle,
     description: page.metaDescription,
@@ -23,7 +23,7 @@ export async function generateMetadata({
 export default async function Page({ params }: PageProps<"/[lang]/contact">) {
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
-  const c = getContent(lang);
+  const c = await getContent(lang);
 
   return (
     <>

@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_milestones_items",
+  "info": {
+    "displayName": "العناصر",
+    "icon": "bulletList",
+    "description": "items"
+  },
+  "options": {},
+  "attributes": {
+    "year": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "text"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}

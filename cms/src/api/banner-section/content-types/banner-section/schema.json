@@ -1,0 +1,27 @@
+{
+  "kind": "singleType",
+  "collectionName": "banner_sections",
+  "info": {
+    "singularName": "banner-section",
+    "pluralName": "banner-sections",
+    "displayName": "شريط الفيديو"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "imageAlt": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

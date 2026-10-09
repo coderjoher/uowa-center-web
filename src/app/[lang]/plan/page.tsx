@@ -11,7 +11,7 @@ import { isLocale } from "@/i18n/config";
 export async function generateMetadata({ params }: PageProps<"/[lang]/plan">): Promise<Metadata> {
   const { lang } = await params;
   if (!isLocale(lang)) return {};
-  const page = getContent(lang).pages.plan;
+  const page = (await getContent(lang)).pages.plan;
   return {
     title: page.metaTitle,
     description: page.metaDescription,
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/plan">): P
 export default async function Page({ params }: PageProps<"/[lang]/plan">) {
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
-  const c = getContent(lang);
+  const c = await getContent(lang);
 
   return (
     <>

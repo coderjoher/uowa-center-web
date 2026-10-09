@@ -1,0 +1,63 @@
+{
+  "kind": "singleType",
+  "collectionName": "team_sections",
+  "info": {
+    "singularName": "team-section",
+    "pluralName": "team-sections",
+    "displayName": "فريق المركز"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "label": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "heading": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.line",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "intro": {
+      "type": "text",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "pendingName": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "members": {
+      "type": "component",
+      "repeatable": true,
+      "component": "team.members",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

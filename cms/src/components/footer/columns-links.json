@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_footer_columns_links",
+  "info": {
+    "displayName": "الروابط",
+    "icon": "bulletList",
+    "description": "columns › links"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string"
+    },
+    "href": {
+      "type": "string"
+    }
+  }
+}

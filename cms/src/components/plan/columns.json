@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_plan_columns",
+  "info": {
+    "displayName": "الأعمدة",
+    "icon": "bulletList",
+    "description": "columns"
+  },
+  "options": {},
+  "attributes": {
+    "month": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "activity": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "venue": {
+      "type": "string"
+    }
+  }
+}

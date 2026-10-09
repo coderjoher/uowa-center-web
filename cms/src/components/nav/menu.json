@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_nav_menu",
+  "info": {
+    "displayName": "قائمة الهاتف",
+    "icon": "bulletList",
+    "description": "menu"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string"
+    },
+    "href": {
+      "type": "string"
+    },
+    "children": {
+      "type": "component",
+      "repeatable": true,
+      "component": "nav.menu-children"
+    }
+  }
+}

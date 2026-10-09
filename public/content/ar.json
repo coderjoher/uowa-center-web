@@ -205,8 +205,9 @@
     "label": "فيديو",
     "heading": [],
     "body": "يوميات الطلبة",
-    "src": "Ab9Rx7Q9xKI",
+    "src": "/videos/campus-tour.mp4",
     "srcWebm": "/videos/campus-tour.webm",
+    "youtube": "Ab9Rx7Q9xKI",
     "poster": "/images/campus-tour-poster.jpg",
     "play": "تشغيل الفيديو",
     "controls": {

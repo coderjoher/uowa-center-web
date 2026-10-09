@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_footer_columns",
+  "info": {
+    "displayName": "الأعمدة",
+    "icon": "bulletList",
+    "description": "columns"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "links": {
+      "type": "component",
+      "repeatable": true,
+      "component": "footer.columns-links"
+    }
+  }
+}

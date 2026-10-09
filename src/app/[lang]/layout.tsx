@@ -38,7 +38,7 @@ export async function generateMetadata({
   const { lang } = await params;
   if (!isLocale(lang)) return {};
 
-  const { meta } = getContent(lang);
+  const { meta } = await getContent(lang);
   const url = `https://uowa.edu.iq/${lang}`;
 
   return {
@@ -75,7 +75,7 @@ export default async function RootLayout({
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
 
-  const { brand } = getContent(lang);
+  const { brand } = await getContent(lang);
 
   return (
     <html lang={lang} dir={dirOf(lang)} className={somar.variable}>

@@ -27,7 +27,8 @@ npm run lint
 | `src/i18n/config.ts` | The locale list, default, direction and switcher labels |
 | `public/content/ar.json`, `en.json`, `settings.json` | All copy, one `SiteContent` object per locale, plus the section on/off switches |
 | `src/data/index.ts` | Loads the JSON above and bakes it in at build time |
-| `src/app/admin/`, `src/app/api/admin/`, `src/components/admin/` | The content admin at `/admin` (see below) |
+| `cms/` | The Strapi CMS that manages all content (see below and `cms/README.md`) |
+| `src/app/api/revalidate/` | Webhook target that refreshes cached CMS content on publish |
 | `src/types/content.ts` | The `SiteContent` shape both dictionaries satisfy |
 | `src/components/` | Section components; each takes its slice of `SiteContent` as a prop |
 | `src/app/globals.css` | Design tokens, the type ramp, and the Arabic overrides |
@@ -57,35 +58,42 @@ No component contains a hard-coded user-facing string.
 See [docs/LOCALIZATION.md](docs/LOCALIZATION.md) for how RTL, the fonts and the
 locale routing fit together.
 
-## Content admin (`/admin`)
+## Content: the Strapi CMS
 
-Every piece of copy, every list (news, courses, team, FAQ, gallery…) and the
-section switches can be edited at `/admin` without touching code. Editors
-sign in with a password; the server commits each save to `master` with a
-repository token it holds, and the deploy that follows publishes the change
-within a few minutes. Nothing secret reaches the browser.
+All copy, lists (news, courses, team, FAQ, gallery, the annual plan…),
+images, videos and the section switches are managed in **Strapi**, which
+lives in [`cms/`](cms/README.md) as its own Node project with its own
+server and database. Editors work in the Strapi admin panel, in Arabic and
+English, and publish; the site picks the change up within seconds.
 
-Set three environment variables on the host (Wasmer app → Settings →
-Environment variables; see `.env.example`):
+How the site reads it:
+
+- `src/data/index.ts` fetches `GET {STRAPI_URL}/api/site-content?locale=ar|en`
+  (one request per locale, cached under the `strapi` tag, refreshed hourly at
+  most).
+- Strapi's webhook calls `POST /api/revalidate` on publish with the
+  `x-revalidate-secret` header, which clears that cache immediately.
+- `public/content/{ar,en,settings}.json` is the bundled copy: used when
+  `STRAPI_URL` is unset, when the CMS is unreachable, and for any section not
+  yet published in the CMS. It is also what `cms` imports from on first
+  setup.
+- `/admin` on the site redirects to the CMS admin panel.
+
+Site environment variables (Vercel → Settings → Environment Variables; see
+`.env.example`):
 
 | Variable | What it is |
 | --- | --- |
-| `ADMIN_PASSWORD` | What editors type in at `/admin` |
-| `ADMIN_SESSION_SECRET` | Signs the session cookie; any long random string (`openssl rand -hex 32`) |
-| `GITHUB_TOKEN` | A fine-grained GitHub token with **Contents: Read and write** on this repository only |
+| `STRAPI_URL` | The CMS address, e.g. `https://cms.example.edu.iq` |
+| `STRAPI_PUBLIC_URL` | Public CMS origin for media, only if different from `STRAPI_URL` |
+| `REVALIDATE_SECRET` | Any long random string; the same value goes in the Strapi webhook header |
 
-Until all three are set, `/admin` shows a message naming what is missing.
-
-Editing model: the admin renders each JSON key as a field by its shape — text,
-paragraph, number, switch, picture (with an "existing images" picker and an
-upload that commits to `public/images/uploads/`), and lists with add, remove
-and reorder. Arabic labels for the keys live in
-`src/components/admin/labels.ts`; a key without a label shows its name. A
-save writes the whole file, so two people editing the same file at once will
-see a "reload and retry" message on the second save.
-
-To try it locally:
+To run both locally:
 
 ```bash
-ADMIN_PASSWORD=dev ADMIN_SESSION_SECRET=dev-secret GITHUB_TOKEN=<token> npm run dev
+cd cms && npm install && cp .env.example .env   # first time
+npm run seed      # import the bundled content (first time)
+npm run develop   # CMS on http://localhost:1337/admin
+# in another terminal, from the repository root:
+STRAPI_URL=http://localhost:1337 npm run dev
 ```

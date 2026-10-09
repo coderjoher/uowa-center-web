@@ -24,7 +24,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
 
-  const c = getContent(lang);
+  const c = await getContent(lang);
 
   return (
     <>
@@ -33,18 +33,18 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         <Hero content={c.hero} brand={c.brand} services={c.services.items} />
         <AboutSection content={c.about} />
         <FeatureCards features={c.features} />
-        {isSectionVisible("video") ? <VideoSection content={c.video} /> : null}
-        {isSectionVisible("director") ? (
+        {isSectionVisible(c, "video") ? <VideoSection content={c.video} /> : null}
+        {isSectionVisible(c, "director") ? (
           <DirectorMessage content={c.director} />
         ) : null}
         {/* Vision/mission/objectives and the milestones carousel live on
             /about (and the nav points there), so the home page no longer
             repeats them. */}
         <ServicesSection content={c.services} lang={lang} />
-        {isSectionVisible("structure") ? (
+        {isSectionVisible(c, "structure") ? (
           <StructureSection content={c.structure} />
         ) : null}
-        {isSectionVisible("team") ? <TeamSection content={c.team} /> : null}
+        {isSectionVisible(c, "team") ? <TeamSection content={c.team} /> : null}
         <CampusBanner content={c.banner} />
         <EventsSection content={c.events} />
         <GallerySection

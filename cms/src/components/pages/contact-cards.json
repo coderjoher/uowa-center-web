@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_pages_contact_cards",
+  "info": {
+    "displayName": "البطاقات",
+    "icon": "bulletList",
+    "description": "contact › cards"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "lines": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.line"
+    },
+    "href": {
+      "type": "string"
+    }
+  }
+}

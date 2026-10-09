@@ -13,7 +13,7 @@ export async function generateMetadata({
 }: PageProps<"/[lang]/gallery">): Promise<Metadata> {
   const { lang } = await params;
   if (!isLocale(lang)) return {};
-  const page = getContent(lang).pages.gallery;
+  const page = (await getContent(lang)).pages.gallery;
   return {
     title: page.metaTitle,
     description: page.metaDescription,
@@ -24,7 +24,7 @@ export async function generateMetadata({
 export default async function Page({ params }: PageProps<"/[lang]/gallery">) {
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
-  const c = getContent(lang);
+  const c = await getContent(lang);
 
   return (
     <>
