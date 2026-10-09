@@ -29,6 +29,7 @@ npm run lint
 | `src/data/index.ts` | Loads the JSON above and bakes it in at build time |
 | `cms/` | The Strapi CMS that manages all content (see below and `cms/README.md`) |
 | `src/app/api/revalidate/` | Webhook target that refreshes cached CMS content on publish |
+| `deploy/`, `Dockerfile` | Running the site, CMS and database on one AWS server (see `deploy/README.md`) |
 | `src/types/content.ts` | The `SiteContent` shape both dictionaries satisfy |
 | `src/components/` | Section components; each takes its slice of `SiteContent` as a prop |
 | `src/app/globals.css` | Design tokens, the type ramp, and the Arabic overrides |
@@ -79,8 +80,8 @@ How the site reads it:
   setup.
 - `/admin` on the site redirects to the CMS admin panel.
 
-Site environment variables (Vercel → Settings → Environment Variables; see
-`.env.example`):
+Site environment variables (set by `deploy/docker-compose.yml` on AWS, or in
+Vercel → Settings → Environment Variables; see `.env.example`):
 
 | Variable | What it is |
 | --- | --- |
@@ -97,3 +98,9 @@ npm run develop   # CMS on http://localhost:1337/admin
 # in another terminal, from the repository root:
 STRAPI_URL=http://localhost:1337 npm run dev
 ```
+
+## Deploying on AWS
+
+[`deploy/README.md`](deploy/README.md) walks through putting the website, the
+CMS, its Postgres database and HTTPS on one Lightsail or EC2 server with
+Docker Compose.
