@@ -26,10 +26,11 @@ npm run lint
 | `src/proxy.ts` | Redirects locale-less URLs to a locale |
 | `src/i18n/config.ts` | The locale list, default, direction and switcher labels |
 | `public/content/ar.json`, `en.json`, `settings.json` | All copy, one `SiteContent` object per locale, plus the section on/off switches |
-| `src/data/index.ts` | Loads the JSON above and bakes it in at build time |
-| `cms/` | The Strapi CMS that manages all content (see below and `cms/README.md`) |
-| `src/app/api/revalidate/` | Webhook target that refreshes cached CMS content on publish |
-| `deploy/`, `Dockerfile` | Running the site, CMS and database on one AWS server (see `deploy/README.md`) |
+| `src/data/index.ts` | Where pages get their content: the database, or the JSON above |
+| `src/cms/` | The content admin's server side: database, accounts, history, media |
+| `src/app/admin/`, `src/components/admin/` | The content admin at `/admin` |
+| `src/app/api/admin/` | The admin's API; `src/app/media/` serves uploaded files |
+| `deploy/`, `Dockerfile` | Running the site and its database on one AWS server (see `deploy/README.md`) |
 | `src/types/content.ts` | The `SiteContent` shape both dictionaries satisfy |
 | `src/components/` | Section components; each takes its slice of `SiteContent` as a prop |
 | `src/app/globals.css` | Design tokens, the type ramp, and the Arabic overrides |
@@ -52,55 +53,67 @@ roster) are built and translated but currently hidden behind flags in
 
 ## Editing copy
 
-All text lives in `src/data/ar.ts` and `src/data/en.ts`. Both files export a
-`SiteContent`, so TypeScript fails the build if a locale is missing a field.
-No component contains a hard-coded user-facing string.
+Editors change text at `/admin` (below). The bundled defaults live in
+`public/content/ar.json` and `en.json`, both shaped as `SiteContent`
+(`src/types/content.ts`). No component contains a hard-coded user-facing
+string.
 
 See [docs/LOCALIZATION.md](docs/LOCALIZATION.md) for how RTL, the fonts and the
 locale routing fit together.
 
-## Content: the Strapi CMS
+## Content: the admin at `/admin`
 
 All copy, lists (news, courses, team, FAQ, gallery, the annual plan…),
-images, videos and the section switches are managed in **Strapi**, which
-lives in [`cms/`](cms/README.md) as its own Node project with its own
-server and database. Editors work in the Strapi admin panel, in Arabic and
-English, and publish; the site picks the change up within seconds.
+pictures, videos and the section switches are edited at **`/admin`**, in
+Arabic and English. Saving publishes right away.
 
-How the site reads it:
+What it offers:
 
-- `src/data/index.ts` fetches `GET {STRAPI_URL}/api/site-content?locale=ar|en`
-  (one request per locale, cached under the `strapi` tag, refreshed hourly at
-  most).
-- Strapi's webhook calls `POST /api/revalidate` on publish with the
-  `x-revalidate-secret` header, which clears that cache immediately.
-- `public/content/{ar,en,settings}.json` is the bundled copy: used when
-  `STRAPI_URL` is unset, when the CMS is unreachable, and for any section not
-  yet published in the CMS. It is also what `cms` imports from on first
-  setup.
-- `/admin` on the site redirects to the CMS admin panel.
+- **Editor accounts** with two roles: *admin* (accounts and content) and
+  *editor* (content and media). The first visit to `/admin` on a fresh
+  install creates the first admin.
+- **Every section as a form**, generated from the content's shape, with
+  Arabic labels. While editing English, each field shows the Arabic text
+  under it.
+- **A media library**: upload pictures (up to 15 MB) and videos (MP4/WebM,
+  up to 300 MB), describe them, pick them from any picture or video field.
+  Files still used in the content can't be deleted.
+- **History**: every save is kept with who made it; any version can be
+  compared with the current one and restored.
+- **Safe concurrent editing**: if someone else saved the same content after
+  you opened it, your save is refused instead of overwriting theirs.
 
-Site environment variables (set by `deploy/docker-compose.yml` on AWS, or in
-Vercel → Settings → Environment Variables; see `.env.example`):
+How it works:
+
+- Content is stored in Postgres (`DATABASE_URL`) as three JSON documents
+  (`ar`, `en`, `settings`) shaped exactly like the files in
+  `public/content`, which seed an empty database on first start. Sections
+  added to those files later appear automatically.
+- Pages are static HTML; every save re-renders them
+  (`revalidatePath("/", "layout")`).
+- Uploads are written to `MEDIA_DIR` and served at `/media/<name>`.
+- Without `DATABASE_URL` (a plain `npm run dev`, or Vercel) the site renders
+  the bundled JSON and `/admin` explains that it isn't configured.
+
+Environment variables (set by `deploy/docker-compose.yml` on AWS; see
+`.env.example`):
 
 | Variable | What it is |
 | --- | --- |
-| `STRAPI_URL` | The CMS address, e.g. `https://cms.example.edu.iq` |
-| `STRAPI_PUBLIC_URL` | Public CMS origin for media, only if different from `STRAPI_URL` |
-| `REVALIDATE_SECRET` | Any long random string; the same value goes in the Strapi webhook header |
+| `DATABASE_URL` | Postgres connection string |
+| `MEDIA_DIR` | Where uploads are stored (default `.media/` in the project) |
+| `REVALIDATE_SECRET` | Lets the Docker image re-render pages from the database on start |
 
-To run both locally:
+To work on the admin locally:
 
 ```bash
-cd cms && npm install && cp .env.example .env   # first time
-npm run seed      # import the bundled content (first time)
-npm run develop   # CMS on http://localhost:1337/admin
-# in another terminal, from the repository root:
-STRAPI_URL=http://localhost:1337 npm run dev
+docker run -d --name cms-pg -e POSTGRES_PASSWORD=dev -p 5432:5432 postgres:16-alpine
+DATABASE_URL=postgres://postgres:dev@localhost:5432/postgres npm run dev
+# then open http://localhost:3000/admin and create the first account
 ```
 
 ## Deploying on AWS
 
-[`deploy/README.md`](deploy/README.md) walks through putting the website, the
-CMS, its Postgres database and HTTPS on one Lightsail or EC2 server with
-Docker Compose.
+[`deploy/README.md`](deploy/README.md) walks through putting the website, its
+Postgres database and HTTPS on one Lightsail or EC2 server with Docker
+Compose.
