@@ -31,6 +31,14 @@ export const SECTION_LABELS: Record<string, string> = {
 };
 
 export const FIELD_LABELS: Record<string, string> = {
+  "content": "النص المنسق",
+  "file": "الملف (PDF أو Word…)",
+  "badge": "الوسم (إعلان، تنويه…)",
+  "value": "الرقم",
+  "text": "النص",
+  "blocks": "أقسام الصفحة",
+  "afterHero": "بعد الصورة الرئيسية مباشرة",
+  "beforeFooter": "قبل التذييل",
   "name": "الاسم",
   "suffix": "الجزء الثاني من الاسم",
   "university": "اسم الجامعة",
@@ -147,6 +155,19 @@ export const FIELD_LABELS: Record<string, string> = {
 
 /** Keys whose value is a picture path: edited with the media picker. */
 export const IMAGE_KEYS = new Set(["image", "logo", "portrait", "poster"]);
+
+/** Keys whose value is a document (PDF, Word…): edited with the media picker, documents only. */
+export const FILE_KEYS = new Set(["file"]);
+
+/**
+ * Keys whose text can be formatted (bold, lists, alignment…). Edited with
+ * the formatting toolbar; the site renders them with components/ui/RichText.
+ * A list of paragraphs under one of these keys is edited as one text.
+ */
+export const RICH_KEYS = new Set(["body", "answer", "content"]);
+
+/** Keys with their own editors in the admin, not listed as content sections. */
+export const BUILDER_KEYS = new Set(["customPages", "homeBlocks"]);
 
 /** Keys whose value is a video path: edited with the media picker, videos only. */
 export const VIDEO_KEYS = new Set(["src", "srcWebm"]);

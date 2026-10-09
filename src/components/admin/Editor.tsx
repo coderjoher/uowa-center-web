@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import type { Json, MediaItem } from "./api";
-import { IMAGE_KEYS, LONG_KEYS, VIDEO_KEYS, labelFor } from "./labels";
+import type { Json, MediaItem, MediaKind } from "./api";
+import { FILE_KEYS, IMAGE_KEYS, LONG_KEYS, RICH_KEYS, VIDEO_KEYS, labelFor } from "./labels";
 import { MediaPicker } from "./MediaLibrary";
+import { RichEditor, plainText } from "./RichEditor";
+import { paragraphsToHtml } from "@/lib/rich";
 import { btn, input, small } from "./ui";
 
 export type Path = (string | number)[];
@@ -22,14 +24,26 @@ export function setAt(root: Json, path: Path, value: Json): Json {
   return obj;
 }
 
+/** The value at a path, if there is one. */
+export function getAt(root: Json | undefined, path: Path): Json | undefined {
+  let cur = root;
+  for (const key of path) cur = child(cur, key);
+  return cur;
+}
+
 /** The value at `key` of an object or list, if `value` is one. */
 function child(value: Json | undefined, key: string | number): Json | undefined {
   if (value && typeof value === "object") return (value as { [k: string]: Json })[key as string];
   return undefined;
 }
 
+/** Identifies a field in the page, for jumping to it from the search. */
+export const pathKey = (path: Path) => JSON.stringify(path);
+
+const startsWith = (path: Path, prefix: Path) => prefix.length <= path.length && prefix.every((p, i) => p === path[i]);
+
 /** A blank copy of a value: strings emptied, numbers zeroed, arrays kept to one blank item. */
-function blank(value: Json): Json {
+export function blank(value: Json): Json {
   if (typeof value === "string") return "";
   if (typeof value === "number") return 0;
   if (typeof value === "boolean") return false;
@@ -39,11 +53,11 @@ function blank(value: Json): Json {
 }
 
 /** A short description of an object in a list, for its card header. */
-function summarize(value: Json): string {
-  if (typeof value !== "object" || value === null || Array.isArray(value)) return String(value ?? "");
-  for (const k of ["title", "name", "label", "question", "year", "caption", "heading", "date", "activity"]) {
+export function summarize(value: Json): string {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return plainText(String(value ?? ""));
+  for (const k of ["title", "name", "label", "question", "year", "caption", "heading", "date", "activity", "value"]) {
     const v = value[k];
-    if (typeof v === "string" && v) return v;
+    if (typeof v === "string" && v) return plainText(v);
     if (Array.isArray(v) && typeof v[0] === "string") return v.join(" ");
   }
   return "";
@@ -54,6 +68,8 @@ export interface EditorContext {
   dir: "rtl" | "ltr";
   /** Label of the other language, when its text is shown as a reference. */
   referenceLabel?: string;
+  /** A field the search jumped to: groups on its way open up. */
+  focus?: Path;
 }
 
 interface FieldProps {
@@ -76,39 +92,63 @@ function Key({ name }: { name: string }) {
 }
 
 function Reference({ value, ctx }: { value: Json | undefined; ctx: EditorContext }) {
-  if (typeof value !== "string" || !value || !ctx.referenceLabel) return null;
+  const text = typeof value === "string" ? plainText(value) : Array.isArray(value) ? value.filter((v) => typeof v === "string").map((v) => plainText(v as string)).join(" ") : "";
+  if (!text || !ctx.referenceLabel) return null;
   return (
     <span className="text-[12px] leading-5 text-muted" dir="auto">
-      <span className="font-bold">{ctx.referenceLabel}:</span> {value}
+      <span className="font-bold">{ctx.referenceLabel}:</span> {text}
     </span>
   );
 }
 
+const isStringList = (v: Json): v is string[] => Array.isArray(v) && v.every((x) => typeof x === "string");
+
 /**
- * Renders any JSON value as a form, by shape: strings become inputs (or a
- * textarea for paragraph keys, or the media picker for picture and video
- * keys), numbers and booleans their controls, arrays lists with
- * add/remove/reorder, objects collapsible groups. Every edit reports the
- * full path so the document is updated immutably at the root.
+ * Renders any JSON value as a form, by shape: strings become inputs (a
+ * textarea for paragraph keys, the formatting editor for text that can be
+ * formatted, the media picker for picture, video and document keys),
+ * numbers and booleans their controls, arrays lists with add/remove/reorder,
+ * objects collapsible groups. Every edit reports the full path so the
+ * document is updated immutably at the root.
  */
 export function Field({ name, value, reference, path, onChange, ctx, depth = 0 }: FieldProps) {
   const label = labelFor(name);
 
-  if (typeof value === "string") {
-    if (IMAGE_KEYS.has(name) || VIDEO_KEYS.has(name)) {
-      return (
-        <MediaField
-          label={label}
-          name={name}
-          kind={VIDEO_KEYS.has(name) ? "video" : "image"}
-          value={value}
-          onChange={(v) => onChange(path, v)}
+  if (RICH_KEYS.has(name) && (typeof value === "string" || isStringList(value))) {
+    /* A list of paragraphs is edited as one formatted text, stored as one item. */
+    const text = typeof value === "string" ? value : paragraphsToHtml(value.filter(Boolean));
+    return (
+      <div className="flex flex-col gap-1" data-path={pathKey(path)}>
+        <span className={small}>
+          {label} <Key name={name} />
+        </span>
+        <RichEditor
+          value={typeof value === "string" ? value : text}
+          dir={ctx.dir}
+          onChange={(html) => onChange(path, typeof value === "string" ? html : html ? [html] : [])}
         />
+        <Reference value={reference} ctx={ctx} />
+      </div>
+    );
+  }
+
+  if (typeof value === "string") {
+    if (IMAGE_KEYS.has(name) || VIDEO_KEYS.has(name) || FILE_KEYS.has(name)) {
+      return (
+        <div data-path={pathKey(path)}>
+          <MediaField
+            label={label}
+            name={name}
+            kind={VIDEO_KEYS.has(name) ? "video" : FILE_KEYS.has(name) ? "document" : "image"}
+            value={value}
+            onChange={(v) => onChange(path, v)}
+          />
+        </div>
       );
     }
     const long = LONG_KEYS.has(name) || value.length > 90;
     return (
-      <label className="flex flex-col gap-1">
+      <label className="flex flex-col gap-1" data-path={pathKey(path)}>
         <span className={small}>
           {label} <Key name={name} />
         </span>
@@ -129,7 +169,7 @@ export function Field({ name, value, reference, path, onChange, ctx, depth = 0 }
   }
   if (typeof value === "number") {
     return (
-      <label className="flex flex-col gap-1">
+      <label className="flex flex-col gap-1" data-path={pathKey(path)}>
         <span className={small}>
           {label} <Key name={name} />
         </span>
@@ -139,7 +179,7 @@ export function Field({ name, value, reference, path, onChange, ctx, depth = 0 }
   }
   if (typeof value === "boolean") {
     return (
-      <label className="flex cursor-pointer items-center gap-3 py-1">
+      <label className="flex cursor-pointer items-center gap-3 py-1" data-path={pathKey(path)}>
         <input type="checkbox" className="h-4 w-4 accent-navy" checked={value} onChange={(e) => onChange(path, e.target.checked)} />
         <span className="text-[15px] text-navy">{label}</span>
         <span className={small}>
@@ -157,7 +197,7 @@ export function Field({ name, value, reference, path, onChange, ctx, depth = 0 }
   }
 
   return (
-    <Group label={label} name={name} depth={depth}>
+    <Group label={label} name={name} depth={depth} forced={Boolean(ctx.focus && startsWith(ctx.focus, path))}>
       {Object.entries(value).map(([k, v]) => (
         <Field
           key={k}
@@ -174,11 +214,24 @@ export function Field({ name, value, reference, path, onChange, ctx, depth = 0 }
   );
 }
 
-function Group({ label, name, depth, children }: { label: string; name: string; depth: number; children: React.ReactNode }) {
-  const [open, setOpen] = useState(depth < 2);
+function Group({
+  label,
+  name,
+  depth,
+  forced,
+  children,
+}: {
+  label: string;
+  name: string;
+  depth: number;
+  forced: boolean;
+  children: React.ReactNode;
+}) {
+  const [userOpen, setUserOpen] = useState<boolean | null>(null);
+  const open = forced || (userOpen ?? depth < 2);
   return (
     <fieldset className="flex min-w-0 flex-col gap-3 border border-border-soft bg-surface/40 p-3">
-      <button type="button" onClick={() => setOpen((v) => !v)} className="flex w-full cursor-pointer items-center justify-between text-start">
+      <button type="button" onClick={() => setUserOpen(!open)} className="flex w-full cursor-pointer items-center justify-between text-start">
         <span className="text-[14px] font-bold text-navy">
           {label} <Key name={name} />
         </span>
@@ -217,12 +270,15 @@ function ListField({
     onChange(path, copy);
   };
   const remove = (i: number) => {
-    if (window.confirm(`حذف العنصر ${i + 1} من «${label}»؟`)) onChange(path, value.filter((_, k) => k !== i));
+    if (window.confirm(`حذف العنصر ${i + 1} من «${label}»؟ يمكنك التراجع عن ذلك.`)) onChange(path, value.filter((_, k) => k !== i));
   };
-  const add = () => onChange(path, [...value, value.length ? blank(value[value.length - 1]) : ""]);
+  const duplicate = (i: number) => onChange(path, [...value.slice(0, i + 1), structuredClone(value[i]), ...value.slice(i + 1)]);
+  /* The shape of an item, remembered so a list emptied of every item can still grow again. */
+  const [template] = useState<Json>(() => (value.length ? blank(value[0]) : ""));
+  const add = () => onChange(path, [...value, value.length ? blank(value[value.length - 1]) : template]);
 
   return (
-    <fieldset className="flex min-w-0 flex-col gap-2 border border-border-soft p-3">
+    <fieldset className="flex min-w-0 flex-col gap-2 border border-border-soft p-3" data-path={pathKey(path)}>
       <div className="flex items-center justify-between">
         <span className="text-[14px] font-bold text-navy">
           {label} <Key name={`${name} · ${value.length}`} />
@@ -232,17 +288,20 @@ function ListField({
         </button>
       </div>
       {value.map((item, i) => (
-        <div key={i} className="flex flex-col gap-2 border border-border-soft bg-white p-2">
+        <div key={i} className="flex flex-col gap-2 border border-border-soft bg-white p-2" data-path={pathKey([...path, i])}>
           <div className="flex items-center justify-between gap-2">
             <span className="truncate text-[13px] text-muted">
               {i + 1}. {strings ? "" : summarize(item)}
             </span>
             <span className="flex shrink-0 gap-1">
-              <button type="button" className={btn} onClick={() => move(i, -1)} disabled={i === 0} aria-label="أعلى">
+              <button type="button" className={btn} onClick={() => move(i, -1)} disabled={i === 0} aria-label="أعلى" title="أعلى">
                 ↑
               </button>
-              <button type="button" className={btn} onClick={() => move(i, 1)} disabled={i === value.length - 1} aria-label="أسفل">
+              <button type="button" className={btn} onClick={() => move(i, 1)} disabled={i === value.length - 1} aria-label="أسفل" title="أسفل">
                 ↓
+              </button>
+              <button type="button" className={btn} onClick={() => duplicate(i)} title="نسخ العنصر">
+                نسخ
               </button>
               <button type="button" className={`${btn} text-danger`} onClick={() => remove(i)}>
                 حذف
@@ -251,7 +310,13 @@ function ListField({
           </div>
           {strings ? (
             <>
-              <input dir={ctx.dir} className={input} value={item as string} onChange={(e) => onChange([...path, i], e.target.value)} />
+              <input
+                dir={ctx.dir}
+                className={input}
+                data-path={pathKey([...path, i])}
+                value={item as string}
+                onChange={(e) => onChange([...path, i], e.target.value)}
+              />
               <Reference value={child(reference, i)} ctx={ctx} />
             </>
           ) : typeof item === "object" && item !== null && !Array.isArray(item) ? (
@@ -278,7 +343,9 @@ function ListField({
   );
 }
 
-function MediaField({
+const ext = (url: string) => (url.split(".").pop() ?? "").toUpperCase().slice(0, 4);
+
+export function MediaField({
   label,
   name,
   kind,
@@ -287,11 +354,12 @@ function MediaField({
 }: {
   label: string;
   name: string;
-  kind: "image" | "video";
+  kind: MediaKind;
   value: string;
   onChange: (v: string) => void;
 }) {
   const [picking, setPicking] = useState(false);
+  const choose = { image: "اختيار صورة أو رفعها…", video: "اختيار فيديو أو رفعه…", document: "اختيار ملف أو رفعه…" }[kind];
   return (
     <div className="flex flex-col gap-2">
       <span className={small}>
@@ -302,8 +370,10 @@ function MediaField({
           {value && kind === "image" ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={value} alt="" className="h-full w-full object-cover" />
-          ) : value ? (
+          ) : value && kind === "video" ? (
             <video src={`${value}#t=0.1`} muted preload="metadata" className="h-full w-full object-cover" />
+          ) : value ? (
+            <span className="text-[14px] font-bold text-navy">{ext(value)}</span>
           ) : (
             <span className="text-[12px] text-muted">لا يوجد</span>
           )}
@@ -312,7 +382,7 @@ function MediaField({
           <input dir="ltr" className={input} value={value} onChange={(e) => onChange(e.target.value)} placeholder="/media/…" />
           <div className="flex flex-wrap gap-2">
             <button type="button" className={btn} onClick={() => setPicking(true)}>
-              {kind === "video" ? "اختيار فيديو أو رفعه…" : "اختيار صورة أو رفعها…"}
+              {choose}
             </button>
             {value ? (
               <button type="button" className={`${btn} text-danger`} onClick={() => onChange("")}>

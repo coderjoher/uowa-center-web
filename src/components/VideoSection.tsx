@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import SectionLabel from "@/components/ui/SectionLabel";
 import CircuitPattern from "@/components/ui/CircuitPattern";
 import type { VideoBlock } from "@/types/content";
+import RichText from "@/components/ui/RichText";
 
 /** The 11-character ID from a YouTube link, embed URL or bare ID. */
 function youtubeId(value?: string): string | null {
@@ -195,7 +196,7 @@ export default function VideoSection({ content }: { content: VideoBlock }) {
             </span>
           ))}
         </h2>
-        <p className="t-body-lg">{content.body}</p>
+        <RichText value={content.body} className="t-body-lg" />
       </div>
 
       <div

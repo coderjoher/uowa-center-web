@@ -3,6 +3,7 @@ import UnderlineLink from "@/components/ui/UnderlineLink";
 import SectionLabel from "@/components/ui/SectionLabel";
 import CircuitPattern from "@/components/ui/CircuitPattern";
 import type { SiteContent } from "@/types/content";
+import RichText from "@/components/ui/RichText";
 
 /**
  * Desktop: 936px tall. The composition block (828x656) holds three absolutely
@@ -65,7 +66,7 @@ export default function AboutSection({
 
       {/* Right column */}
       <div className="mt-6 flex w-full flex-col items-start gap-9 xl:mt-0 xl:max-w-[367px] xl:pb-13">
-        <p className="t-body-lg">{content.body}</p>
+        <RichText value={content.body} className="t-body-lg" />
         <UnderlineLink href={content.linkHref}>{content.link}</UnderlineLink>
       </div>
 

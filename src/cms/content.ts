@@ -1,5 +1,6 @@
 import { BUNDLED_DOCUMENTS, DOCUMENT_KEYS, query, transaction, type DocumentKey } from "./db";
 import type { User } from "./auth";
+import { sanitizeDocument } from "./sanitize";
 
 /**
  * Reading and saving the content documents, with history.
@@ -25,7 +26,12 @@ export function isDocumentKey(key: unknown): key is DocumentKey {
  * and render even before anyone saves them.
  */
 function withNewSections(key: DocumentKey, data: Data): Data {
-  return { ...BUNDLED_DOCUMENTS[key], ...data };
+  const merged = { ...BUNDLED_DOCUMENTS[key], ...data };
+  /* New section switches, too (the switches are one level down). */
+  if (key === "settings") {
+    merged.sections = { ...(BUNDLED_DOCUMENTS.settings.sections as Data), ...((data.sections as Data | undefined) ?? {}) };
+  }
+  return merged;
 }
 
 export interface StoredDocument {
@@ -69,9 +75,10 @@ export async function saveDocument(
   baseVersion: number,
   user: User,
   note = "",
-): Promise<{ version: number; updatedAt: string }> {
+): Promise<{ version: number; updatedAt: string; data: Data }> {
   if (!data || typeof data !== "object" || Array.isArray(data)) throw new InvalidContentError("المحتوى غير صالح.");
-  const text = JSON.stringify(data);
+  const clean = sanitizeDocument(data as Data);
+  const text = JSON.stringify(clean);
   if (text.length > MAX_BYTES) throw new InvalidContentError("حجم المحتوى أكبر من المسموح.");
 
   return transaction(async (db) => {
@@ -97,7 +104,7 @@ export async function saveDocument(
          (SELECT id FROM cms_revisions WHERE key = $1 ORDER BY id DESC LIMIT ${KEEP_REVISIONS})`,
       [key],
     );
-    return { version: next, updatedAt: saved.rows[0].updated_at.toISOString() };
+    return { version: next, updatedAt: saved.rows[0].updated_at.toISOString(), data: clean };
   });
 }
 

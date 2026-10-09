@@ -5,6 +5,7 @@ import { useState } from "react";
 import SectionLabel from "@/components/ui/SectionLabel";
 import { ArrowUpRightThinIcon } from "@/components/icons";
 import type { SiteContent } from "@/types/content";
+import RichText from "@/components/ui/RichText";
 
 /**
  * Click accordion, index 1 open on load. A photo band is pinned to the top
@@ -88,7 +89,7 @@ export default function FaqSection({
 
                   {isOpen && faq.answer ? (
                     <div className="flex items-center ps-4 xl:ps-6">
-                      <p className="t-body text-[15px] xl:w-[579px] xl:text-[16px]">{faq.answer}</p>
+                      <RichText value={faq.answer} className="t-body text-[15px] xl:w-[579px] xl:text-[16px]" />
                     </div>
                   ) : null}
                 </div>

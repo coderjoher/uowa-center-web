@@ -19,33 +19,38 @@ export const DOC_LABELS: Record<DocKey, string> = {
   settings: "إظهار الأقسام",
 };
 
+const sectionName = (k: string) => (k === "customPages" ? "الصفحات" : k === "homeBlocks" ? "أقسام إضافية في الرئيسية" : SECTION_LABELS[k] ?? k);
+
 /** Top-level sections whose content differs between two documents. */
 function changedSections(a: Json, b: Json): string[] {
   const x = (a ?? {}) as { [k: string]: Json };
   const y = (b ?? {}) as { [k: string]: Json };
   const keys = new Set([...Object.keys(x), ...Object.keys(y)]);
-  return [...keys].filter((k) => JSON.stringify(x[k]) !== JSON.stringify(y[k])).map((k) => SECTION_LABELS[k] ?? k);
+  return [...keys].filter((k) => k in x && JSON.stringify(x[k]) !== JSON.stringify(y[k]));
 }
 
 /**
  * Every save of a document, newest first. Picking one shows which sections
- * differ from the current content; restoring it saves it as a new version,
- * so a restore can itself be undone.
+ * differ from the current content; any of those sections can be put back
+ * into the draft on its own (to review and save), or the whole version
+ * restored, which saves it as a new version so a restore can be undone too.
  */
 export function History({
   current,
   dirty,
   onRestore,
+  onRevertSection,
   onError,
 }: {
   current: Partial<Record<DocKey, { saved: Json; version: number }>>;
   dirty: (key: DocKey) => boolean;
   onRestore: (key: DocKey, revisionId: number) => Promise<void>;
+  onRevertSection: (key: DocKey, section: string, value: Json) => void;
   onError: (e: unknown) => void;
 }) {
   const [key, setKey] = useState<DocKey>("ar");
   const [revisions, setRevisions] = useState<Revision[] | null>(null);
-  const [picked, setPicked] = useState<{ id: number; diff: string[] } | null>(null);
+  const [picked, setPicked] = useState<{ id: number; version: number; data: { [k: string]: Json }; diff: string[] } | null>(null);
   const [busy, setBusy] = useState(false);
   const version = current[key]?.version;
 
@@ -61,8 +66,8 @@ export function History({
 
   const pick = async (id: number) => {
     try {
-      const rev = await api<{ data: Json }>(`/api/admin/revisions?id=${id}`);
-      setPicked({ id, diff: changedSections(rev.data, current[key]?.saved ?? null) });
+      const rev = await api<{ data: { [k: string]: Json }; version: number }>(`/api/admin/revisions?id=${id}`);
+      setPicked({ id, version: rev.version, data: rev.data, diff: changedSections(rev.data, current[key]?.saved ?? null) });
     } catch (e) {
       onError(e);
     }
@@ -128,9 +133,21 @@ export function History({
                 )}
               </div>
               {picked?.id === rev.id ? (
-                <p className="text-[13px] text-navy">
-                  {picked.diff.length ? `تختلف عن الحالية في: ${picked.diff.join("، ")}` : "مطابقة للمحتوى الحالي."}
-                </p>
+                picked.diff.length ? (
+                  <div className="flex flex-col gap-1 border-t border-border-soft pt-2">
+                    <p className="text-[13px] text-navy">تختلف عن المحتوى الحالي في هذه الأقسام. يمكنك استرجاع أي منها وحده:</p>
+                    {picked.diff.map((section) => (
+                      <div key={section} className="flex items-center justify-between gap-2 py-1">
+                        <span className="text-[14px] text-navy">{sectionName(section)}</span>
+                        <button type="button" className={btn} onClick={() => onRevertSection(key, section, picked.data[section])}>
+                          استرجاع هذا القسم فقط
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-[13px] text-navy">مطابقة للمحتوى الحالي.</p>
+                )
               ) : null}
             </li>
           );

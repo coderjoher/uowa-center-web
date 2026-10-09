@@ -4,6 +4,7 @@ import SolidButton from "@/components/ui/SolidButton";
 import UnderlineLink from "@/components/ui/UnderlineLink";
 import CircuitPattern from "@/components/ui/CircuitPattern";
 import type { Service, SiteContent } from "@/types/content";
+import RichText from "@/components/ui/RichText";
 
 /**
  * Home-page hero, in the university's own idiom (compare the student-life
@@ -63,9 +64,7 @@ export default function Hero({
               {content.label}
             </p>
             <h1 className="t-h1 mt-4 text-balance text-white xl:mt-6">{content.heading}</h1>
-            <p className="t-body-lg mt-4 max-w-[540px] text-pretty text-[#ccdce6] xl:mt-6">
-              {content.body}
-            </p>
+            <RichText value={content.body} className="t-body-lg mt-4 max-w-[540px] text-pretty text-[#ccdce6] xl:mt-6" />
             <div className="mt-7 flex flex-wrap items-center gap-x-7 gap-y-4 xl:mt-10">
               <SolidButton href={content.ctaHref} variant="gold">
                 {content.cta}

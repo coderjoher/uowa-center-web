@@ -75,13 +75,28 @@ What it offers:
 - **Every section as a form**, generated from the content's shape, with
   Arabic labels. While editing English, each field shows the Arabic text
   under it.
-- **A media library**: upload pictures (up to 15 MB) and videos (MP4/WebM,
-  up to 300 MB), describe them, pick them from any picture or video field.
+- **A media library**: upload pictures (up to 15 MB), videos (MP4/WebM,
+  up to 300 MB) and documents (up to 50 MB), describe them, pick them from
+  any picture, video or file field.
   Files still used in the content can't be deleted.
 - **History**: every save is kept with who made it; any version can be
   compared with the current one and restored.
 - **Safe concurrent editing**: if someone else saved the same content after
   you opened it, your save is refused instead of overwriting theirs.
+- **Pages and blocks**: editors create their own pages (at `/<lang>/<slug>`)
+  and add blocks to the home page (right after the hero, and before the
+  footer). Each block has a display type: formatted text, cards, links and
+  files, questions and answers, statistics, announcements, a call to action,
+  or an image (`src/lib/blocks.ts`, rendered by `src/components/blocks`).
+- **Hide any home section** under «إظهار الأقسام».
+- **Formatting** (bold, lists, alignment including justify, links) in body
+  text and answers. It is cleaned on save (`src/cms/sanitize.ts`) and
+  rendered by `src/components/ui/RichText.tsx`.
+- **Search** across all content in both languages, jumping to the field;
+  **undo/redo** (Ctrl+Z), reverting one section, and restoring one section
+  from an older version.
+- **Documents** (PDF, Word, Excel, PowerPoint) in the media library, for
+  guides, policies and reports.
 
 How it works:
 

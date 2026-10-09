@@ -28,7 +28,7 @@ export async function POST(request: Request) {
   try {
     const saved = await saveDocument(revision.key, revision.data, body.version, user, `استعادة النسخة ${revision.version}`);
     refreshSite();
-    return json({ ...saved, data: revision.data, updatedBy: user.name });
+    return json({ ...saved, updatedBy: user.name });
   } catch (error) {
     if (error instanceof ConflictError) return fail(error.message, 409);
     throw error;
