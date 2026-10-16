@@ -1,3 +1,5 @@
+import type { Json } from "./api";
+
 /**
  * The admin's collections (as in Strapi's collection types or Payload's
  * collections): the lists inside the content that are managed item by item,
@@ -22,6 +24,13 @@ export interface CollectionDef {
   slug?: boolean;
   /** Where an item (or the list) shows on the site, for the live preview. */
   url: (locale: string, item: Record<string, unknown> | null) => string;
+  /** Fields every item offers even where the stored data lacks them (filled in empty). */
+  fields?: Record<string, Json>;
+  /**
+   * Uploading several pictures at once makes one item per picture: the key
+   * that holds the picture. Pictures are the same in both languages.
+   */
+  bulkImage?: string;
   group: "content" | "about" | "pages";
 }
 
@@ -36,6 +45,7 @@ export const COLLECTIONS: CollectionDef[] = [
     image: "image",
     slug: true,
     url: (l, item) => (item?.slug ? `/${l}/news/${item.slug}` : `/${l}/news`),
+    fields: { images: [] },
     group: "content",
   },
   {
@@ -48,13 +58,14 @@ export const COLLECTIONS: CollectionDef[] = [
     image: "image",
     slug: true,
     url: (l, item) => (item?.slug ? `/${l}/courses/${item.slug}` : `/${l}/courses`),
+    fields: { images: [] },
     group: "content",
   },
   { id: "services", label: "الخدمات", singular: "خدمة", path: ["services", "items"], title: "title", image: "image", url: (l) => `/${l}/services`, group: "content" },
   { id: "faq", label: "الأسئلة الشائعة", singular: "سؤال", path: ["faq", "items"], title: "question", url: (l) => `/${l}/faq`, group: "content" },
   { id: "plan", label: "الخطة السنوية", singular: "نشاط", path: ["plan", "rows"], title: "activity", subtitle: "date", url: (l) => `/${l}/plan`, group: "content" },
-  { id: "gallery", label: "صور صفحة المعرض", singular: "صورة", path: ["pages", "gallery", "photos"], title: "caption", image: "image", url: (l) => `/${l}/gallery`, group: "content" },
-  { id: "homeGallery", label: "معرض الصور (الرئيسية)", singular: "صورة", path: ["gallery", "items"], title: "title", image: "image", url: (l) => `/${l}#gallery`, group: "content" },
+  { id: "gallery", label: "صور صفحة المعرض", singular: "صورة", path: ["pages", "gallery", "photos"], title: "caption", image: "image", bulkImage: "image", url: (l) => `/${l}/gallery`, group: "content" },
+  { id: "homeGallery", label: "معرض الصور (الرئيسية)", singular: "صورة", path: ["gallery", "items"], title: "title", image: "image", bulkImage: "image", url: (l) => `/${l}#gallery`, group: "content" },
   { id: "team", label: "فريق المركز", singular: "عضو", path: ["team", "members"], title: "name", subtitle: "role", image: "image", url: (l) => `/${l}/about#team`, group: "about" },
   { id: "structure", label: "شعب المركز", singular: "شعبة", path: ["structure", "divisions"], title: "title", url: (l) => `/${l}/about#structure`, group: "about" },
   { id: "milestones", label: "محطات المركز", singular: "محطة", path: ["milestones", "items"], title: "title", subtitle: "year", image: "image", url: (l) => `/${l}/about`, group: "about" },
@@ -70,7 +81,7 @@ export const GLOBAL_GROUPS: { label: string; keys: string[] }[] = [
   { label: "الهوية والقوائم", keys: ["brand", "nav", "footer", "meta", "common"] },
   {
     label: "نصوص الأقسام",
-    keys: ["hero", "about", "video", "director", "overview", "services", "structure", "team", "banner", "events", "plan", "gallery", "milestones", "faq", "cta", "news", "newsletter"],
+    keys: ["hero", "about", "video", "director", "overview", "services", "structure", "team", "events", "plan", "gallery", "milestones", "faq", "cta", "news", "newsletter"],
   },
   { label: "الصفحات الداخلية", keys: ["pages"] },
 ];

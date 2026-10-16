@@ -59,7 +59,7 @@ export default function ServicesSection({
   return (
     <section
       id="services"
-      className="relative scroll-mt-24 overflow-hidden py-14 xl:py-[140px]"
+      className="relative scroll-mt-24 overflow-hidden py-14 xl:py-[112px]"
     >
       <div className="mx-auto w-full max-w-[1520px] px-5 xl:px-25">
         <div className="flex flex-col items-start gap-6 xl:flex-row xl:items-stretch xl:gap-16">

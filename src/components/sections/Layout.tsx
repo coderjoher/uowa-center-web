@@ -7,7 +7,6 @@ import OverviewSection from "@/components/OverviewSection";
 import ServicesSection from "@/components/ServicesSection";
 import StructureSection from "@/components/StructureSection";
 import TeamSection from "@/components/TeamSection";
-import CampusBanner from "@/components/CampusBanner";
 import EventsSection from "@/components/EventsSection";
 import PlanTable from "@/components/PlanTable";
 import GallerySection from "@/components/GallerySection";
@@ -17,7 +16,7 @@ import CtaSection from "@/components/CtaSection";
 import NewsSection from "@/components/NewsSection";
 import NewsletterSection from "@/components/NewsletterSection";
 import { BlockView } from "@/components/blocks/Blocks";
-import type { Locale } from "@/i18n/config";
+import { dirOf, type Locale } from "@/i18n/config";
 import type { Block, LayoutItem, SectionKey, SiteContent } from "@/types/content";
 
 /** One of the site's built-in sections, with the content it needs. */
@@ -41,8 +40,6 @@ export function SectionView({ section, c, lang }: { section: SectionKey; c: Site
       return <StructureSection content={c.structure} />;
     case "team":
       return <TeamSection content={c.team} />;
-    case "banner":
-      return <CampusBanner content={c.banner} />;
     case "events":
       return <EventsSection content={c.events} />;
     case "plan":
@@ -87,7 +84,7 @@ export default function Layout({
       {(items ?? []).map((item, i) =>
         item.hidden ? null : (
           <div key={i} className="contents" data-layer={`${at}.${i}`}>
-            {item.type === "section" ? <SectionView section={item.section} c={c} lang={lang} /> : <BlockView block={item as Block} />}
+            {item.type === "section" ? <SectionView section={item.section} c={c} lang={lang} /> : <BlockView block={item as Block} lightbox={c.pages.gallery.lightbox} rtl={dirOf(lang) === "rtl"} />}
           </div>
         ),
       )}

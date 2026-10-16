@@ -7,7 +7,6 @@
     "services": true,
     "structure": false,
     "team": true,
-    "banner": true,
     "events": true,
     "gallery": true,
     "faq": true,

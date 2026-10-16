@@ -168,7 +168,25 @@
     "imageAlt": "قاعة الحاسوب في جامعة وارث الأنبياء",
     "imageCaption": "قاعة الحاسوب",
     "areasLabel": "احصاءات",
-    "image": "/images/service-network.jpg"
+    "image": "/images/service-network.jpg",
+    "stats": [
+      {
+        "value": "01",
+        "label": "الشبكات والإنترنت"
+      },
+      {
+        "value": "02",
+        "label": "الأنظمة وقواعد البيانات"
+      },
+      {
+        "value": "03",
+        "label": "الموقع والنشر الرقمي"
+      },
+      {
+        "value": "04",
+        "label": "الصيانة والدعم الفني"
+      }
+    ]
   },
   "about": {
     "label": "من نحن",
@@ -305,7 +323,9 @@
         "role": "مسؤول شعبة التدريب والتأهيل",
         "image": ""
       }
-    ]
+    ],
+    "more": "عرض كل الفريق",
+    "less": "عرض أقل"
   },
   "structure": {
     "label": "الهيكلية",
@@ -443,7 +463,8 @@
           "تجمع الورشة بين الجانب النظري وتمارين تطبيقية على أمثلة حقيقية من رسائل التصيّد التي ترد إلى البريد الجامعي، مع شرح خطوات التحقق قبل فتح أي رابط أو مرفق.",
           "التسجيل عبر الوحدة الإدارية في كليتك أو بمراسلة القسم مباشرة، والمقاعد محدودة بحسب سعة قاعة التدريب."
         ],
-        "href": "/ar/courses/information-security-workshop"
+        "href": "/ar/courses/information-security-workshop",
+        "images": []
       },
       {
         "slug": "network-administration",
@@ -482,7 +503,8 @@
           "تُنفَّذ التمارين على أجهزة حقيقية في مختبر الحاسوب، وتشمل إعداد المبدّلات ونقاط الوصول وقراءة سجلات الأجهزة.",
           "يُفضَّل أن يكون المشارك على معرفة أساسية بأنظمة التشغيل وإعدادات الشبكة في الحاسبات المكتبية."
         ],
-        "href": "/ar/courses/network-administration"
+        "href": "/ar/courses/network-administration",
+        "images": []
       },
       {
         "slug": "electronic-examination-system",
@@ -521,9 +543,12 @@
           "ويجري خلالها تنفيذ اختبار تجريبي كامل، يتولى فيه المشاركون دور المدرّس والطالب بالتناوب للاطلاع على الواجهتين.",
           "تُعقد الدورة قبل بدء الامتحانات الشهرية، ويُنصح بحضورها لمن سيعتمد المنصة للمرة الأولى."
         ],
-        "href": "/ar/courses/electronic-examination-system"
+        "href": "/ar/courses/electronic-examination-system",
+        "images": []
       }
-    ]
+    ],
+    "allLink": "كل الدورات",
+    "allHref": "/ar/courses"
   },
   "plan": {
     "label": "الخطة السنوية",
@@ -694,7 +719,8 @@
           "ويستطيع منتسبو الجامعة وطلبتها الاتصال بالشبكة باستخدام حساب الجامعة نفسه، من دون الحاجة إلى كلمة مرور منفصلة لكل موقع.",
           "وتتابع الشعبة أداء الشبكة يوميًا، وتستقبل ملاحظات المستخدمين عبر مكتب المساعدة في القسم."
         ],
-        "href": "/ar/news/wireless-network-expansion"
+        "href": "/ar/news/wireless-network-expansion",
+        "images": []
       },
       {
         "slug": "digital-services-portal-update",
@@ -710,7 +736,8 @@
           "كما جرى توحيد مصادر البيانات مع الأنظمة الأكاديمية، بما يقلل تكرار إدخال المعلومات ويحدّ من الأخطاء.",
           "وسيجري خلال الفصل المقبل إضافة خدمات جديدة إلى البوابة بالتنسيق مع الكليات والأقسام."
         ],
-        "href": "/ar/news/digital-services-portal-update"
+        "href": "/ar/news/digital-services-portal-update",
+        "images": []
       },
       {
         "slug": "information-security-course",
@@ -726,7 +753,8 @@
           "وشارك فيها عدد من منتسبي الوحدات الإدارية في الكليات، وجرى في ختامها توزيع شهادات المشاركة.",
           "وتعتزم الشعبة تنظيم دورات مماثلة خلال العام الدراسي، إضافة إلى دورات في الشبكات وقواعد البيانات."
         ],
-        "href": "/ar/news/information-security-course"
+        "href": "/ar/news/information-security-course",
+        "images": []
       },
       {
         "slug": "",
@@ -739,7 +767,8 @@
         "body": [
           ""
         ],
-        "href": ""
+        "href": "",
+        "images": []
       }
     ]
   },

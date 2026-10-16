@@ -18,7 +18,7 @@ export default function StructureSection({
   return (
     <section
       id="structure"
-      className="mx-auto w-full max-w-[1520px] scroll-mt-24 px-5 pb-14 xl:px-25 xl:pb-[140px]"
+      className="mx-auto w-full max-w-[1520px] scroll-mt-24 px-5 pb-14 xl:px-25 xl:pb-[112px]"
     >
       <div className="flex flex-col items-start justify-between gap-6 xl:flex-row xl:items-end">
         <div className="flex flex-col items-start gap-4">

@@ -168,7 +168,25 @@
     "imageAlt": "The computer lab at the University of Warith Al-Anbiyaa",
     "imageCaption": "The computer lab",
     "areasLabel": "Areas of work",
-    "image": "/images/service-network.jpg"
+    "image": "/images/service-network.jpg",
+    "stats": [
+      {
+        "value": "01",
+        "label": "Network & Internet"
+      },
+      {
+        "value": "02",
+        "label": "Systems & Databases"
+      },
+      {
+        "value": "03",
+        "label": "Web & Digital Publishing"
+      },
+      {
+        "value": "04",
+        "label": "Maintenance & Support"
+      }
+    ]
   },
   "about": {
     "label": "About",
@@ -308,7 +326,9 @@
         "role": "Lead, Training & Development",
         "image": ""
       }
-    ]
+    ],
+    "more": "Show the whole team",
+    "less": "Show less"
   },
   "structure": {
     "label": "Structure",
@@ -446,7 +466,8 @@
           "It pairs the policy material with hands-on exercises against real phishing messages received by university mail, walking through the checks to make before opening any link or attachment.",
           "Register through the administrative unit in your college or by writing to the department. Places are limited by the capacity of the training hall."
         ],
-        "href": "/en/courses/information-security-workshop"
+        "href": "/en/courses/information-security-workshop",
+        "images": []
       },
       {
         "slug": "network-administration",
@@ -485,7 +506,8 @@
           "Exercises run on real hardware in the computer lab and cover configuring switches and access points and reading device logs.",
           "Participants are expected to be comfortable with operating systems and desktop network settings before attending."
         ],
-        "href": "/en/courses/network-administration"
+        "href": "/en/courses/network-administration",
+        "images": []
       },
       {
         "slug": "electronic-examination-system",
@@ -524,9 +546,12 @@
           "A complete mock exam runs during the session, with participants taking the instructor and student roles in turn so they see both interfaces.",
           "It is held ahead of the monthly examination period and is recommended for anyone using the platform for the first time."
         ],
-        "href": "/en/courses/electronic-examination-system"
+        "href": "/en/courses/electronic-examination-system",
+        "images": []
       }
-    ]
+    ],
+    "allLink": "All courses",
+    "allHref": "/en/courses"
   },
   "plan": {
     "label": "Annual plan",
@@ -691,7 +716,8 @@
           "Staff and students can join the network with their existing university account, with no separate password per location.",
           "The division monitors network performance daily and takes user reports through the department's help desk."
         ],
-        "href": "/en/news/wireless-network-expansion"
+        "href": "/en/news/wireless-network-expansion",
+        "images": []
       },
       {
         "slug": "digital-services-portal-update",
@@ -707,7 +733,8 @@
           "Data sources have also been consolidated with the academic systems, reducing duplicate data entry and the errors that come with it.",
           "Further services will be added to the portal next term in coordination with the colleges and departments."
         ],
-        "href": "/en/news/digital-services-portal-update"
+        "href": "/en/news/digital-services-portal-update",
+        "images": []
       },
       {
         "slug": "information-security-course",
@@ -723,7 +750,8 @@
           "Staff from the administrative units across the colleges took part, and certificates of attendance were issued at the close.",
           "The division plans further courses of the same kind through the academic year, alongside courses in networking and databases."
         ],
-        "href": "/en/news/information-security-course"
+        "href": "/en/news/information-security-course",
+        "images": []
       }
     ]
   },

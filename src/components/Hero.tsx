@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import SolidButton from "@/components/ui/SolidButton";
 import UnderlineLink from "@/components/ui/UnderlineLink";
 import CircuitPattern from "@/components/ui/CircuitPattern";
@@ -18,8 +17,9 @@ import RichText from "@/components/ui/RichText";
  * corner. Below 1200px the gradient turns to rise from the bottom and the
  * copy sits at the foot of the photo.
  *
- * Row 2 — the areas of work, as a navy strip joined to the band: four
- * numbered links (gold numerals) into the services page, 2×2 on phones.
+ * Row 2 — the figures, as a navy strip joined to the band: each a gold
+ * number over what it counts, 2-up on phones. Editors set them in the admin
+ * (الواجهة الرئيسية → الإحصاءات).
  *
  * The copy keeps the `.hero-rise` stagger and the photo `.hero-settle`; both
  * are held while the first-visit intro is up. Every offset is logical, so the
@@ -34,7 +34,10 @@ export default function Hero({
   brand: SiteContent["brand"];
   services: Service[];
 }) {
-  const areas = services.slice(0, 4);
+  /* Older content has no figures yet: the first four services stand in. */
+  const stats = (content.stats ?? services.slice(0, 4).map((service, i) => ({ value: String(i + 1).padStart(2, "0"), label: service.title }))).filter(
+    (stat) => stat.value || stat.label,
+  );
 
   return (
     <header className="bg-navy pt-[68px] xl:pt-20">
@@ -76,36 +79,40 @@ export default function Hero({
           </div>
         </div>
 
-        <p className="absolute bottom-0 end-0 hidden flex-col gap-1 border-s-[3px] border-gold bg-navy/90 px-7 py-5 text-white backdrop-blur-sm xl:flex">
-          <span className="font-[family-name:var(--font-sans)] text-[13px] leading-5 text-pale">
-            {brand.university}
-          </span>
-          <span className="t-h5 text-white">{content.imageCaption}</span>
-        </p>
+        {/* Shown only while the photo has a caption: clearing «تعليق الصورة»
+            in the admin removes the box. */}
+        {content.imageCaption ? (
+          <p className="absolute bottom-0 end-0 hidden flex-col gap-1 border-s-[3px] border-gold bg-navy/90 px-7 py-5 text-white backdrop-blur-sm xl:flex">
+            <span className="font-[family-name:var(--font-sans)] text-[13px] leading-5 text-pale">
+              {brand.university}
+            </span>
+            <span className="t-h5 text-white">{content.imageCaption}</span>
+          </p>
+        ) : null}
       </div>
 
-      {/* Row 2: areas of work */}
-      <div className="border-t border-white/10">
-        <div className="mx-auto w-full max-w-[1520px] px-5 py-7 xl:flex xl:items-center xl:gap-16 xl:px-25 xl:py-10">
-          <p className="t-label hero-eyebrow mb-5 shrink-0 text-pale xl:mb-0 xl:w-[200px]">
-            {content.areasLabel}
-          </p>
-          <ol className="grid w-full list-none grid-cols-2 gap-x-5 gap-y-6 p-0 xl:grid-cols-4 xl:gap-x-10">
-            {areas.map((service, i) => (
-              <li key={service.title}>
-                <Link href={`${content.ctaHref}#service-${i + 1}`} className="group flex flex-col gap-1.5 xl:gap-2">
-                  <span className="font-[family-name:var(--font-sans)] text-[12px] font-medium leading-[18px] tracking-[2px] text-gold xl:text-[13px] xl:leading-5">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="t-h5 border-b border-transparent pb-1 text-[15px] text-white transition-colors duration-200 group-hover:border-gold xl:text-[17px]">
-                    {service.title}
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ol>
+      {/* Row 2: the figures, edited in the admin as «الإحصاءات» */}
+      {stats.length ? (
+        <div className="border-t border-white/10">
+          <div className="mx-auto w-full max-w-[1520px] px-5 py-7 xl:flex xl:items-center xl:gap-16 xl:px-25 xl:py-10">
+            {content.areasLabel ? (
+              <p className="t-label hero-eyebrow mb-5 shrink-0 text-pale xl:mb-0 xl:w-[200px]">
+                {content.areasLabel}
+              </p>
+            ) : null}
+            <dl className="grid w-full grid-cols-2 gap-x-5 gap-y-6 xl:grid-cols-4 xl:gap-x-10">
+              {stats.map((stat, i) => (
+                <div key={i} className="flex flex-col gap-1 border-s-2 border-gold/60 ps-4">
+                  <dt className="order-2 text-[14px] leading-6 text-white/85 xl:text-[16px]">{stat.label}</dt>
+                  <dd className="order-1 font-[family-name:var(--font-heading)] text-[26px] font-semibold leading-tight text-gold xl:text-[34px]">
+                    {stat.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
         </div>
-      </div>
+      ) : null}
     </header>
   );
 }

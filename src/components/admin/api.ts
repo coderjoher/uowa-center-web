@@ -1,5 +1,7 @@
 /** Client-side helpers for the admin API (src/app/api/admin). */
 
+import { imageProblem } from "./images";
+
 export type Json = string | number | boolean | null | Json[] | { [key: string]: Json };
 export type DocKey = "ar" | "en" | "settings";
 export type Role = "admin" | "editor";
@@ -43,8 +45,14 @@ export async function api<T>(path: string, init?: RequestInit): Promise<T> {
   return body;
 }
 
-/** Uploads one file as the request body, reporting progress from 0 to 1. */
-export function uploadFile(file: File, onProgress?: (fraction: number) => void): Promise<MediaItem> {
+/**
+ * Uploads one file as the request body, reporting progress from 0 to 1.
+ * A picture outside the size and dimension limits (./images) is refused
+ * before anything is sent.
+ */
+export async function uploadFile(file: File, onProgress?: (fraction: number) => void): Promise<MediaItem> {
+  const problem = await imageProblem(file);
+  if (problem) throw new Error(problem);
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "/api/admin/media");

@@ -122,7 +122,7 @@ The site is eight routes per locale, all statically generated (16 pages).
 
 | Route | Content key | Composed of |
 | --- | --- | --- |
-| `/[lang]` | — | hero, brief, features, services slider, banner, courses, gallery mosaic, faq, cta, news, newsletter — vision/mission and milestones were dropped from home because `/about` and the nav already carry them (the director, structure and team sections are behind flags) |
+| `/[lang]` | — | hero, brief, features, video, services slider, courses, gallery mosaic, faq, cta, news, newsletter — vision/mission and milestones were dropped from home because `/about` and the nav already carry them (the director, structure and team sections are behind flags) |
 | `/[lang]/about` | `pages.about` | brief, director's word, vision/mission/objectives, structure, team, milestones, cta |
 | `/[lang]/services` | `pages.services` | `ServicesList` (all six, each with an anchor id `#service-1`…`#service-6`), cta |
 | `/[lang]/courses` | `pages.courses` | `CoursesList`, cta |
@@ -309,7 +309,7 @@ mapping:
 | Research spec | Component here |
 | --- | --- |
 | `programs-section` | `ServicesSection` — **behaviour deliberately diverges**: the source list was static with a hover-only marker, this one is a working slider (see below) |
-| `video-banner` | `CampusBanner` (a still photo — the university publishes no video file) |
+| `video-banner` | removed: the home page keeps one video section (`VideoSection`) |
 | `alumni-section` | `MilestonesSection` |
 | `blog-section` | `NewsSection` |
 

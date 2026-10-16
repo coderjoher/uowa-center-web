@@ -1,13 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRightIcon } from "@/components/icons";
-import type { Locale } from "@/i18n/config";
+import { dirOf, type Locale } from "@/i18n/config";
+import PhotoGallery from "@/components/ui/PhotoGallery";
 import type { NewsPost, SiteContent } from "@/types/content";
 import RichText from "@/components/ui/RichText";
 
 /**
  * A single news item. Three-level breadcrumb, meta row, title and lead, then
- * the 16:9 photo above a measure-limited body. Closes with a link back to the
+ * the 16:9 photo above a measure-limited body and the story's other photos. Closes with a link back to the
  * listing and the other items.
  */
 export default function NewsArticle({
@@ -22,9 +23,10 @@ export default function NewsArticle({
   content: SiteContent;
 }) {
   const { common, pages } = content;
+  const photos = (post.images ?? []).filter(Boolean).map((image) => ({ image, caption: post.title }));
 
   return (
-    <article className="mx-auto w-full max-w-[1520px] px-5 pb-14 pt-22 xl:px-25 xl:pb-[140px] xl:pt-[156px]">
+    <article className="mx-auto w-full max-w-[1520px] px-5 pb-14 pt-22 xl:px-25 xl:pb-[112px] xl:pt-[156px]">
       <nav aria-label={common.breadcrumb}>
         <ol className="flex list-none flex-wrap items-center gap-2 p-0">
           <li>
@@ -79,6 +81,13 @@ export default function NewsArticle({
       <div className="mt-8 flex flex-col gap-6 xl:mt-14 xl:max-w-[760px]">
         <RichText value={post.body} className="t-body-lg" />
       </div>
+
+      {photos.length ? (
+        <section className="mt-10 xl:mt-16">
+          <h2 className="t-h4 mb-6">{pages.gallery.label}</h2>
+          <PhotoGallery photos={photos} labels={pages.gallery.lightbox} rtl={dirOf(lang) === "rtl"} compact />
+        </section>
+      ) : null}
 
       <div className="mt-8 h-px w-full bg-navy xl:mt-16" />
       <Link

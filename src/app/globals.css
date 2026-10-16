@@ -19,9 +19,15 @@
 
 /* The layout switches at 1200px, which is where the hand-written media queries
    below break too. Tailwind's stock `xl` is 1280px, which left a 1200-1279 band
-   rendering desktop typography inside the mobile layout. */
+   rendering desktop typography inside the mobile layout. The whole scale
+   is restated so the variants keep their order: overriding `xl` alone sorted
+   it before `sm` and `md`, which then won over it on desktop. */
 @theme {
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
   --breakpoint-xl: 1200px;
+  --breakpoint-2xl: 1536px;
 }
 
 @theme inline {
@@ -132,7 +138,7 @@ html.lenis body {
      Typography primitives (exact computed values from the original)
      ========================================================================== */
   /* The ramp follows the university's main site (uowa.edu.iq): headings in
-     Somar SemiBold, section heads ~36px and card titles 24px on desktop,
+     Somar SemiBold, section heads 34px and card titles 22px on desktop,
      body text in Somar Regular on a 2× line box. The base values are the
      phone sizes; the 1200px query restores the desktop ramp. */
   .t-h1 {
@@ -187,16 +193,16 @@ html.lenis body {
 
   @media (min-width: 1200px) {
     .t-h1 {
-      font-size: 56px;
+      font-size: 50px;
       line-height: 1.35;
     }
     .t-h2 {
-      font-size: 36px;
+      font-size: 34px;
       line-height: 1.45;
     }
     .t-h4 {
-      font-size: 24px;
-      line-height: 1.5;
+      font-size: 22px;
+      line-height: 1.55;
     }
     .t-label {
       font-size: 15px;

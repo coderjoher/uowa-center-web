@@ -25,7 +25,7 @@ export default function AboutSection({
   return (
     <section
       id="about"
-      className="relative mx-auto w-full max-w-[1520px] scroll-mt-24 px-5 py-14 xl:flex xl:items-end xl:justify-between xl:px-25 xl:py-[140px]"
+      className="relative mx-auto w-full max-w-[1520px] scroll-mt-24 px-5 py-14 xl:flex xl:items-end xl:justify-between xl:px-25 xl:py-[112px]"
     >
       {/* Left composition */}
       <div className="relative w-full max-w-[828px] xl:h-[656px]">

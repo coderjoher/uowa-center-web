@@ -6,6 +6,7 @@ import { FILE_KEYS, IMAGE_KEYS, LONG_KEYS, RICH_KEYS, VIDEO_KEYS, labelFor } fro
 import { MediaPicker } from "./MediaLibrary";
 import { RichEditor, plainText } from "./RichEditor";
 import { paragraphsToHtml } from "@/lib/rich";
+import { IMAGE_HINT } from "./images";
 import { btn, input, small } from "./ui";
 
 export type Path = (string | number)[];
@@ -126,6 +127,9 @@ function Reference({ value, ctx }: { value: Json | undefined; ctx: EditorContext
 
 const isStringList = (v: Json): v is string[] => Array.isArray(v) && v.every((x) => typeof x === "string");
 
+/** Keys holding a list of pictures: edited as a gallery, any number at once. */
+export const GALLERY_KEYS = new Set(["images"]);
+
 /** Which keys hold a picture, a video or a document, by name. */
 export function mediaKind(name: string): MediaKind | null {
   if (VIDEO_KEYS.has(name) || /Video$|^video$|Webm$/.test(name)) return "video";
@@ -146,6 +150,14 @@ export function Field({ name, value, reference, path, onChange, ctx, depth = 0 }
   const label = labelFor(name);
   const custom = ctx.override?.(path, value, name);
   if (custom !== undefined) return <>{custom}</>;
+
+  if (GALLERY_KEYS.has(name) && isStringList(value)) {
+    return (
+      <div data-path={pathKey(path)}>
+        <MultiImageField label={label} name={name} value={value} onChange={(v) => onChange(path, v)} />
+      </div>
+    );
+  }
 
   if (RICH_KEYS.has(name) && (typeof value === "string" || isStringList(value))) {
     /* A list of paragraphs is edited as one formatted text, stored as one item. */
@@ -476,6 +488,7 @@ export function MediaField({
             ) : null}
           </div>
           {error ? <span className="text-[12px] text-danger">{error}</span> : null}
+          {kind === "image" ? <span className="text-[12px] leading-5 text-muted">{IMAGE_HINT}</span> : null}
         </div>
       </div>
       {picking ? (
@@ -484,6 +497,140 @@ export function MediaField({
           current={value}
           onPick={(item: MediaItem) => {
             onChange(item.url);
+            setPicking(false);
+          }}
+          onClose={() => setPicking(false)}
+        />
+      ) : null}
+    </div>
+  );
+}
+
+/**
+ * A list of pictures (a story's or a block's gallery): thumbnails in order,
+ * each movable and removable, and as many new pictures as wanted at once,
+ * dropped on the field or chosen together in the file dialog. Pictures that
+ * break the limits (./images) are skipped with a note; the rest still go up.
+ */
+export function MultiImageField({
+  label,
+  name,
+  value,
+  onChange,
+}: {
+  label: string;
+  name: string;
+  value: string[];
+  onChange: (v: string[]) => void;
+}) {
+  const images = value.filter(Boolean);
+  const [over, setOver] = useState(false);
+  const [busy, setBusy] = useState<{ done: number; total: number } | null>(null);
+  const [errors, setErrors] = useState<string[]>([]);
+  const [picking, setPicking] = useState(false);
+
+  const upload = async (files: FileList | File[] | null | undefined) => {
+    const list = Array.from(files ?? []).filter((f) => f.type.startsWith("image/"));
+    if (!list.length) return;
+    setErrors([]);
+    const added: string[] = [];
+    const failed: string[] = [];
+    for (const [i, file] of list.entries()) {
+      setBusy({ done: i, total: list.length });
+      try {
+        added.push((await uploadFile(file)).url);
+      } catch (e) {
+        failed.push(`${file.name}: ${errorText(e)}`);
+      }
+    }
+    setBusy(null);
+    setErrors(failed);
+    if (added.length) onChange([...images, ...added]);
+  };
+  const move = (i: number, d: 1 | -1) => {
+    const j = i + d;
+    if (j < 0 || j >= images.length) return;
+    const copy = images.slice();
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+    onChange(copy);
+  };
+
+  return (
+    <div className="flex flex-col gap-2">
+      <span className={small}>
+        {label} <Key name={`${name} · ${images.length}`} />
+      </span>
+      <div
+        onDragOver={(e) => {
+          e.preventDefault();
+          setOver(true);
+        }}
+        onDragLeave={() => setOver(false)}
+        onDrop={(e) => {
+          e.preventDefault();
+          setOver(false);
+          void upload(e.dataTransfer.files);
+        }}
+        className={`flex flex-col gap-3 border-2 border-dashed p-3 ${over ? "border-gold bg-gold/10" : "border-border-soft bg-surface/40"}`}
+      >
+        {images.length ? (
+          <ul className="grid list-none grid-cols-2 gap-2 p-0 sm:grid-cols-3 md:grid-cols-4">
+            {images.map((src, i) => (
+              <li key={`${src}-${i}`} className="flex flex-col gap-1 border border-border-soft bg-white p-1">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={src} alt="" className="aspect-[4/3] w-full bg-surface object-cover" />
+                <span className="flex items-center justify-between gap-1">
+                  <span className="text-[12px] text-muted">{i + 1}</span>
+                  <span className="flex gap-1">
+                    <button type="button" className={btn} disabled={i === 0} onClick={() => move(i, -1)} aria-label="قبل" title="قبل">
+                      ↑
+                    </button>
+                    <button type="button" className={btn} disabled={i === images.length - 1} onClick={() => move(i, 1)} aria-label="بعد" title="بعد">
+                      ↓
+                    </button>
+                    <button type="button" className={`${btn} text-danger`} onClick={() => onChange(images.filter((_, k) => k !== i))}>
+                      حذف
+                    </button>
+                  </span>
+                </span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-[13px] text-muted">لا توجد صور بعد. اسحب الصور وأفلتها هنا أو اخترها دفعة واحدة.</p>
+        )}
+        <div className="flex flex-wrap items-center gap-2">
+          <label className={btn}>
+            {busy ? `جارٍ رفع ${busy.done + 1} من ${busy.total}…` : "+ رفع صور (عدة صور معًا)"}
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              className="hidden"
+              disabled={Boolean(busy)}
+              onChange={(e) => {
+                void upload(e.target.files);
+                e.target.value = "";
+              }}
+            />
+          </label>
+          <button type="button" className={btn} onClick={() => setPicking(true)}>
+            إضافة من المكتبة
+          </button>
+        </div>
+        <span className="text-[12px] leading-5 text-muted">{IMAGE_HINT}</span>
+        {errors.map((e) => (
+          <span key={e} className="text-[12px] text-danger">
+            {e}
+          </span>
+        ))}
+      </div>
+      {picking ? (
+        <MediaPicker
+          kind="image"
+          current=""
+          onPick={(item: MediaItem) => {
+            onChange([...images, item.url]);
             setPicking(false);
           }}
           onClose={() => setPicking(false)}

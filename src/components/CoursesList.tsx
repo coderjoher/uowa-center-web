@@ -19,7 +19,7 @@ export default function CoursesList({
   content: SiteContent["events"];
 }) {
   return (
-    <section className="mx-auto w-full max-w-[1520px] px-5 pb-14 xl:px-25 xl:pb-[140px]">
+    <section className="mx-auto w-full max-w-[1520px] px-5 pb-14 xl:px-25 xl:pb-[112px]">
       <ul className="grid list-none grid-cols-1 gap-8 p-0 xl:grid-cols-3">
         {content.items.map((event) => (
           <li key={event.title} className="w-full">

@@ -56,7 +56,7 @@ export const ALL_DOCUMENTS = DOCUMENT_KEYS;
 
 /* Values that are addresses, file paths or switches rather than text: they
    must stay exactly as they are. */
-const RAW_KEY = /(^|[a-z])(href|Href|slug|src|Webm|youtube|image|Image|poster|portrait|logo|file|video|icon|type|section|offsetY)$/;
+const RAW_KEY = /(^|[a-z])(href|Href|slug|src|Webm|youtube|images?|Image|poster|portrait|logo|file|video|icon|type|section|offsetY)$/;
 
 /** Marks every text value with its location: the document key and the path within it. */
 export function markForPreview<T>(value: T, key: string, path: (string | number)[] = []): T {
