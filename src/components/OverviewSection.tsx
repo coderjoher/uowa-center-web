@@ -16,7 +16,7 @@ export default function OverviewSection({
   return (
     <section
       id="overview"
-      className="scroll-mt-24 bg-surface py-14 xl:py-[140px]"
+      className="scroll-mt-24 bg-surface py-14 xl:py-[112px]"
     >
       <div className="mx-auto flex w-full max-w-[1520px] flex-col items-start gap-8 px-5 xl:gap-[70px] xl:px-25">
         <div className="flex flex-col items-start gap-4">

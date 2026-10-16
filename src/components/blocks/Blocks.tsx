@@ -4,6 +4,8 @@ import RichText from "@/components/ui/RichText";
 import SolidButton from "@/components/ui/SolidButton";
 import CircuitPattern from "@/components/ui/CircuitPattern";
 import { ArrowUpRightIcon, CalendarIcon, ChevronDownIcon } from "@/components/icons";
+import PhotoGallery from "@/components/ui/PhotoGallery";
+import type { LightboxLabels } from "@/components/ui/Lightbox";
 import type { Block } from "@/types/content";
 
 /**
@@ -57,7 +59,16 @@ function Section({ title, intro, children, tone = "white" }: { title?: string; i
   );
 }
 
-export function BlockView({ block }: { block: Block }) {
+export function BlockView({
+  block,
+  lightbox = { open: "", close: "×", prev: "‹", next: "›" },
+  rtl = false,
+}: {
+  block: Block;
+  /** The photo viewer's labels and the reading direction, for gallery blocks. */
+  lightbox?: LightboxLabels;
+  rtl?: boolean;
+}) {
   switch (block.type) {
     case "text":
       return (
@@ -237,6 +248,16 @@ export function BlockView({ block }: { block: Block }) {
           {block.caption ? <figcaption className="t-body mt-3">{block.caption}</figcaption> : null}
         </figure>
       );
+
+    case "gallery": {
+      const photos = (block.images ?? []).filter(Boolean).map((image) => ({ image, caption: block.title ?? "" }));
+      if (!photos.length) return null;
+      return (
+        <Section title={block.title}>
+          <PhotoGallery photos={photos} labels={lightbox} rtl={rtl} compact />
+        </Section>
+      );
+    }
 
     default:
       return null;

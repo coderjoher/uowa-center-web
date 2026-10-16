@@ -53,6 +53,12 @@ export const BLOCK_TYPES: { type: Block["type"]; label: string; hint: string; bl
     hint: "صورة عريضة مع تعليق",
     blank: () => ({ type: "image", image: "", caption: "" }),
   },
+  {
+    type: "gallery",
+    label: "معرض صور",
+    hint: "أي عدد من الصور في شبكة متناسقة، تُرفع دفعة واحدة وتُكبَّر بالنقر",
+    blank: () => ({ type: "gallery", title: "", images: [] }),
+  },
 ];
 
 export const blockLabel = (type: string) => BLOCK_TYPES.find((b) => b.type === type)?.label ?? type;

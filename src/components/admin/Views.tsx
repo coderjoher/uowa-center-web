@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { api, formatDate, type DocKey, type Json } from "./api";
+import { api, errorText, formatDate, uploadFile, type DocKey, type Json } from "./api";
+import { IMAGE_HINT } from "./images";
 import { COLLECTIONS, GLOBAL_GROUPS, collectionAt, globalUrl, type CollectionDef } from "./collections";
-import { Field, blank, getAt, setAt, summarize, withSiblingFields, type EditorContext, type Path } from "./Editor";
+import { Field, GALLERY_KEYS, MultiImageField, blank, getAt, setAt, summarize, withSiblingFields, type EditorContext, type Path } from "./Editor";
 import { DOC_LABELS } from "./History";
 import { SECTION_LABELS, labelFor } from "./labels";
 import { LivePreview, type PreviewSelection } from "./LivePreview";
@@ -200,6 +201,8 @@ export function CollectionList({ id }: { id: string }) {
   const { docs, locale, go, both } = useCms();
   const c = COLLECTIONS.find((x) => x.id === id);
   const [query, setQuery] = useState("");
+  const [bulk, setBulk] = useState<{ done: number; total: number } | null>(null);
+  const [bulkErrors, setBulkErrors] = useState<string[]>([]);
   const items = useMemo(() => (c ? itemsOf(docs[locale]?.draft, c) : []), [c, docs, locale]);
   if (!c) return null;
 
@@ -235,6 +238,31 @@ export function CollectionList({ id }: { id: string }) {
       return copy;
     });
 
+  /* Several pictures at once: one new item per picture, in both languages. */
+  const bulkUpload = async (files: FileList | null) => {
+    const key = c.bulkImage;
+    const list = Array.from(files ?? []);
+    if (!key || !list.length) return;
+    setBulkErrors([]);
+    const urls: string[] = [];
+    const failed: string[] = [];
+    for (const [i, file] of list.entries()) {
+      setBulk({ done: i, total: list.length });
+      try {
+        urls.push((await uploadFile(file)).url);
+      } catch (e) {
+        failed.push(`${file.name}: ${errorText(e)}`);
+      }
+    }
+    setBulk(null);
+    setBulkErrors(failed);
+    if (!urls.length) return;
+    change((list) => {
+      const template = asObject(list.length ? blank(list[0]) : { [c.title]: "" });
+      return [...list, ...urls.map((url) => ({ ...structuredClone(template), [key]: url }) as Json)];
+    });
+  };
+
   const q = query.trim().toLowerCase();
   const rows = items.map((item, i) => ({ item: asObject(item), i })).filter(({ item }) => !q || JSON.stringify(item).toLowerCase().includes(q));
 
@@ -252,10 +280,36 @@ export function CollectionList({ id }: { id: string }) {
         </div>
         <div className="flex items-center gap-2">
           <LocaleSelect />
+          {c.bulkImage ? (
+            <label className={`${secondary} h-9`}>
+              {bulk ? `جارٍ رفع ${bulk.done + 1} من ${bulk.total}…` : "رفع عدة صور معًا"}
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                className="hidden"
+                disabled={Boolean(bulk)}
+                onChange={(e) => {
+                  void bulkUpload(e.target.files);
+                  e.target.value = "";
+                }}
+              />
+            </label>
+          ) : null}
           <button type="button" className={`${primary} h-9`} onClick={create}>
             + {c.singular} جديد
           </button>
         </div>
+        {c.bulkImage ? (
+          <div className="flex w-full flex-col gap-1">
+            <p className={small}>{IMAGE_HINT} تصبح كل صورة عنصرًا جديدًا (في اللغتين ما دامت القائمتان متطابقتين)، ثم يمكنك كتابة تعليقها.</p>
+            {bulkErrors.map((e) => (
+              <p key={e} className="text-[12px] text-danger">
+                {e}
+              </p>
+            ))}
+          </div>
+        ) : null}
       </div>
       <div className="min-h-0 flex-1 overflow-y-auto p-5 md:p-8">
         <div className="mx-auto flex max-w-[1200px] flex-col gap-3">
@@ -336,7 +390,19 @@ export function CollectionList({ id }: { id: string }) {
 export function ItemEdit({ id, index }: { id: string; index: number }) {
   const { docs, locale, edit, go, both } = useCms();
   const c = COLLECTIONS.find((x) => x.id === id);
-  const ctx = useFieldContext();
+  /* An item's pictures are the same in both languages, so they are saved to both. */
+  const ctx = useFieldContext((path, value, name) => {
+    if (!c || !GALLERY_KEYS.has(name) || path.length !== c.path.length + 2) return undefined;
+    const list = Array.isArray(value) ? value.filter((v): v is string => typeof v === "string") : [];
+    return (
+      <MultiImageField
+        label={labelFor(name)}
+        name={name}
+        value={list}
+        onChange={(next) => both((draft, l) => (l === locale || getAt(draft, path.slice(0, -1)) ? (setAt(draft, path, next) as Obj) : draft))}
+      />
+    );
+  });
   if (!c) return null;
   const items = itemsOf(docs[locale]?.draft, c);
   const item = asObject(items[index]);
@@ -378,7 +444,7 @@ export function ItemEdit({ id, index }: { id: string; index: number }) {
         </span>
       }
     >
-      {withSiblingFields(items[index], [...items, ...itemsOf(docs[locale === "ar" ? "en" : "ar"]?.draft, c)]).map(([k, v]) => (
+      {withSiblingFields(items[index], [...items, ...itemsOf(docs[locale === "ar" ? "en" : "ar"]?.draft, c), ...(c.fields ? [c.fields] : [])]).map(([k, v]) => (
         <Field key={`${locale}:${index}:${k}`} name={k} value={v} reference={reference?.[k]} path={[...c.path, index, k]} onChange={edit(locale)} ctx={ctx} depth={1} />
       ))}
     </DocumentView>

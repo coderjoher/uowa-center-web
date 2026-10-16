@@ -15,7 +15,6 @@ export const HIDEABLE_SECTIONS = [
   "services",
   "structure",
   "team",
-  "banner",
   "events",
   "gallery",
   "faq",

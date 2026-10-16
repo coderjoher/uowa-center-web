@@ -35,7 +35,7 @@ type Target = { kind: "layer"; index: number } | { kind: "global"; key: string }
 
 const layerName = (item: Obj) =>
   item.type === "section"
-    ? SECTIONS.find((s) => s.key === item.section)?.label ?? String(item.section)
+    ? SECTIONS.find((s) => s.key === item.section)?.label ?? `${String(item.section)} (لم يعد موجودًا)`
     : `${blockLabel(String(item.type))}${summarize(item) ? ` · ${summarize(item)}` : ""}`;
 
 /**

@@ -79,6 +79,8 @@ export interface TrainingEvent {
   imageAlt: string;
   /** Lead paragraph on the detail page, and its meta description. */
   excerpt: string;
+  /** More photos of the course, shown as a gallery on its page. */
+  images?: string[];
   /** What the course covers, one entry per bullet. */
   outline: string[];
   /** Practical facts rendered as a definition list. */
@@ -119,6 +121,8 @@ export interface NewsPost {
   excerpt: string;
   /** Article body, one entry per paragraph. */
   body: string[];
+  /** More photos of the story, shown as a gallery under the article. */
+  images?: string[];
   href: string;
 }
 
@@ -205,7 +209,8 @@ export type Block =
   | { type: "stats"; title?: string; items: { value: string; label: string }[] }
   | { type: "announcements"; title?: string; items: { badge: string; date: string; title: string; text: string }[] }
   | { type: "cta"; title: string; content: string; button: string; href: string; image?: string }
-  | { type: "image"; image: string; caption?: string };
+  | { type: "image"; image: string; caption?: string }
+  | { type: "gallery"; title?: string; images: string[] };
 
 /** The site's built-in sections, which can be placed on the home page and on pages. */
 export type SectionKey =
@@ -218,7 +223,6 @@ export type SectionKey =
   | "services"
   | "structure"
   | "team"
-  | "banner"
   | "events"
   | "plan"
   | "gallery"
@@ -284,8 +288,10 @@ export interface SiteContent {
     imageAlt: string;
     /** What the photo shows; sits on the navy plaque over its corner. */
     imageCaption: string;
-    /** Heading for the row of service areas under the composition. */
+    /** Heading for the row of figures under the composition. */
     areasLabel: string;
+    /** The figures in that row: a number and what it counts. */
+    stats?: { value: string; label: string }[];
   };
   about: SectionHead & {
     /** The two overlapping photos. */
@@ -314,6 +320,9 @@ export interface SiteContent {
     intro: string;
     /** Shown in place of a name that has not been supplied yet. */
     pendingName: string;
+    /** The buttons that show the rest of the roster and fold it away again. */
+    more?: string;
+    less?: string;
     members: TeamMember[];
   };
   structure: SectionHead & {
@@ -328,6 +337,9 @@ export interface SiteContent {
   events: SectionHead & {
     items: TrainingEvent[];
     link: string;
+    /** The link to every course, at the head of the home-page section. */
+    allLink?: string;
+    allHref?: string;
     /** Phone-only slider controls. */
     prev: string;
     next: string;

@@ -16,8 +16,11 @@ import type { SiteContent } from "@/types/content";
  * only the label, the heading and the link to the full gallery. The photos
  * carry the section, so nothing is written on them at rest.
  *
- * Every tile is a button into the shared Lightbox, which holds all four
- * photos even where the mosaic shows three (phones drop the last tile). The
+ * The mosaic shows the first four photos however many there are (it used to
+ * add a tile per photo, and rows past the second collapsed to nothing). Every
+ * tile is a button into the shared Lightbox, which holds every photo; when
+ * there are more than the mosaic shows, the last tile says how many more.
+ * Phones drop the fourth tile. The
  * tiles enter one after another, rising and fading, and respond to touch and
  * hover: the photo eases up a few percent and a navy gradient with the
  * photo's title and an expand mark slides in from the bottom. Where hover is
@@ -33,7 +36,7 @@ export default function GallerySection({
   lang: Locale;
 }) {
   const rtl = dirOf(lang) === "rtl";
-  const photos = content.items.map((item) => ({
+  const photos = content.items.filter((item) => item.image).map((item) => ({
     image: item.image,
     caption: item.title,
   }));
@@ -50,6 +53,9 @@ export default function GallerySection({
     setIndex(null);
     openerRef.current?.focus();
   }, []);
+
+  const tiles = photos.slice(0, 4).map((photo) => ({ image: photo.image, title: photo.caption }));
+  const hiddenCount = photos.length - tiles.length;
 
   /** Grid placement per tile: tall, wide, small, small (the last is desktop-only). */
   const placement = [
@@ -68,7 +74,7 @@ export default function GallerySection({
   return (
     <section
       id="gallery"
-      className="relative mx-auto flex w-full max-w-[1520px] scroll-mt-24 flex-col gap-8 px-5 py-14 xl:flex-row xl:items-end xl:justify-between xl:px-25 xl:py-[140px]"
+      className="relative mx-auto flex w-full max-w-[1520px] scroll-mt-24 flex-col gap-8 px-5 py-14 xl:flex-row xl:items-end xl:justify-between xl:px-25 xl:py-[112px]"
     >
       {/* Heading column */}
       <div className="flex w-full flex-col items-start gap-8 xl:max-w-[372px] xl:pb-2">
@@ -87,8 +93,8 @@ export default function GallerySection({
 
       {/* Mosaic */}
       <ul className="grid w-full list-none grid-cols-2 grid-rows-[200px_200px] gap-4 p-0 xl:w-[796px] xl:grid-cols-3 xl:grid-rows-[260px_260px] xl:gap-5">
-        {content.items.map((tile, i) => (
-          <li key={tile.image} className={`relative ${placement[i] ?? ""}`}>
+        {tiles.map((tile, i) => (
+          <li key={`${tile.image}-${i}`} className={`relative ${placement[i] ?? ""}`}>
             <Reveal
               scaleFrom={0.96}
               yFrom={40}
@@ -112,6 +118,15 @@ export default function GallerySection({
                   sizes={sizes[i]}
                   className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06] group-focus-visible:scale-[1.06] group-active:scale-[1.03]"
                 />
+                {hiddenCount > 0 && i === tiles.length - 1 ? (
+                  <span
+                    aria-hidden
+                    dir="ltr"
+                    className="absolute inset-0 flex items-center justify-center bg-navy/55 font-[family-name:var(--font-heading)] text-[34px] font-semibold text-white"
+                  >
+                    +{hiddenCount}
+                  </span>
+                ) : null}
                 {/* Title plate: on by default, hover-revealed where hover exists */}
                 <span className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-linear-to-t from-navy/85 via-navy/35 to-transparent p-4 transition-opacity duration-500 xl:p-5 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100 [@media(hover:hover)]:group-focus-visible:opacity-100">
                   <span className="t-h5 translate-y-0 text-white transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] [@media(hover:hover)]:translate-y-2 [@media(hover:hover)]:group-hover:translate-y-0 [@media(hover:hover)]:group-focus-visible:translate-y-0">

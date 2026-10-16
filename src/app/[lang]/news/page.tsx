@@ -31,7 +31,7 @@ export default async function Page({ params }: PageProps<"/[lang]/news">) {
       <SiteHeader lang={lang} content={c} />
       <main className="overflow-x-hidden">
         <PageHero lang={lang} page={c.pages.news} common={c.common} />
-        <NewsSection content={c.news} showArchiveLink={false} />
+        <NewsSection content={c.news} archive />
         <NewsletterSection content={c.newsletter} />
       </main>
       <SiteFooter content={c} lang={lang} />

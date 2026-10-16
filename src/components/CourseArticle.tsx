@@ -2,7 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import SolidButton from "@/components/ui/SolidButton";
 import { ArrowUpRightIcon, CalendarIcon, PinIcon } from "@/components/icons";
-import type { Locale } from "@/i18n/config";
+import { dirOf, type Locale } from "@/i18n/config";
+import PhotoGallery from "@/components/ui/PhotoGallery";
 import type { SiteContent, TrainingEvent } from "@/types/content";
 import RichText from "@/components/ui/RichText";
 
@@ -24,9 +25,10 @@ export default function CourseArticle({
 }) {
   const { common, pages } = content;
   const t = pages.courseDetail;
+  const photos = (course.images ?? []).filter(Boolean).map((image) => ({ image, caption: course.title }));
 
   return (
-    <article className="mx-auto w-full max-w-[1520px] px-5 pb-14 pt-22 xl:px-25 xl:pb-[140px] xl:pt-[156px]">
+    <article className="mx-auto w-full max-w-[1520px] px-5 pb-14 pt-22 xl:px-25 xl:pb-[112px] xl:pt-[156px]">
       <nav aria-label={common.breadcrumb}>
         <ol className="flex list-none flex-wrap items-center gap-2 p-0">
           <li>
@@ -107,6 +109,13 @@ export default function CourseArticle({
           </SolidButton>
         </aside>
       </div>
+
+      {photos.length ? (
+        <section className="mt-10 xl:mt-16">
+          <h2 className="t-h4 mb-6">{pages.gallery.label}</h2>
+          <PhotoGallery photos={photos} labels={pages.gallery.lightbox} rtl={dirOf(lang) === "rtl"} compact />
+        </section>
+      ) : null}
 
       <div className="mt-8 h-px w-full bg-navy xl:mt-16" />
       <Link

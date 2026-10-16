@@ -27,12 +27,21 @@ export function isDocumentKey(key: unknown): key is DocumentKey {
  */
 function withNewSections(key: DocumentKey, data: Data): Data {
   const merged = { ...BUNDLED_DOCUMENTS[key], ...data };
+  /* New fields in a section the database already holds (a section's own
+     keys only; lists and the builder's layouts are left as stored). */
+  for (const [name, bundled] of Object.entries(BUNDLED_DOCUMENTS[key])) {
+    const stored = data[name];
+    if (name === "homeBlocks" || !isPlainObject(bundled) || !isPlainObject(stored)) continue;
+    merged[name] = { ...bundled, ...stored };
+  }
   /* New section switches, too (the switches are one level down). */
   if (key === "settings") {
     merged.sections = { ...(BUNDLED_DOCUMENTS.settings.sections as Data), ...((data.sections as Data | undefined) ?? {}) };
   }
   return merged;
 }
+
+const isPlainObject = (value: unknown): value is Data => typeof value === "object" && value !== null && !Array.isArray(value);
 
 export interface StoredDocument {
   key: DocumentKey;

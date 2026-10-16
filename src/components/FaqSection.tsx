@@ -1,106 +1,96 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useId, useState } from "react";
 import SectionLabel from "@/components/ui/SectionLabel";
-import { ArrowUpRightThinIcon } from "@/components/icons";
 import type { SiteContent } from "@/types/content";
 import RichText from "@/components/ui/RichText";
 
 /**
- * Click accordion, index 1 open on load. A photo band is pinned to the top
- * 290px of the section (z 0); the 780x554 `#eef4f8` panel (padding 56)
- * overlaps it. Rows are separated by 1px navy rules and inset 24px from the
- * inline start of the panel.
+ * Questions and answers in two balanced columns. The start column holds the
+ * label and heading and, from 1200px, the section's photo beneath them
+ * (sticky, so it stays beside a long list). The other column is the
+ * accordion: numbered rows separated by hairlines, a plus that turns into a
+ * minus, and the open row marked by a gold rule along its inline start. The
+ * first question is open on load; any number can be open at once.
  *
- * Below 1200px the photo band is dropped (the heading sat straight on it and
- * was unreadable) and the panel tightens: 20px inset, 16px questions, 15px
- * answers and 16px between rows, so the five questions fit in one screen.
+ * Below 1200px the columns stack and the photo is left out, so the questions
+ * follow the heading straight away.
  */
 export default function FaqSection({
   content,
 }: {
   content: SiteContent["faq"];
 }) {
-  const [open, setOpen] = useState<number[]>([1]);
+  const [open, setOpen] = useState<number[]>([0]);
+  const id = useId();
+  const heading = content.heading.filter(Boolean);
+  const toggle = (i: number) => setOpen((prev) => (prev.includes(i) ? prev.filter((x) => x !== i) : [...prev, i]));
 
   return (
-    <section id="faq" className="relative scroll-mt-24 xl:pt-25">
-      {/* Photo band */}
-      <div className="absolute inset-x-0 top-0 -z-0 hidden h-[290px] xl:block">
-        <Image
-          src={content.image || "/images/faq-banner.jpg"}
-          alt=""
-          fill
-          sizes="100vw"
-          className="object-cover"
-        />
-      </div>
-
-      <div className="relative z-10 mx-auto flex w-full max-w-[1520px] flex-col items-start justify-between gap-8 overflow-hidden px-5 xl:flex-row xl:items-end xl:px-25">
-        <div className="flex w-full flex-col items-start gap-4 xl:max-w-[325px] xl:pb-12">
+    <section id="faq" className="bg-surface/60 scroll-mt-24">
+      <div className="mx-auto flex w-full max-w-[1520px] flex-col gap-8 px-5 py-14 xl:flex-row xl:items-start xl:justify-between xl:gap-20 xl:px-25 xl:py-[112px]">
+        <div className="flex w-full flex-col items-start gap-4 xl:sticky xl:top-28 xl:w-[440px] xl:shrink-0">
           <SectionLabel className="text-navy">{content.label}</SectionLabel>
-          <h2 className="t-h2">
-            {content.heading.map((line) => (
-              <span key={line} className="block">
-                {line}
-              </span>
-            ))}
-          </h2>
+          {heading.length ? (
+            <h2 className="t-h2">
+              {heading.map((line) => (
+                <span key={line} className="block">
+                  {line}
+                </span>
+              ))}
+            </h2>
+          ) : null}
+          <div className="relative mt-6 hidden aspect-[4/3] w-full overflow-hidden xl:block">
+            <Image src={content.image || "/images/faq-banner.jpg"} alt="" fill sizes="440px" className="object-cover" />
+            <span aria-hidden className="absolute inset-x-0 bottom-0 h-1 bg-gold" />
+          </div>
         </div>
 
-        <div className="flex w-full flex-col items-start gap-4 bg-surface p-5 xl:w-[780px] xl:gap-6 xl:p-14">
+        <ul className="flex w-full list-none flex-col border-t border-navy/15 p-0 xl:max-w-[760px]">
           {content.items.map((faq, i) => {
             const isOpen = open.includes(i);
+            const panel = `${id}-answer-${i}`;
             return (
-              <div key={faq.question} className="w-full">
-                <div className="flex w-full flex-col items-start gap-2">
+              <li key={`${faq.question}-${i}`} className="relative border-b border-navy/15 bg-white">
+                <span
+                  aria-hidden
+                  className={`absolute inset-y-0 start-0 w-1 transition-colors duration-300 ${isOpen ? "bg-gold" : "bg-transparent"}`}
+                />
+                <h3>
                   <button
                     type="button"
                     aria-expanded={isOpen}
-                    onClick={() =>
-                      setOpen((prev) =>
-                        prev.includes(i)
-                          ? prev.filter((x) => x !== i)
-                          : [...prev, i],
-                      )
-                    }
-                    className="relative flex w-full items-center justify-between gap-3 ps-4 text-start xl:gap-4 xl:ps-6"
+                    aria-controls={panel}
+                    onClick={() => toggle(i)}
+                    className="flex w-full cursor-pointer items-center gap-4 px-5 py-5 text-start xl:gap-6 xl:px-8 xl:py-6"
                   >
-                    {/* 4px navy rule pinned to the inline start of the row */}
+                    <span className="w-7 shrink-0 font-[family-name:var(--font-sans)] text-[14px] font-semibold text-gold xl:text-[15px]" dir="ltr">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="flex-1 font-[family-name:var(--font-heading)] text-[16px] font-semibold leading-7 text-navy xl:text-[19px] xl:leading-8">
+                      {faq.question}
+                    </span>
                     <span
                       aria-hidden
-                      className={`absolute start-0 top-0 h-full w-1 transition-colors duration-300 ${
-                        isOpen ? "bg-gold" : "bg-navy"
+                      className={`relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors duration-300 ${
+                        isOpen ? "border-navy bg-navy text-white" : "border-navy/30 text-navy"
                       }`}
-                    />
-                    <h4 className="t-h4 text-[16px] leading-6 xl:w-[561px] xl:text-[24px] xl:leading-8">
-                      {faq.question}
-                    </h4>
-                    {/* The wrapper carries the RTL mirror so the inline
-                        rotation below is free to animate on its own. */}
-                    <span className="flex shrink-0 rtl:-scale-x-100">
-                      <ArrowUpRightThinIcon
-                        className="text-navy transition-transform duration-300"
-                        style={{ transform: isOpen ? undefined : "rotate(-90deg)" }}
-                      />
+                    >
+                      <span className="absolute h-0.5 w-3.5 bg-current" />
+                      <span className={`absolute h-3.5 w-0.5 bg-current transition-transform duration-300 ${isOpen ? "scale-y-0" : ""}`} />
                     </span>
                   </button>
-
-                  {isOpen && faq.answer ? (
-                    <div className="flex items-center ps-4 xl:ps-6">
-                      <RichText value={faq.answer} className="t-body text-[15px] xl:w-[579px] xl:text-[16px]" />
-                    </div>
-                  ) : null}
-                </div>
-
-                {i < content.items.length - 1 ? (
-                  <div className="mt-4 h-px w-full bg-navy xl:mt-6" />
+                </h3>
+                {isOpen && faq.answer ? (
+                  <div id={panel} className="pb-6 pe-5 ps-16 xl:pb-7 xl:pe-8 xl:ps-[88px]">
+                    <RichText value={faq.answer} className="t-body text-[15px] leading-8 xl:text-[16px]" />
+                  </div>
                 ) : null}
-              </div>
+              </li>
             );
           })}
-        </div>
+        </ul>
       </div>
     </section>
   );

@@ -20,7 +20,7 @@ export default function DirectorMessage({
   return (
     <section
       id="director"
-      className="mx-auto w-full max-w-[1520px] scroll-mt-24 px-5 py-14 xl:flex xl:items-start xl:justify-between xl:gap-20 xl:px-25 xl:py-[140px]"
+      className="mx-auto w-full max-w-[1520px] scroll-mt-24 px-5 py-14 xl:flex xl:items-start xl:justify-between xl:gap-20 xl:px-25 xl:py-[112px]"
     >
       {/* Photo + signature */}
       <div className="relative w-full shrink-0 xl:w-[480px]">
